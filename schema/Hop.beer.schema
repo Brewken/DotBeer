@@ -1,0 +1,196 @@
+//======================================================================================================================
+// Hop.beer.schema is part of DotBeer and is copyright the following authors 2018-2026:
+//   • John Jenkman <45741477+johnjenkman@users.noreply.github.com>
+//   • Mark Price <shadowchao99@gmail.com>
+//   • Matt Young <mfsy@yahoo.com>
+//   • Pierre Smits <pierre.smits@somonar.com>
+//   • Roman Eremin <roman.eremin@gmail.com> <roman.eremin@devexpress.com>
+//   • Yuriy Krutilin <y.krutilin@gmail.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+// was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dotbeer.org/schema/Hop.beer.schema",
+  "type": "object",
+  "additionalProperties": true,
+  "Hop": {
+    "Base": {
+      "type": "object",
+      "description": "Minimal properties to identify individual records of a hop variety.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "producer": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "string"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        },
+        "form": {
+          "enum": [
+            "extract",
+            "leaf",
+            "leaf (wet)",
+            "pellet",
+            "powder",
+            "plug"
+          ]
+        },
+        "alpha_acid": {
+          "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+        },
+        "beta_acid": {
+          "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+        }
+      },
+      "required": [
+        "name",
+        "alpha_acid"
+      ]
+    },
+    "Full": {
+      "type": "object",
+      "description": "Full definition of a hop variety.",
+      "allOf": [
+        {
+          "$ref": "#/Hop/Base"
+        },
+        {
+          "properties": {
+            "type": {
+              "enum": [
+                "aroma",
+                "bittering",
+                "flavor",
+                "aroma/bittering",
+                "bittering/flavor",
+                "aroma/flavor",
+                "aroma/bittering/flavor"
+              ]
+            },
+            "notes": {
+              "type": "string"
+            },
+            "six_month_alpha_loss": {
+              "description": " Defined as the percentage of hop alpha lost in 6 months of storage.",
+              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+            },
+            "substitutes": {
+              "type": "string"
+            },
+            "oil_content": {
+              "type": "object",
+              "description": "Collects all information of a hop variety pertaining to oil content, polyphenols, and thiols. Each individual compound is expressed as a percent of the total oil measurement.",
+              "properties": {
+                "total_oil_ml_per_100g": {
+                  "description": "The total amount of oil, including hydrocarbons, esters, and terpene alcohols in units of ml of oil per 100g of hop mass.",
+                  "type": "number"
+                },
+                "humulene": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "caryophyllene": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "cohumulone": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "myrcene": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "farnesene": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "geraniol": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "b_pinene": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "linalool": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "limonene": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "nerol": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "pinene": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "polyphenols": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                },
+                "xanthohumol": {
+                  "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+                }
+              }
+            },
+            "inventory": {
+              "$ref": "#/Hop/Inventory"
+            }
+          }
+        }
+      ]
+    },
+    "RecipeAddition": {
+      "type": "object",
+      "description": "Collects the attributes of each hop ingredient for use in a recipe hop bill.",
+      "allOf": [
+        {
+          "$ref": "#/Hop/Base"
+        },
+        {
+          "properties": {
+            "schedule": {
+              "$ref": "RecipeAddition.beer.schema#/AdditionSchedule"
+            },
+            "amount": {
+              "oneOf": [
+                {
+                  "$ref": "Measurement.beer.schema#/PhysicalQuantity/Volume"
+                },
+                {
+                  "$ref": "Measurement.beer.schema#/PhysicalQuantity/Mass"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "required": [
+        "amount",
+        "timing"
+      ]
+    },
+    "Inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "amount": {
+          "oneOf": [
+            {
+              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Volume"
+            },
+            {
+              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Mass"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

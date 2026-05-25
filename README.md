@@ -28,6 +28,9 @@ stock and so on.  DotBeer files have a <font color="green">**`.beer`**</font> ex
   It is useful in sample files to be able to include comments without invalidating the file.  But it is also useful for
   implementing software to be able to output comments in a file -- eg to note that an optional part of the file format
   has not yet been implemented.
+ 
+  Similarly, in the schema files themselves, there are comments explaining why things have been done in a particular 
+  way, which is useful for implementers to understand. 
 
 * **Reference Implementation**
 
@@ -52,11 +55,12 @@ stock and so on.  DotBeer files have a <font color="green">**`.beer`**</font> ex
 * **Clear File Extensions**
 
   Users shouldn't need to care about the inner workings of the file format.  They should be able to tell from the file
-  extension what the file is for.  For DotBeer:
-  * the <font color="green">**`.beer`**</font> file extension means the file holds brewing data that can be read by a
-    program such as [Brewtarget](https://www.brewtarget.beer)
-  * the <font color="BlueViolet">**`.beer.schema`**</font> file extension means the file holds schema information that
-    is used to define the structure (and validate the contents) of <font color="green">**`.beer`**</font> files.
+  extension what the file is for:
+  * The <font color="green">**`.beer`**</font> file extension means the file holds brewing data that can be read by a
+    program such as [Brewtarget](https://www.brewtarget.beer).  These are the files seen and used by end users.
+  * The <font color="BlueViolet">**`.beer.schema`**</font> file extension means the file holds schema information that
+    is used to define the structure (and validate the contents) of <font color="green">**`.beer`**</font> files.  These
+    are needed primarily by implementers.
 
 ## Technical
 The underlying format is [JSONC](https://jsonc.org/).

@@ -1,0 +1,222 @@
+//======================================================================================================================
+// Recipe.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
+//   • Ben Griffith <griffith.ben@gmail.com>
+//   • Mark Price <shadowchao99@gmail.com>
+//   • Matt Young <mfsy@yahoo.com>
+//   • Roman Eremin <roman.eremin@gmail.com> <roman.eremin@devexpress.com>
+//   • Yuriy Krutilin <y.krutilin@gmail.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+// was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dotbeer.org/schema/Recipe.beer.schema",
+  "type": "object",
+  "additionalProperties": false,
+  "Recipe": {
+    "type": "object",
+    "description": "The information stored in a beer recipe.",
+    "additionalProperties": false,
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "type": {
+        "enum": [
+          "cider",
+          "kombucha",
+          "soda",
+          "other",
+          "mead",
+          "wine",
+          "extract",
+          "partial mash",
+          "all grain"
+        ]
+      },
+      "author": {
+        "type": "string"
+      },
+      "coauthor": {
+        "type": "string"
+      },
+      "created": {
+        "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Date"
+      },
+      "batch_size": {
+        "description": "The volume into the fermenter.",
+        "$ref": "Measurement.beer.schema#/PhysicalQuantity/Volume"
+      },
+      "efficiency": {
+        "type": "object",
+        "description": "Stores each efficiency component.",
+        "additionalProperties": false,
+        "properties": {
+          "conversion": {
+            "description": "The percentage of sugar from the grain yield that is extracted and converted during the mash.",
+            "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+          },
+          "lauter": {
+            "description": "The percentage of sugar that makes it from the mash tun to the kettle.",
+            "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+          },
+          "mash": {
+            "description": "The percentage of sugar that makes it from the grain to the kettle.",
+            "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+          },
+          "brewhouse": {
+            "description": "The percentage of sugar that makes it from the grain to the fermenter.",
+            "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+          }
+        },
+        "required": [
+          "brewhouse"
+        ]
+      },
+      "style": {
+        "$ref": "Style.beer.schema#/Style/Base"
+      },
+      "ingredients": {
+        "type": "object",
+        "description": "All the recipe's ingredient additions.  Note that these lists are \"abbreviated\" versions of each ingredient, which saves on repetition when, eg, the same type of hop is added at more then one point.  If you are exporting one or more recipes, you should also export the full versions of their ingredients in the same file.",
+        "additionalProperties": false,
+        "properties": {
+          "fermentable_additions": {
+            "type": "array",
+            "description": "All the fermentable additions to the recipe",
+            "items": {
+              "$ref": "Fermentable.beer.schema#/Fermentable/RecipeAddition"
+            }
+          },
+          "hop_additions": {
+            "type": "array",
+            "description": "All the hop additions to the recipe",
+            "items": {
+              "$ref": "Hop.beer.schema#/Hop/RecipeAddition"
+            }
+          },
+          "miscellaneous_additions": {
+            "type": "array",
+            "description": "All the miscellaneous item additions to the recipe",
+            "items": {
+              "$ref": "OtherIngredient.beer.schema#/OtherIngredient/RecipeAddition"
+            }
+          },
+          "culture_additions": {
+            "type": "array",
+            "description": "All the yeast and/or other culture additions to the recipe",
+            "items": {
+              "$ref": "Culture.beer.schema#/Culture/RecipeAddition"
+            }
+          }
+          //
+          // Note, per comments in Water.beer.schema that water is treated differently from other ingredients, and a
+          // recipe does not have water_additions.  Instead, the _amounts_ of water needed are defined in the mash, and
+          // the _types_ of water are in water_profile_base and water_profile_target
+          //
+        },
+        "required": [
+          "fermentable_additions"
+        ]
+      },
+      "water_profile_base": {
+        "description": "Optional parameter to specify the starting profile of the brewing water, which may be modified with salts etc to obtain the target profile.",
+        "$ref": "Water.beer.schema#/Water/Base"
+      },
+      "water_profile_target": {
+        "description": "Optional parameter to specify the desired profile of the brewing water, which may be modified with salts etc from the base (starting) profile.",
+        "$ref": "Water.beer.schema#/Water/Base"
+      },
+      "mash": {
+        "description": "This defines the procedure for performing unique mashing processes.",
+        "$ref": "Mash.beer.schema#/Mash"
+      },
+      "boil": {
+        "description": "Defines the procedure for performing a boil. A boil procedure with no steps is the same as a standard single step boil.",
+        "$ref": "Boil.beer.schema#/Boil"
+      },
+      "fermentation": {
+        "description": "FermentationProcedureType defines the procedure for performing fermentation.",
+        "$ref": "Fermentation.beer.schema#/Fermentation"
+      },
+      //
+      // If and when we support packaging, we'll add it here
+      //
+      "notes": {
+        "type": "string"
+      },
+      "original_gravity": {
+        "description": "The gravity of wort when transferred to the fermenter.",
+        "$ref": "Measurement.beer.schema#/PhysicalQuantity/Density"
+      },
+      "final_gravity": {
+        "description": "The gravity of beer at the end of fermentation.",
+        "$ref": "Measurement.beer.schema#/PhysicalQuantity/Density"
+      },
+      "alcohol_by_volume": {
+        "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+      },
+      "ibu_estimate": {
+        "description": "Estimated bitterness of finished beer.",
+        "$ref": "Measurement.beer.schema#/PhysicalQuantity/Bitterness"
+      },
+      "ibu_estimate_formula": {
+        "description": "Used to differentiate which IBU formula is being used in a recipe. If formula is modified in any way, eg to support whirlpool/flameout additions etc etc, please use `Other` for transparency.",
+        "enum": [
+          "Tinseth",
+          "Rager",
+          "Noonan",
+          "mIBU"
+        ]
+      },
+      "color_estimate": {
+        "description": "The color of the finished beer, using SRM or EBC.",
+        "$ref": "Measurement.beer.schema#/PhysicalQuantity/Color"
+      },
+      "beer_pH": {
+        "description": "The final beer pH at the end of fermentation.",
+        "$ref": "Measurement.beer.schema#/PhysicalQuantity/Acidity"
+      },
+      "carbonation": {
+        "description": "The final carbonation of the beer when packaged or served.",
+        "$ref": "Measurement.beer.schema#/PhysicalQuantity/Carbonation"
+      },
+      "apparent_attenuation": {
+        "description": "The total apparent attenuation of the finished beer after fermentation.",
+        "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+      },
+      "taste": {
+        "type": "object",
+        "description": "Subjective tasting notes, and rating.",
+        "additionalProperties": false,
+        "properties": {
+          "notes": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "notes",
+          "rating"
+        ]
+      },
+      "calories_per_us_pint": {
+        "type": "number"
+      }
+    },
+    "required": [
+      "name",
+      "type",
+      "author",
+      "efficiency",
+      "batch_size",
+      "ingredients"
+    ]
+  }
+}

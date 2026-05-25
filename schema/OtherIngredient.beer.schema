@@ -1,0 +1,133 @@
+//======================================================================================================================
+// OtherIngredient.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
+//   • Mark Price <shadowchao99@gmail.com>
+//   • Matt Young <mfsy@yahoo.com>
+//   • Pierre Smits <pierre.smits@somonar.com>
+//   • Ricardo Rosa <rmsrosa@gmail.com>
+//   • Roman Eremin <roman.eremin@gmail.com> <roman.eremin@devexpress.com>
+//   • Yuriy Krutilin <y.krutilin@gmail.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+// was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dotbeer.org/schema/OtherIngredient.beer.schema",
+  "type": "object",
+  "additionalProperties": false,
+  "OtherIngredient": {
+    "Base": {
+      "type": "object",
+      "description": "Ingredients that are not hops, fermentables, yeasts/cultures or water.  Some people would call these \"other ingredients\" \"non-fermentable adjuncts\", but there are also narrower definitions of \"adjunct\", so we do not use that term.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "producer": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "spice",
+            "fining",
+            "water agent",
+            "herb",
+            "flavor",
+            "wood",
+            "other"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ]
+    },
+    "Full": {
+      "type": "object",
+      "description": "Collects the attributes of an ingredient to store as record information.",
+      "allOf": [
+        {
+          "$ref": "#/OtherIngredient/Base"
+        },
+        {
+          "properties": {
+            "use_for": {
+              "description": "Used to describe the purpose of the miscellaneous ingredient, e.g. whirlfloc is used for clarity.",
+              "type": "string"
+            },
+            "notes": {
+              "type": "string"
+            },
+            "inventory": {
+              "$ref": "#/OtherIngredient/Inventory"
+            }
+          }
+        }
+      ]
+    },
+    "RecipeAddition": {
+      "type": "object",
+      "description": "Collects the attributes of each miscellaneous ingredient for use in a recipe.",
+      "allOf": [
+        {
+          "$ref": "#/OtherIngredient/Base"
+        },
+        {
+          "properties": {
+            "schedule": {
+              "$ref": "RecipeAddition.beer.schema#/AdditionSchedule"
+            },
+            "amount": {
+              "oneOf": [
+                {
+                  "$ref": "Measurement.beer.schema#/PhysicalQuantity/Volume"
+                },
+                {
+                  "$ref": "Measurement.beer.schema#/PhysicalQuantity/Mass"
+                },
+                {
+                  "$ref": "Measurement.beer.schema#/PhysicalQuantity/Count"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "required": [
+            "amount"
+          ]
+        }
+      ]
+    },
+    "Inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "amount": {
+          "oneOf": [
+            {
+              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Volume"
+            },
+            {
+              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Mass"
+            },
+            {
+              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Count"
+            }
+          ]
+        }
+      },
+      "required": [
+        "amount"
+      ]
+    }
+  }
+}

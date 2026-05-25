@@ -1,0 +1,551 @@
+//======================================================================================================================
+// Measurement.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
+//   • Mark Price <shadowchao99@gmail.com>
+//   • Matt Young <mfsy@yahoo.com>
+//   • Ross Merrigan <email@rossmerrigan.com>
+//   • Thomas Ascher <thomas.ascher@gmx.at>
+//   • Yuriy Krutilin <y.krutilin@gmail.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+// was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dotbeer.org/schema/Measurement.beer.schema",
+  "type": "object",
+  //
+  // For our purposes, it suffices to group units by the physical quantity they are measuring (or the non-physical
+  // quantity as the case may be!).  Eg we just need all volume units together, even though, in an actual application,
+  // these would be further sub-grouped as "US Customary: Volume Units", "Metric: Volume Units", etc.
+  //
+  // Similarly, although, in an application, we might want to distinguish between physical quantities (Mass, volume,
+  // Temperature, Density, etc) and non-physical quantities (Count, Percentage, Enumeration, Date), it's not necessary
+  // in a serialisation such as this.
+  //
+  // In several cases, there is only one possible unit (eg acidity, percentage, count), so it would be possible to omit
+  // units altogether.  However, in common with BeerJSON, we retain them for a couple of reasons:
+  //    - It makes the serialisation easier to understand for human readers.
+  //    - Extendability, eg, if we decided at a future date we would like to support "percentage points" in addition
+  //      to "percentages", then it's a smaller change to add them.
+  //
+  "PhysicalQuantity": {
+    "Acidity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "pH"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Bitterness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "IBUs"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Carbonation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "vols",
+            "g/l"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Color": {
+      "type": "object",
+      "description": "Supports both grain color properties, such as Lovibond, and wort color properties such as SRM and EBC.",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "EBC",
+            "Lovi",
+            "SRM"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Count": {
+      // This is not really a physical quantity.  However, in our domain, it makes life simpler for us to pretend that
+      // it is.  This is because "mass", "volume" and "number of" are the three canonical ways of measuring ingredients.
+      // Note that this _is_ allowed to be fractional because you might want to add 1½ cinnamon sticks or 2.5 packets of
+      // yeast.
+      "type": "object",
+      "description": "Used where unitless amounts are required, such as 1 apple, or 1 yeast packet.  Note that this _is_ allowed to be fractional because you might want to add 1½ cinnamon sticks or 2.5 packets of yeast.",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "1",
+            "unit",
+            "each",
+            "dimensionless",
+            "pkg"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Density": {
+      "type": "object",
+      "description": "Sometimes referred to as \"gravity\" as a shorthand for \"specific gravity\".  Typically, brewers measure relative density (aka specific gravity) to gauge percent of sugar content (ie plato and brix).",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "sg",
+            "plato",
+            "brix"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "DiastaticPower": {
+      "type": "object",
+      "description": "Diastatic power is a measurement of malted grains enzymatic content. A value of 35 Lintner is needed to self convert, while a value of 100 or more is desirable for base malts.",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "Lintner",
+            "WK"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Length": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "mm", // millimeters
+            "cm", // centimeters
+            "m",  // meters
+            "in", // inches
+            "ft"  // feet
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Mass": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "mg",
+            "g",
+            "kg",
+            "lb",
+            "oz"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "MassFractionOrConcentration": {
+      "type": "object",
+      "description": "Strictly speaking, mass concentration (eg mg/l) is different from mass fraction (eg ppm, ppb) but, in the context of brewing, it is usually approximately true that 1 mg/L mass concentration = 1 parts per million (ppm) mass fraction.",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "ppm", // Parts per million
+            "ppb", // Parts per billion
+            "mg/l" // Milligrams per liter
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Temperature": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "C",
+            "F"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Time": {
+      "type": "object",
+      "description": "Note this is NOT dates or times of day but length-of-time or elapsed time, eg duration of a mash step, or how long after the start of the boil to add something.",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "sec",
+            "min",
+            "hr",
+            "day",
+            "week"
+          ]
+        },
+        "value": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Pressure": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "kPa",
+            "psi",
+            "bar"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "SpecificHeatCapacity": {
+      "type": "object",
+      "description": "The amount of heat that must be added to one unit of mass of the substance in order to cause an increase of one unit in temperature.",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "Cal/(g C)",
+            "J/(kg K)",
+            "BTU/(lb F)"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "SpecificVolume": {
+      "type": "object",
+      "description": "Specific volume is the reciprocal of density, commonly used for mash thickness.",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "qt/lb",
+            "gal/lb",
+            "gal/oz",
+            "l/g",
+            "l/kg",
+            "floz/oz",
+            "m^3/kg",
+            "ft^3/lb"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Viscosity": {
+      "type": "object",
+      "description": "Viscosity of fluids",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "cP",
+            "mPa-s"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Volume": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            // Metric
+            "ml",
+            "l",
+            // US Customary
+            "tsp",
+            "tbsp",
+            "floz",
+            "cup",
+            "pt",
+            "qt",
+            "gal",
+            "bbl",
+            // Imperial
+            "itsp",
+            "itbsp",
+            "ifloz",
+            "icup",
+            "ipt",
+            "iqt",
+            "igal",
+            "ibbl"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    }
+  },
+  "NonPhysicalQuantity": {
+    "Date": {
+      "type": "string",
+      "description": "To avoid ambiguity, dates are always stored in ISO 8601 format.  The two possibilities here are with and without time of day.",
+      "pattern": "\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
+    },
+    "Percentage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "%"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "VersionNumber": {
+      "type": "string",
+      "description": "We use semantic versioning, which encodes a version by a three-part version number (Major.Minor.Patch)",
+      "pattern": "\\d+[.]\\d+[.]\\d+"
+    }
+  },
+  //
+  // Ranges are all essentially the same structure, but you can't really do inheritance or templating in a JSON schema,
+  // so there's a bit more repetition here than we might tolerate in, say, a C++ program.
+  //
+  // We don't force the same units for lower and upper bounds -- partly because it would complicate the schema for only
+  // small gain, and partly because it's conceivable that you want different units on min and max (eg if you had a mass
+  // range you might want min in grams and max in kilograms).
+  //
+  // We also don't have separate groupings of PhysicalQuantity ranges and NonPhysicalQuantity ranges, as it's already
+  // clear which is which.
+  //
+  "Range": {
+    "Bitterness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimum": {
+          "$ref": "#/PhysicalQuantity/Bitterness"
+        },
+        "maximum": {
+          "$ref": "#/PhysicalQuantity/Bitterness"
+        }
+      },
+      "required": [
+        "minimum",
+        "maximum"
+      ]
+    },
+    "Carbonation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimum": {
+          "$ref": "#/PhysicalQuantity/Carbonation"
+        },
+        "maximum": {
+          "$ref": "#/PhysicalQuantity/Carbonation"
+        }
+      },
+      "required": [
+        "minimum",
+        "maximum"
+      ]
+    },
+    "Temperature": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimum": {
+          "$ref": "#/PhysicalQuantity/Temperature"
+        },
+        "maximum": {
+          "$ref": "#/PhysicalQuantity/Temperature"
+        }
+      },
+      "required": [
+        "minimum",
+        "maximum"
+      ]
+    },
+    "Color": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimum": {
+          "$ref": "#/PhysicalQuantity/Color"
+        },
+        "maximum": {
+          "$ref": "#/PhysicalQuantity/Color"
+        }
+      },
+      "required": [
+        "minimum",
+        "maximum"
+      ]
+    },
+    "Density": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimum": {
+          "$ref": "#/PhysicalQuantity/Density"
+        },
+        "maximum": {
+          "$ref": "#/PhysicalQuantity/Density"
+        }
+      },
+      "required": [
+        "minimum",
+        "maximum"
+      ]
+    },
+    "Percentage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimum": {
+          "$ref": "#/NonPhysicalQuantity/Percentage"
+        },
+        "maximum": {
+          "$ref": "#/NonPhysicalQuantity/Percentage"
+        }
+      },
+      "required": [
+        "minimum",
+        "maximum"
+      ]
+    }
+  }
+}

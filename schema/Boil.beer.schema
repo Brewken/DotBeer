@@ -1,0 +1,97 @@
+//======================================================================================================================
+// Boil.beer.schema is part of DotBeer and is copyright the following authors 2018-2026:
+//   • Mark Price <shadowchao99@gmail.com>
+//   • Matt Young <mfsy@yahoo.com>
+//   • Yuriy Krutilin <y.krutilin@gmail.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+// was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dotbeer.org/schema/Boil.beer.schema",
+  "type": "object",
+  "additionalProperties": false,
+  "Boil": {
+    "type": "object",
+    "description": "A boil procedure, which can be used by multiple recipes.  A boil procedure with no steps is the same as a standard single step boil.",
+    "additionalProperties": false,
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "boil_description": {
+        "type": "string"
+      },
+      "notes": {
+        "type": "string"
+      },
+      "pre_boil_size": {
+        "$ref": "Measurement.beer.schema#/PhysicalQuantity/Volume"
+      },
+      "boil_time": {
+        "$ref": "Measurement.beer.schema#/PhysicalQuantity/Time"
+      },
+      "boil_steps": {
+        "type": "array",
+        "items": {
+          "BoilStep": {
+            "type": "object",
+            "description": "Individual step of a boil, including preboil steps, non-boiling pasteurization steps, boiling, whirlpool steps, and chilling.",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "step_description": {
+                "type": "string"
+              },
+              "start_temperature": {
+                "$ref": "Measurement.beer.schema#/PhysicalQuantity/Temperature"
+              },
+              "end_temperature": {
+                "$ref": "Measurement.beer.schema#/PhysicalQuantity/Temperature"
+              },
+              "ramp_time": {
+                "description": "The amount of time that passes before this step begins. eg moving from a boiling step (step 1) to a whirlpool step (step 2) may take 5 minutes. Step 2 would have a ramp time of 5 minutes, hop isomerization and bitterness calculations will need to account for this accordingly.",
+                "$ref": "Measurement.beer.schema#/PhysicalQuantity/Time"
+              },
+              "step_time": {
+                "$ref": "Measurement.beer.schema#/PhysicalQuantity/Time"
+              },
+              "start_gravity": {
+                "$ref": "Measurement.beer.schema#/PhysicalQuantity/Density"
+              },
+              "end_gravity": {
+                "$ref": "Measurement.beer.schema#/PhysicalQuantity/Density"
+              },
+              "start_pH": {
+                "$ref": "Measurement.beer.schema#/PhysicalQuantity/Acidity"
+              },
+              "end_pH": {
+                "$ref": "Measurement.beer.schema#/PhysicalQuantity/Acidity"
+              },
+              "chilling_type": {
+                "description": "Chilling type separates batch chilling, eg immersion chillers, where the entire volume of wort is brought down in temperature as a whole, vs inline chilling where the wort is chilled while it is being drained, which can leave a significant amount of hop isomerization occurring in the boil kettle.",
+                "type": "string",
+                "enum": [
+                  "batch",
+                  "inline"
+                ]
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        }
+      }
+    },
+    "required": [
+      "boil_time"
+    ]
+  }
+}

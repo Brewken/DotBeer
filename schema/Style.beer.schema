@@ -1,0 +1,117 @@
+//======================================================================================================================
+// Style.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
+//   • Mark Price <shadowchao99@gmail.com>
+//   • Matt Young <mfsy@yahoo.com>
+//   • Ricardo Rosa <rmsrosa@gmail.com>
+//   • Yuriy Krutilin <y.krutilin@gmail.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+// was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dotbeer.org/schema/Style.beer.schema",
+  "type": "object",
+  "additionalProperties": false,
+  "Style": {
+    "Base": {
+      "type": "object",
+      "description": "The descriptive base type for both style guideline records, and recipe style provisions. Provides unique properties to identify individual styles",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "category_number": {
+          "type": "integer"
+        },
+        "style_letter": {
+          "type": "string",
+          "maxLength": 1,
+          "minLength": 1,
+          "pattern": "[A-Z ]"
+        },
+        "style_guide": {
+          "type": "string"
+        },
+        "style_type": {
+          "enum": [
+            "beer",
+            "cider",
+            "kombucha",
+            "mead",
+            "other",
+            "soda",
+            "wine"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "category",
+        "style_guide",
+        "style_type"
+      ]
+    },
+    "Full": {
+      "type": "object",
+      "description": "The full definition of a Style categorization",
+      "allOf": [
+        {
+          "$ref": "#/Style/Base"
+        },
+        {
+          "properties": {
+            "original_gravity": {
+              "$ref": "Measurement.beer.schema#/Range/Density"
+            },
+            "final_gravity": {
+              "$ref": "Measurement.beer.schema#/Range/Density"
+            },
+            "international_bitterness_units": {
+              "$ref": "Measurement.beer.schema#/Range/Bitterness"
+            },
+            "color": {
+              "$ref": "Measurement.beer.schema#/Range/Color"
+            },
+            "carbonation": {
+              "$ref": "Measurement.beer.schema#/Range/Carbonation"
+            },
+            "alcohol_by_volume": {
+              "$ref": "Measurement.beer.schema#/Range/Percentage"
+            },
+            "notes": {
+              "type": "string"
+            },
+            "aroma": {
+              "type": "string"
+            },
+            "appearance": {
+              "type": "string"
+            },
+            "flavor": {
+              "type": "string"
+            },
+            "mouthfeel": {
+              "type": "string"
+            },
+            "overall_impression": {
+              "type": "string"
+            },
+            "ingredients": {
+              "type": "string"
+            },
+            "examples": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
