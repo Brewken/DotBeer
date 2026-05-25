@@ -2,6 +2,7 @@
 An open file format for storing and exchanging brewing data about recipes, ingredients, styles, equipment, brew days,
 stock and so on.  DotBeer files have a <font color="green">**`.beer`**</font> extension, hence the name.
 
+DotBeer draws on the experience of prior open-source brewing formats (BeerXML and BeerJSON) and shares a number of concepts and structures with them.  It is simpler than BeerJSON and more complete than BeerXML. 
 
 
 ## Design Principles
@@ -15,6 +16,7 @@ stock and so on.  DotBeer files have a <font color="green">**`.beer`**</font> ex
   Similarly, if a brewer has a lot of <font color="green">**`.beer`**</font> files and wants to search for ones
   referencing a particular type of hop, this is easy to do with any text search tool.
 
+
 * **Automatic Validation**
 
   Being able to automatically validate a file against the schema has two large benefits.  Firstly, it makes it easier to
@@ -22,6 +24,7 @@ stock and so on.  DotBeer files have a <font color="green">**`.beer`**</font> ex
   that their implementation is correct, than, say, with BeerXML where there is no published machine-readable schema.
   Secondly, it simplifies reading in files if you first validate them against the schema (because, after this is done,
   code can safely assume that all "required" fields are present in the file and that field types are valid etc).
+
 
 * **Comments Allowed**
 
@@ -32,6 +35,7 @@ stock and so on.  DotBeer files have a <font color="green">**`.beer`**</font> ex
   Similarly, in the schema files themselves, there are comments explaining why things have been done in a particular 
   way, which is useful for implementers to understand. 
 
+
 * **Reference Implementation**
 
   Some of the problems with older formats, such as BeerXML and BeerJSON stem from the fact that they were finalised
@@ -39,9 +43,10 @@ stock and so on.  DotBeer files have a <font color="green">**`.beer`**</font> ex
   come to light until later.  It also made it harder for early adopters to implement the format because there was no
   tool to generate sample files.
 
-  Because Dot**Beer is the native file format of the open source [Brewtarget](https://www.brewtarget.beer), it is
+  Because DotBeer is the native file format of the open source [Brewtarget](https://www.brewtarget.beer), it is
   field-tested.  Developers of other brewing software can use Brewtarget to generate sample files, and can examine its
-  source code to see how things things are implemented.
+  source code to see how things are implemented.
+
 
 * **Schema Evolution**
 
@@ -51,6 +56,7 @@ stock and so on.  DotBeer files have a <font color="green">**`.beer`**</font> ex
 
   As an implementer, you should not need to juggle multiple schemas to cope with older and newer versions of files.  The
   current version of the schema should tell you which fields are valid in which versions of the file.
+
 
 * **Clear File Extensions**
 
