@@ -1,5 +1,5 @@
 //======================================================================================================================
-// Water.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
+// schema/Water.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
 //   • Mark Price <shadowchao99@gmail.com>
 //   • Matt Young <mfsy@yahoo.com>
 //   • Ricardo Rosa <rmsrosa@gmail.com>
@@ -15,9 +15,24 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dotbeer.org/schema/Water.beer.schema",
   "type": "object",
-  "additionalProperties": false,
-  "Water": {
-    "Base": {
+  "description": "Full definition of a water profile.",
+  "allOf": [
+    {
+      "$ref": "#/$defs/WaterBase"
+    },
+    {
+      "properties": {
+        "pH": {
+          "$ref": "Measurement.beer.schema#/$defs/Acidity"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "WaterBase": {
       "type": "object",
       "description": "Provides unique properties to identify individual records of brewing water.  NOTE that water is handled differently from other ingredients.  We don't model inventory of water, it doesn't have producers or product IDs, and the amounts needed in a recipe are already defined in its mash steps rather than by RecipeAddition amounts.",
       "properties": {
@@ -25,40 +40,40 @@
           "type": "string"
         },
         "calcium": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "bicarbonate": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "carbonate": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "potassium": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "iron": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "nitrate": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "nitrite": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "fluoride": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "sulfate": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "chloride": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "sodium": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         },
         "magnesium": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
         }
       },
       "required": [
@@ -69,25 +84,6 @@
         "chloride",
         "sodium",
         "magnesium"
-      ]
-    },
-    "Full": {
-      "type": "object",
-      "description": "Full definition of a water profile.",
-      "allOf": [
-        {
-          "$ref": "#/Water/Base"
-        },
-        {
-          "properties": {
-            "pH": {
-              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Acidity"
-            },
-            "notes": {
-              "type": "string"
-            }
-          }
-        }
       ]
     }
   }

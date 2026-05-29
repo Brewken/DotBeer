@@ -1,5 +1,5 @@
 //======================================================================================================================
-// Fermentable.beer.schema is part of DotBeer and is copyright the following authors 2018-2026:
+// schema/Fermentable.beer.schema is part of DotBeer and is copyright the following authors 2018-2026:
 //   • Mark Price <shadowchao99@gmail.com>
 //   • Matt Young <mfsy@yahoo.com>
 //   • Pierre Smits <pierre.smits@somonar.com>
@@ -17,9 +17,99 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dotbeer.org/schema/Fermentable.beer.schema",
   "type": "object",
-  "additionalProperties": false,
-  "Fermentable": {
-    "Base": {
+  "title": "Fermentable",
+  "description": "Collects the attributes of a fermentable ingredient to store as record information.",
+  "allOf": [
+    {
+      "$ref": "#/$defs/FermentableBase"
+    },
+    {
+      "properties": {
+        "notes": {
+          "type": "string"
+        },
+        "moisture": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "alpha_amylase": {
+          "description": "Where diastatic power gives the total amount of all enzymes, alpha amylase, also known as dextrinizing units, refers to only the total amount of alpa amylase in the malted grain. A value of 25-50 is desirable for base malt.",
+          "type": "number"
+        },
+        "diastatic_power": {
+          "description": "Diastatic power is a measurement of malted grains enzymatic content. A value of 35 Lintner is needed to self convert, while a value of 100 or more is desirable.",
+          "$ref": "Measurement.beer.schema#/$defs/DiastaticPower"
+        },
+        "protein": {
+          "description": "The percentage of protein. Higher values may indicate a possibility of haze, or lautering issues.",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "kolbach_index": {
+          "description": "The Kolbach Index, also known as soluble to total ratio of nitrogen or protein, is used to indicate the degree of malt modification. A value above 35% is desired for simple single infusion mashing, undermodified malt may require multiple step mashes or decoction.",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "max_in_batch": {
+          "description": "The recommended maximum percentage to use in a grain bill. ",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "recommend_mash": {
+          "description": "True if the fermentable must be mashed, false if it can be steeped. ",
+          "type": "boolean"
+        },
+        "inventory": {
+          "$ref": "#/$defs/FermentableInventory"
+        },
+        "glassy": {
+          "description": "Used to indicate the 'crystallized' percentage of starches for crystal malts.",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "plump": {
+          "description": "The percentage of grain that masses through sieves with gaps of 7/64 and 6/64, desired values of 80% or higher which indicate plump kernels.",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "half": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "mealy": {
+          "description": "The opposite of glassy, a mealy kernel is one that is not glassy. Base malt should be at least 90%, single step mashes generally require 95% or higher.",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "thru": {
+          "description": "The Percentage of grain that makes it through a thin mesh screen, typically 5/64 inch. Values less than 3% are desired.",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "friability": {
+          "description": "Friability is the measure of a malts ability to crumble during the crush, and is used as an indicator for easy gelatinization of the grain and starches, as well as modification of the malt. Value of 85% of higher indicates a well modified malt and is suitable for single step mashes. Lower values may require a step mash.",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "di_pH": {
+          "description": "The pH of the resultant wort for 1 lb of grain mashed in 1 gallon of distilled water. Used in many water chemistry / mash pH prediction software.",
+          "$ref": "Measurement.beer.schema#/$defs/Acidity"
+        },
+        "viscosity": {
+          "description": "The measure of wort viscosity, typically associated with the breakdown of beta-glucans. The higher the viscosity, the greater the need for a glucan rest and the less suitable for a fly sparge.",
+          "$ref": "Measurement.beer.schema#/$defs/Viscosity"
+        },
+        "dms_p": {
+          "description": "The amount of DMS precursors, namely S-methyl methionine (SMM) and dimethyl sulfoxide (DMSO) in the malt which convert to dimethyl sulfide (DMS).",
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
+        },
+        "fan": {
+          "description": "Free Amino Nitrogen (FAN) is a critical yeast nutrient. Typical values for base malt is 170.",
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
+        },
+        "fermentability": {
+          "description": "Fermentability - Used in Extracts to indicate a baseline typical apparent attenuation for a typical medium attenuation yeast.",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "beta_glucan": {
+          "description": "Values of 180 or more may suggest a glucan rest and avoiding fly sparging.",
+          "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "FermentableBase": {
       "type": "object",
       "description": "FermentableBase provides unique properties to identify individual records of fermentable ingredients.",
       "properties": {
@@ -67,24 +157,24 @@
           "properties": {
             "fine_grind": {
               "description": "Percentage yield, compared to sucrose, of a fine grind. eg 80%",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+              "$ref": "Measurement.beer.schema#/$defs/Percentage"
             },
             "coarse_grind": {
               "description": "Percentage yield, compared to sucrose, of a coarse grind. eg 78%",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+              "$ref": "Measurement.beer.schema#/$defs/Percentage"
             },
             "fine_coarse_difference": {
               "description": "The difference between fine and coarse grind, a difference more than 2 percent can indicate a protein or step mash may be desirable. eg 2%.",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
+              "$ref": "Measurement.beer.schema#/$defs/Percentage"
             },
             "potential": {
               "description": "The potential yield of the fermentable ingredient for 1 lb of grain mashed in 1 gallon of water. eg 1.037",
-              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Density"
+              "$ref": "Measurement.beer.schema#/$defs/Density"
             }
           }
         },
         "color": {
-          "$ref": "Measurement.beer.schema#/PhysicalQuantity/Color"
+          "$ref": "Measurement.beer.schema#/$defs/Color"
         }
       },
       "required": [
@@ -94,139 +184,17 @@
         "color"
       ]
     },
-    "Full": {
-      "type": "object",
-      "description": "Collects the attributes of a fermentable ingredient to store as record information.",
-      "allOf": [
-        {
-          "$ref": "#/Fermentable/Base"
-        },
-        {
-          "properties": {
-            "notes": {
-              "type": "string"
-            },
-            "moisture": {
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "alpha_amylase": {
-              "description": "Where diastatic power gives the total amount of all enzymes, alpha amylase, also known as dextrinizing units, refers to only the total amount of alpa amylase in the malted grain. A value of 25-50 is desirable for base malt.",
-              "type": "number"
-            },
-            "diastatic_power": {
-              "description": "Diastatic power is a measurement of malted grains enzymatic content. A value of 35 Lintner is needed to self convert, while a value of 100 or more is desirable.",
-              "$ref": "Measurement.beer.schema#/PhysicalQuantity/DiastaticPower"
-            },
-            "protein": {
-              "description": "The percentage of protein. Higher values may indicate a possibility of haze, or lautering issues.",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "kolbach_index": {
-              "description": "The Kolbach Index, also known as soluble to total ratio of nitrogen or protein, is used to indicate the degree of malt modification. A value above 35% is desired for simple single infusion mashing, undermodified malt may require multiple step mashes or decoction.",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "max_in_batch": {
-              "description": "The recommended maximum percentage to use in a grain bill. ",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "recommend_mash": {
-              "description": "True if the fermentable must be mashed, false if it can be steeped. ",
-              "type": "boolean"
-            },
-            "inventory": {
-              "$ref": "#/Fermentable/Inventory"
-            },
-            "glassy": {
-              "description": "Used to indicate the 'crystallized' percentage of starches for crystal malts.",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "plump": {
-              "description": "The percentage of grain that masses through sieves with gaps of 7/64 and 6/64, desired values of 80% or higher which indicate plump kernels.",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "half": {
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "mealy": {
-              "description": "The opposite of glassy, a mealy kernel is one that is not glassy. Base malt should be at least 90%, single step mashes generally require 95% or higher.",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "thru": {
-              "description": "The Percentage of grain that makes it through a thin mesh screen, typically 5/64 inch. Values less than 3% are desired.",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "friability": {
-              "description": "Friability is the measure of a malts ability to crumble during the crush, and is used as an indicator for easy gelatinization of the grain and starches, as well as modification of the malt. Value of 85% of higher indicates a well modified malt and is suitable for single step mashes. Lower values may require a step mash.",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "di_pH": {
-              "description": "The pH of the resultant wort for 1 lb of grain mashed in 1 gallon of distilled water. Used in many water chemistry / mash pH prediction software.",
-              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Acidity"
-            },
-            "viscosity": {
-              "description": "The measure of wort viscosity, typically associated with the breakdown of beta-glucans. The higher the viscosity, the greater the need for a glucan rest and the less suitable for a fly sparge.",
-              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Viscosity"
-            },
-            "dms_p": {
-              "description": "The amount of DMS precursors, namely S-methyl methionine (SMM) and dimethyl sulfoxide (DMSO) in the malt which convert to dimethyl sulfide (DMS).",
-              "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
-            },
-            "fan": {
-              "description": "Free Amino Nitrogen (FAN) is a critical yeast nutrient. Typical values for base malt is 170.",
-              "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
-            },
-            "fermentability": {
-              "description": "Fermentability - Used in Extracts to indicate a baseline typical apparent attenuation for a typical medium attenuation yeast.",
-              "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Percentage"
-            },
-            "beta_glucan": {
-              "description": "Values of 180 or more may suggest a glucan rest and avoiding fly sparging.",
-              "$ref": "Measurement.beer.schema#/PhysicalQuantity/MassFractionOrConcentration"
-            }
-          }
-        }
-      ]
-    },
-    "RecipeAddition": {
-      "type": "object",
-      "description": "Collects the attributes of each fermentable ingredient for use in a recipe fermentable bill.",
-      "allOf": [
-        {
-          "$ref": "#/Fermentable/Base"
-        },
-        {
-          "properties": {
-            "schedule": {
-              "$ref": "RecipeAddition.beer.schema#/AdditionSchedule"
-            },
-            "amount": {
-              "oneOf": [
-                {
-                  "$ref": "Measurement.beer.schema#/PhysicalQuantity/Volume"
-                },
-                {
-                  "$ref": "Measurement.beer.schema#/PhysicalQuantity/Mass"
-                }
-              ]
-            }
-          }
-        }
-      ],
-      "required": [
-        "amount"
-      ]
-    },
-    "Inventory": {
+    "FermentableInventory": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "amount": {
           "oneOf": [
             {
-              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Volume"
+              "$ref": "Measurement.beer.schema#/$defs/Volume"
             },
             {
-              "$ref": "Measurement.beer.schema#/PhysicalQuantity/Mass"
+              "$ref": "Measurement.beer.schema#/$defs/Mass"
             }
           ]
         }

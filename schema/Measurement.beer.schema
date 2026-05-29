@@ -1,5 +1,5 @@
 //======================================================================================================================
-// Measurement.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
+// schema/Measurement.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
 //   • Mark Price <shadowchao99@gmail.com>
 //   • Matt Young <mfsy@yahoo.com>
 //   • Ross Merrigan <email@rossmerrigan.com>
@@ -15,23 +15,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dotbeer.org/schema/Measurement.beer.schema",
-  "type": "object",
-  //
-  // For our purposes, it suffices to group units by the physical quantity they are measuring (or the non-physical
-  // quantity as the case may be!).  Eg we just need all volume units together, even though, in an actual application,
-  // these would be further sub-grouped as "US Customary: Volume Units", "Metric: Volume Units", etc.
-  //
-  // Similarly, although, in an application, we might want to distinguish between physical quantities (Mass, volume,
-  // Temperature, Density, etc) and non-physical quantities (Count, Percentage, Enumeration, Date), it's not necessary
-  // in a serialisation such as this.
-  //
-  // In several cases, there is only one possible unit (eg acidity, percentage, count), so it would be possible to omit
-  // units altogether.  However, in common with BeerJSON, we retain them for a couple of reasons:
-  //    - It makes the serialisation easier to understand for human readers.
-  //    - Extendability, eg, if we decided at a future date we would like to support "percentage points" in addition
-  //      to "percentages", then it's a smaller change to add them.
-  //
-  "PhysicalQuantity": {
+  "title": "Measurement Types",
+  "description": "Various types of measurement, and ranges thereof.\n\nIn principle, we could have sub-groupings such as \"physical quantities\" (volume, mass, acidity, etc), \"non-physical quantities\" (percentage, count, date, etc).  However, this adds complexity to the schema for little gain, because there is nowhere else in the schema where we would rely on such groupings.  So, instead, we keep a flat hierarchy.\n\nIn several cases, there is only one possible unit (eg acidity, percentage, count), so it would be possible to omit units altogether.  However, in common with BeerJSON, we retain them for a couple of reasons.  Firstly, it makes the serialisation easier to understand for human readers.  Secondly, it makes things more extendable: eg, if we decided at a future date we would like to support \"percentage points\" in addition to \"percentages\", then it's a smaller change to add them.\n\nFor Ranges, note that we do not force the same units for lower and upper bounds.  This is partly because it would complicate the schema for only small gain, and partly because it's conceivable that you want different units on min and max (eg if you had a mass range you might want min in grams and max in kilograms).",
+  "$defs": {
     "Acidity": {
       "type": "object",
       "additionalProperties": false,
@@ -109,10 +95,6 @@
       ]
     },
     "Count": {
-      // This is not really a physical quantity.  However, in our domain, it makes life simpler for us to pretend that
-      // it is.  This is because "mass", "volume" and "number of" are the three canonical ways of measuring ingredients.
-      // Note that this _is_ allowed to be fractional because you might want to add 1½ cinnamon sticks or 2.5 packets of
-      // yeast.
       "type": "object",
       "description": "Used where unitless amounts are required, such as 1 apple, or 1 yeast packet.  Note that this _is_ allowed to be fractional because you might want to add 1½ cinnamon sticks or 2.5 packets of yeast.",
       "additionalProperties": false,
@@ -134,6 +116,11 @@
         "unit",
         "value"
       ]
+    },
+    "Date": {
+      "type": "string",
+      "description": "To avoid ambiguity, dates are always stored in ISO 8601 format.  The two possibilities here are with and without time of day.",
+      "pattern": "\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
     },
     "Density": {
       "type": "object",
@@ -283,6 +270,24 @@
         "value"
       ]
     },
+    "Percentage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "%"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
     "Pressure": {
       "type": "object",
       "additionalProperties": false,
@@ -350,6 +355,11 @@
         "value"
       ]
     },
+    "VersionNumber": {
+      "type": "string",
+      "description": "We use semantic versioning, which encodes a version by a three-part version number (Major.Minor.Patch)",
+      "pattern": "\\d+[.]\\d+[.]\\d+"
+    },
     "Viscosity": {
       "type": "object",
       "description": "Viscosity of fluids",
@@ -407,59 +417,22 @@
         "unit",
         "value"
       ]
-    }
-  },
-  "NonPhysicalQuantity": {
-    "Date": {
-      "type": "string",
-      "description": "To avoid ambiguity, dates are always stored in ISO 8601 format.  The two possibilities here are with and without time of day.",
-      "pattern": "\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
     },
-    "Percentage": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "unit": {
-          "enum": [
-            "%"
-          ]
-        },
-        "value": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "unit",
-        "value"
-      ]
-    },
-    "VersionNumber": {
-      "type": "string",
-      "description": "We use semantic versioning, which encodes a version by a three-part version number (Major.Minor.Patch)",
-      "pattern": "\\d+[.]\\d+[.]\\d+"
-    }
-  },
-  //
-  // Ranges are all essentially the same structure, but you can't really do inheritance or templating in a JSON schema,
-  // so there's a bit more repetition here than we might tolerate in, say, a C++ program.
-  //
-  // We don't force the same units for lower and upper bounds -- partly because it would complicate the schema for only
-  // small gain, and partly because it's conceivable that you want different units on min and max (eg if you had a mass
-  // range you might want min in grams and max in kilograms).
-  //
-  // We also don't have separate groupings of PhysicalQuantity ranges and NonPhysicalQuantity ranges, as it's already
-  // clear which is which.
-  //
-  "Range": {
-    "Bitterness": {
+    //
+    // Ranges
+    //
+    // Ranges are all essentially the same structure, but you can't really do templating in a JSON schema, so there's a
+    // bit more repetition here than we might tolerate in, say, a C++ program.
+    //
+    "RangeOfBitterness": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "minimum": {
-          "$ref": "#/PhysicalQuantity/Bitterness"
+          "$ref": "#/$defs/Bitterness"
         },
         "maximum": {
-          "$ref": "#/PhysicalQuantity/Bitterness"
+          "$ref": "#/$defs/Bitterness"
         }
       },
       "required": [
@@ -467,15 +440,15 @@
         "maximum"
       ]
     },
-    "Carbonation": {
+    "RangeOfCarbonation": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "minimum": {
-          "$ref": "#/PhysicalQuantity/Carbonation"
+          "$ref": "#/$defs/Carbonation"
         },
         "maximum": {
-          "$ref": "#/PhysicalQuantity/Carbonation"
+          "$ref": "#/$defs/Carbonation"
         }
       },
       "required": [
@@ -483,15 +456,15 @@
         "maximum"
       ]
     },
-    "Temperature": {
+    "RangeOfTemperature": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "minimum": {
-          "$ref": "#/PhysicalQuantity/Temperature"
+          "$ref": "#/$defs/Temperature"
         },
         "maximum": {
-          "$ref": "#/PhysicalQuantity/Temperature"
+          "$ref": "#/$defs/Temperature"
         }
       },
       "required": [
@@ -499,15 +472,15 @@
         "maximum"
       ]
     },
-    "Color": {
+    "RangeOfColor": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "minimum": {
-          "$ref": "#/PhysicalQuantity/Color"
+          "$ref": "#/$defs/Color"
         },
         "maximum": {
-          "$ref": "#/PhysicalQuantity/Color"
+          "$ref": "#/$defs/Color"
         }
       },
       "required": [
@@ -515,15 +488,15 @@
         "maximum"
       ]
     },
-    "Density": {
+    "RangeOfDensity": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "minimum": {
-          "$ref": "#/PhysicalQuantity/Density"
+          "$ref": "#/$defs/Density"
         },
         "maximum": {
-          "$ref": "#/PhysicalQuantity/Density"
+          "$ref": "#/$defs/Density"
         }
       },
       "required": [
@@ -531,15 +504,15 @@
         "maximum"
       ]
     },
-    "Percentage": {
+    "RangeOfPercentage": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "minimum": {
-          "$ref": "#/NonPhysicalQuantity/Percentage"
+          "$ref": "#/$defs/Percentage"
         },
         "maximum": {
-          "$ref": "#/NonPhysicalQuantity/Percentage"
+          "$ref": "#/$defs/Percentage"
         }
       },
       "required": [

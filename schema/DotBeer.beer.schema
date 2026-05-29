@@ -1,5 +1,5 @@
 //======================================================================================================================
-// DotBeer.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
+// schema/DotBeer.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
 //   • Mark Price <shadowchao99@gmail.com>
 //   • Matt Young <mfsy@yahoo.com>
 //   • Roman Eremin <roman.eremin@gmail.com> <roman.eremin@devexpress.com>
@@ -19,8 +19,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dotbeer.org/schema/DotBeer.beer.schema",
   "type": "object",
-  "title": "Beer Data Exchange Schema",
-  "description": "Versioned schema for beer recipe exchange",
+  "title": "DotBeer File Format",
+  "description": "A free and open serialisation format for beer recipes, ingredients and related data",
   //
   // Version of this schema.
   // Versions prior to 1.0.0 are subject to breaking changes!
@@ -37,13 +37,15 @@
       "description": "Root element of all DotBeer documents.",
       //
       // Allowing additional properties makes it easier to extend the schema in a way that allows old versions of
-      // software to read newer versions of DotBeer files.
+      // software to read newer versions of DotBeer files.  However, it also makes it harder to validate things.  Eg
+      // if a program accidentally wrote optional parameter "foobar" with key "barfoo", it wouldn't be picked up by
+      // schema validation if additional properties are allowed.
       //
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "version": {
           "description": "DotBeer schema version used to create the file.",
-          "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/VersionNumber"
+          "$ref": "Measurement.beer.schema#/$defs/VersionNumber"
         },
         "output_by": {
           "description": "Application that wrote the file -- eg Brewtarget 5.2.1.",
@@ -51,37 +53,40 @@
         },
         "timestamp": {
           "description": "Date and time file was created.",
-          "$ref": "Measurement.beer.schema#/NonPhysicalQuantity/Date"
+          "$ref": "Measurement.beer.schema#/$defs/Date"
         },
         // Ingredients
         "hops": {
           "type": "array",
           "description": "Records detailing properties of unique hop varieties.",
           "items": {
-            "$ref": "Hop.beer.schema#/Hop/Full"
+            "$ref": "Hop.beer.schema"
           }
         },
         "fermentables": {
           "type": "array",
           "description": "Records for any ingredient that contributes to the gravity of the beer.",
           "items": {
-            "$ref": "Fermentable.beer.schema#/Fermentable/Full"
+            "$ref": "Fermentable.beer.schema"
           }
         },
         "other_ingredients": {
           "type": "array",
           "description": "Records for adjuncts which do not contribute to the gravity of the beer.",
           "items": {
-            "$ref": "OtherIngredient.beer.schema#/OtherIngredient/Full"
+            "$ref": "OtherIngredient.beer.schema"
           }
         },
         "cultures": {
           "type": "array",
           "description": "Records detailing the wide array of unique cultures.",
           "items": {
-            "$ref": "Culture.beer.schema#/Culture/Full"
+            "$ref": "Culture.beer.schema"
           }
         },
+        //
+        // TODO: Add stock purchase/use here
+        //
         "waters": {
           //
           // Water is different from other ingredients, in that it doesn't have inventory and its additions are (mostly)
@@ -90,7 +95,7 @@
           "type": "array",
           "description": "Records for water profiles used in brewing.",
           "items": {
-            "$ref": "Water.beer.schema#/Water/Full"
+            "$ref": "Water.beer.schema"
           }
         },
         // Processes
@@ -98,21 +103,21 @@
           "type": "array",
           "description": "Common mashing procedures.",
           "items": {
-            "$ref": "Mash.beer.schema#/Mash"
+            "$ref": "Mash.beer.schema"
           }
         },
         "boils": {
           "type": "array",
           "description": "Common boil procedures.",
           "items": {
-            "$ref": "Boil.beer.schema#/Boil"
+            "$ref": "Boil.beer.schema"
           }
         },
         "fermentations": {
           "type": "array",
           "description": "Common fermentation procedures.",
           "items": {
-            "$ref": "Fermentation.beer.schema#/Fermentation"
+            "$ref": "Fermentation.beer.schema"
           }
         },
         //
@@ -123,27 +128,27 @@
           "type": "array",
           "description": "Details of judging guidelines for individual beer styles.",
           "items": {
-            "$ref": "Style.beer.schema#/Style/Full"
+            "$ref": "Style.beer.schema"
           }
         },
         "equipments": {
           "type": "array",
           "description": "Provides necessary information for brewing equipment.",
           "items": {
-            "$ref": "Equipment.beer.schema#/Equipment"
+            "$ref": "Equipment.beer.schema"
           }
         },
         "recipes": {
           "type": "array",
           "description": "Records containing a minimal collection of the description of ingredients, procedures and other required parameters necessary to recreate a batch of beer.",
           "items": {
-            "$ref": "Recipe.beer.schema#/Recipe"
+            "$ref": "Recipe.beer.schema"
           }
         }
       },
       "required": [
         "version",
-        "outputBy",
+        "output_by",
         "timestamp"
       ]
     }
