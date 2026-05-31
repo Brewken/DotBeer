@@ -767,7 +767,7 @@ def _get_property_ref(ref, defs):
    # append ".md" to get "Measurement.md"
    #
    refDocBase = ref.split(".")[0]
-   refDoc = f"{refDocBase}.md"
+   refDoc = f"./{refDocBase}.md"
 
    if "#/$defs/" in ref:
       #

@@ -9,7 +9,7 @@ A boil procedure, which can be used by multiple recipes.  A boil procedure with 
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">boil_time</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Measurement::Time](Measurement.md#time)</td>
+<td style="border: 1px solid black; padding: 6px;">boil_time</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Measurement::Time](./Measurement.md#time)</td>
 </tr>
 <tr>
 <td style="border: 1px solid black; padding: 6px;">name</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">string</td>
@@ -21,7 +21,7 @@ A boil procedure, which can be used by multiple recipes.  A boil procedure with 
 <td style="border: 1px solid black; padding: 6px;">notes</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">string</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">pre_boil_size</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Volume](Measurement.md#volume)</td>
+<td style="border: 1px solid black; padding: 6px;">pre_boil_size</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Volume](./Measurement.md#volume)</td>
 </tr>
 <tr>
 <td style="border: 1px solid black; padding: 6px;">boil_steps</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[BoilStep](#boilstep)</td>
@@ -36,7 +36,7 @@ A boil procedure, which can be used by multiple recipes.  A boil procedure with 
 
 Individual step of a boil, including preboil steps, non-boiling pasteurization steps, boiling, whirlpool steps, and chilling.
 
-<strong>BoilStep</strong> is a JSON object with all properties from [StepCommon::StepBase](StepCommon.md#stepbase), [StepCommon::StepWithRampTime](StepCommon.md#stepwithramptime) and [StepCommon::StepWithGravity](StepCommon.md#stepwithgravity) as well as these additional ones:
+<strong>BoilStep</strong> is a JSON object with all properties from [StepCommon::StepBase](./StepCommon.md#stepbase), [StepCommon::StepWithRampTime](./StepCommon.md#stepwithramptime) and [StepCommon::StepWithGravity](./StepCommon.md#stepwithgravity) as well as these additional ones:
 
 <table style="border-collapse: collapse;">
 <tr>

@@ -30,7 +30,7 @@ A fermentation procedure, which can be used by multiple recipes.
 
 Individual step of a fermentation.
 
-<strong>FermentationStep</strong> is a JSON object with all properties from [StepCommon::StepBase](StepCommon.md#stepbase) and [StepCommon::StepWithGravity](StepCommon.md#stepwithgravity) as well as these additional ones:
+<strong>FermentationStep</strong> is a JSON object with all properties from [StepCommon::StepBase](./StepCommon.md#stepbase) and [StepCommon::StepWithGravity](./StepCommon.md#stepwithgravity) as well as these additional ones:
 
 <table style="border-collapse: collapse;">
 <tr>

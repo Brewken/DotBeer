@@ -63,7 +63,7 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">amount</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Measurement::Count](Measurement.md#count) or [Measurement::Mass](Measurement.md#mass) or [Measurement::Volume](Measurement.md#volume)</td>
+<td style="border: 1px solid black; padding: 6px;">amount</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Measurement::Count](./Measurement.md#count) or [Measurement::Mass](./Measurement.md#mass) or [Measurement::Volume](./Measurement.md#volume)</td>
 </tr>
 
 

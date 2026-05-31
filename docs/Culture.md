@@ -9,10 +9,10 @@ Collects the attributes of a microbial culture such as a yeast.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th><th style="border: 1px solid black; padding: 6px;">Description</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">temperature_range</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfTemperature](Measurement.md#rangeoftemperature)</td><td style="border: 1px solid black; padding: 6px;">The recommended temperature range of fermentation by the culture producer.</td>
+<td style="border: 1px solid black; padding: 6px;">temperature_range</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfTemperature](./Measurement.md#rangeoftemperature)</td><td style="border: 1px solid black; padding: 6px;">The recommended temperature range of fermentation by the culture producer.</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">alcohol_tolerance</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Percentage](Measurement.md#percentage)</td><td style="border: 1px solid black; padding: 6px;">The recommended limit of abv by the culture producer before attenuation stops.</td>
+<td style="border: 1px solid black; padding: 6px;">alcohol_tolerance</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Percentage](./Measurement.md#percentage)</td><td style="border: 1px solid black; padding: 6px;">The recommended limit of abv by the culture producer before attenuation stops.</td>
 </tr>
 <tr>
 <td style="border: 1px solid black; padding: 6px;">flocculation</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `very low`<br/>
@@ -24,7 +24,7 @@ Collects the attributes of a microbial culture such as a yeast.
 &nbsp;∙ `very high`</td><td style="border: 1px solid black; padding: 6px;">Floculation refers to the ability of yeast to aggregate to form large flocs which drop out of suspension.</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">attenuation_range</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfPercentage](Measurement.md#rangeofpercentage)</td><td style="border: 1px solid black; padding: 6px;"></td>
+<td style="border: 1px solid black; padding: 6px;">attenuation_range</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfPercentage](./Measurement.md#rangeofpercentage)</td><td style="border: 1px solid black; padding: 6px;"></td>
 </tr>
 <tr>
 <td style="border: 1px solid black; padding: 6px;">notes</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">string</td><td style="border: 1px solid black; padding: 6px;"></td>
@@ -121,16 +121,16 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">liquid</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Volume](Measurement.md#volume)</td>
+<td style="border: 1px solid black; padding: 6px;">liquid</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Volume](./Measurement.md#volume)</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">dry</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Mass](Measurement.md#mass)</td>
+<td style="border: 1px solid black; padding: 6px;">dry</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Mass](./Measurement.md#mass)</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">slant</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Volume](Measurement.md#volume)</td>
+<td style="border: 1px solid black; padding: 6px;">slant</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Volume](./Measurement.md#volume)</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">culture</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Volume](Measurement.md#volume)</td>
+<td style="border: 1px solid black; padding: 6px;">culture</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Volume](./Measurement.md#volume)</td>
 </tr>
 
 

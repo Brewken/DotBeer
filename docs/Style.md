@@ -9,22 +9,22 @@ The full definition of a Style categorization
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">original_gravity</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfDensity](Measurement.md#rangeofdensity)</td>
+<td style="border: 1px solid black; padding: 6px;">original_gravity</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfDensity](./Measurement.md#rangeofdensity)</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">final_gravity</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfDensity](Measurement.md#rangeofdensity)</td>
+<td style="border: 1px solid black; padding: 6px;">final_gravity</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfDensity](./Measurement.md#rangeofdensity)</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">international_bitterness_units</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfBitterness](Measurement.md#rangeofbitterness)</td>
+<td style="border: 1px solid black; padding: 6px;">international_bitterness_units</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfBitterness](./Measurement.md#rangeofbitterness)</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">color</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfColor](Measurement.md#rangeofcolor)</td>
+<td style="border: 1px solid black; padding: 6px;">color</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfColor](./Measurement.md#rangeofcolor)</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">carbonation</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfCarbonation](Measurement.md#rangeofcarbonation)</td>
+<td style="border: 1px solid black; padding: 6px;">carbonation</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfCarbonation](./Measurement.md#rangeofcarbonation)</td>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">alcohol_by_volume</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfPercentage](Measurement.md#rangeofpercentage)</td>
+<td style="border: 1px solid black; padding: 6px;">alcohol_by_volume</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::RangeOfPercentage](./Measurement.md#rangeofpercentage)</td>
 </tr>
 <tr>
 <td style="border: 1px solid black; padding: 6px;">notes</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">string</td>
