@@ -1,10 +1,10 @@
 # DotBeer — a file format for brewers
 An open file format for storing and exchanging brewing data about recipes, ingredients, styles, equipment, brew days,
-stock and so on.  DotBeer files have a <span style="color:green">**`.beer`**</span> extension, hence the name.
+stock and so on.  DotBeer files have a <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> extension, hence the name.
 
 DotBeer draws on the experience of prior open-source brewing formats (BeerXML and BeerJSON) and shares a number of concepts and structures with them.  It is simpler than BeerJSON and more complete than BeerXML.
 
-Documentation is [here](./docs/DotBeer.md).
+Detailed documentation is [here](./docs/DotBeer.md).
 
 
 ## Design Principles
@@ -15,14 +15,14 @@ Documentation is [here](./docs/DotBeer.md).
   line X, column Y"), making it easier to determine whether the issue is with the code that wrote the file or that is
   trying to read it.
 
-  Similarly, if a brewer has a lot of <span style="color:green">**`.beer`**</span> files and wants to search for ones
+  Similarly, if a brewer has a lot of <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> files and wants to search for ones
   referencing a particular type of hop, this is easy to do with any text search tool.
 
 
 * **Automatic Validation**
 
   Being able to automatically validate a file against the schema has two large benefits.  Firstly, it makes it easier to
-  debug code that generates <span style="color:green">**`.beer`**</span> files, and developers can be a lot more confident
+  debug code that generates <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> files, and developers can be a lot more confident
   that their implementation is correct than, say, with BeerXML where there is no published machine-readable schema.
   Secondly, it simplifies reading in files if you first validate them against the schema (because, after this is done,
   code can safely assume that all "required" fields are present in the file and that field types are valid etc).
@@ -40,8 +40,8 @@ Documentation is [here](./docs/DotBeer.md).
 
 * **Reference Implementation**
 
-  Some of the problems with older formats, such as BeerXML and BeerJSON stem from the fact that they were finalised
-  without any software having implemented them.  This meant that some errors or ambiguities in the standards did not
+  Some of the problems with older formats, such as BeerXML and BeerJSON stem from the fact that they were seemingly finalised
+  without any software having fully implemented them.  This meant that some errors or ambiguities in the standards did not
   come to light until later.  It also made it harder for early adopters to implement the format because there was no
   tool to generate sample files.
 
@@ -64,19 +64,27 @@ Documentation is [here](./docs/DotBeer.md).
 
   Users shouldn't need to care about the inner workings of the file format.  They should be able to tell from the file
   extension what the file is for:
-  * The <span style="color:green">**`.beer`**</span> file extension means the file holds brewing data that can be read by a
+  * The <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file extension means the file holds brewing data that can be read by a
     program such as [Brewtarget](https://www.brewtarget.beer).  These are the files seen and used by end users.
-  * The <span style="color:BlueViolet">**`.beer.schema`**</span> file extension means the file holds schema information that
-    is used to define the structure (and validate the contents) of <font color="green">**`.beer`**</font> files.  These
+  * The <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> file extension means the file holds schema information that
+    is used to define the structure (and validate the contents) of <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> files.  These
     are needed primarily by implementers.
 
+
+* **Open Licensing**
+
+  DotBeer is licensed under the Mozilla Public License, version 2.0 (MPL-2.0).  This means it can be used in both free and
+  commercial software.  (Only modifications to the DotBeer files themselves need to remain MPL licensed.)
+
 ## Technical
-The underlying format is [JSONC](https://jsonc.org/).
+DotBeer files have the <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file extension.
 
-DotBeer files have the <span style="color:green">**`.beer`**</span> file extension.
+DotBeer schema files have the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> file extension but are otherwise .
 
-DotBeer schema files have the <span style="color:BlueViolet">**`.beer.schema`**</span> file extension.
+The underlying format for both types of file is [JSONC](https://jsonc.org/) --- ie JSON with comments allowed.
 
-## Licensing
-DotBeer is licensed under the Mozilla Public License, version 2.0 (MPL-2.0).  This means it can be used in both free and
-commercial software.  (Only modifications to the DotBeer files themselves need to remain MPL licensed.)
+Detailed documentation is generated in the `docs` directory from the schema files in the `schema` directory by `scripts/generateDocs.py`.  All documentation is available online at www.dotbeer.org.
+
+
+## Contributing
+If you have an issue or question related to DotBeer, please don't hesitate to [create an issue](https://github.com/Brewken/DotBeer/issues) or start or continue a [discussion](https://github.com/Brewken/DotBeer/discussions).
