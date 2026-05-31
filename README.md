@@ -2,7 +2,9 @@
 An open file format for storing and exchanging brewing data about recipes, ingredients, styles, equipment, brew days,
 stock and so on.  DotBeer files have a <font color="green">**`.beer`**</font> extension, hence the name.
 
-DotBeer draws on the experience of prior open-source brewing formats (BeerXML and BeerJSON) and shares a number of concepts and structures with them.  It is simpler than BeerJSON and more complete than BeerXML. 
+DotBeer draws on the experience of prior open-source brewing formats (BeerXML and BeerJSON) and shares a number of concepts and structures with them.  It is simpler than BeerJSON and more complete than BeerXML.
+
+Documentation is [here](./docs/DotBeer.md).
 
 
 ## Design Principles

@@ -228,48 +228,6 @@
         "value"
       ]
     },
-    "Temperature": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "unit": {
-          "enum": [
-            "C",
-            "F"
-          ]
-        },
-        "value": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "unit",
-        "value"
-      ]
-    },
-    "Time": {
-      "type": "object",
-      "description": "Note this is NOT dates or times of day but length-of-time or elapsed time, eg duration of a mash step, or how long after the start of the boil to add something.",
-      "additionalProperties": false,
-      "properties": {
-        "unit": {
-          "enum": [
-            "sec",
-            "min",
-            "hr",
-            "day",
-            "week"
-          ]
-        },
-        "value": {
-          "type": "integer"
-        }
-      },
-      "required": [
-        "unit",
-        "value"
-      ]
-    },
     "Percentage": {
       "type": "object",
       "additionalProperties": false,
@@ -348,6 +306,48 @@
         },
         "value": {
           "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Temperature": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "C",
+            "F"
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ]
+    },
+    "Time": {
+      "type": "object",
+      "description": "Note this is NOT dates or times of day but length-of-time or elapsed time, eg duration of a mash step, or how long after the start of the boil to add something.",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "sec",
+            "min",
+            "hr",
+            "day",
+            "week"
+          ]
+        },
+        "value": {
+          "type": "integer"
         }
       },
       "required": [

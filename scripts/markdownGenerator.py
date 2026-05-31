@@ -1,0 +1,1202 @@
+#======================================================================================================================
+# scripts/markdownGenerator.py is part of DotBeer and is copyright the following authors 2023-2026:
+#   • Elisiário Couto <elisiario@couto.io>
+#   • Matt Young <mfsy@yahoo.com>
+#
+# This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+# was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+#======================================================================================================================
+import contextlib
+import copy
+import json
+import sys
+import urllib.parse
+
+import yaml
+from loguru import logger
+from datetime import datetime
+
+#
+# Turns a native list of strings (eg ["foo", "bar", "hum", "bug"]) into a printable string with correct commas etc (eg
+# "foo, bar, hum and bug".
+#
+def wordListToString(words):
+   if len(words) == 0:
+      return ""
+   if len(words) == 1:
+      return words[0]
+   # If we wanted to modify the following to have an Oxford Comma, then we'd need a special case for list length 2
+   # above.  Our lists are generally pretty short, so I don't think Oxford Comma is needed.
+   return f'{", ".join(words[:-1])} and {words[-1]}'
+
+def create_enum_markdown(schema: dict) -> str:
+   """
+   Create markdown for enum values.
+   """
+
+   markdown = "**Possible Values:** "
+   markdown += " or ".join([f"`{value}`" for value in schema["enum"]]) + "\n\n"
+
+   return markdown
+
+
+def create_const_markdown(schema: dict) -> str:
+   """
+   Create markdown for const values.
+   """
+
+   return f"**Possible Values:** {schema.get('const', '?')}\n\n"
+
+
+def sortProperties(properties: dict, required: list[str]) -> dict:
+   """
+   Sort the properties in the schema by required, making the deprecated properties last.
+   """
+   # Sort the properties by required
+   properties = dict(
+      sorted(
+         properties.items(),
+         key=lambda item: item[0] not in required,
+      )
+   )
+
+   # Sort the properties by deprecated
+   properties = dict(
+      sorted(
+         properties.items(),
+         key=lambda item: (
+            "[deprecated]" in str(item[1].get("description", "")).lower()
+            or item[1].get("deprecated", False)
+         ),
+      )
+   )
+
+   return properties
+
+def _should_include_column(column_values):
+   """
+   Check if any item has a non-falsy (non-empty) value for this column.
+   """
+   return any(value for value in column_values)
+
+
+def _type_matches(prop_type: str | list | None, target: str) -> bool:
+   """True if prop_type equals target or is a list containing target (nullable form)."""
+   if prop_type == target:
+      return True
+   return isinstance(prop_type, list) and target in prop_type
+
+
+def _format_example(example, examples_format, sort_yaml_keys=False):
+   """
+   Format the example based on the examples_format. Only works for dict.
+   """
+
+   try:
+      if examples_format == "yaml":
+         if isinstance(example, dict):
+            return f"```yaml\n{yaml.dump(example, sort_keys=sort_yaml_keys).strip()}\n```"
+         else:
+            return f"```yaml\n{example}\n```"
+      elif examples_format == "json":
+         if isinstance(example, dict):
+            return f"```json\n{json.dumps(example, indent=2)}\n```"
+         else:
+            return f"```json\n{example}\n```"
+   except Exception:
+      logger.debug(f"Failed to format example in '{examples_format}': {example}")
+
+   return f"```\n{example}\n```"
+
+
+def _get_schema_header(
+   schema: dict,
+   defs: dict,
+   ref_key: str,
+   description_fallback: str,
+   nested: bool = False,
+   examples_format: str = "text",
+   sort_yaml_keys: bool = False,
+   hide_empty_columns: bool = False
+) -> str:
+   """
+   Get the title and description of the schema.
+
+   If nested, all headings are increased by one level.
+   """
+
+   prefix = "" if not nested else "#"
+
+   md = ""
+   title = schema.get("title", ref_key) if not nested else ref_key
+   # Add the title and description of the schema
+   md += f"{prefix}# {title}\n\n"
+   description = schema.get("description", description_fallback).strip(" \n")
+   md += description if description else description_fallback
+   md += "\n\n"
+
+   # Add examples if present
+   examples = schema.get("examples", [])
+   if examples:
+      md += f"{prefix}### Examples\n\n"
+      for example in examples:
+         md += _format_example(example, examples_format, sort_yaml_keys)
+         md += "\n\n"
+
+   entity_type = schema.get('type', 'object(?)').strip()
+
+   if entity_type == "string":
+      property_type, possible_values = _get_property_details(
+         entity_type, schema, defs
+      )
+      md += f"<strong>{title}</strong> is a `{property_type}` {possible_values}\n\n"
+      return md
+
+   if entity_type == "object":
+      #
+      # A simple object should have a "properties" element as a direct child.  If it doesn't it's likely because it's
+      # composed, eg via allOf, from one or more refs and a "properties" element inside the composition element.
+      #
+      if schema.get("properties"):
+         md += f"<strong>{title}</strong> is a JSON object with the following properties:\n\n"
+         return md
+
+      #
+      # For the moment, we only support allOf composition here at the top level.
+      #
+      allOf = schema.get("allOf")
+      if not allOf:
+         md += f"🚧 <strong>{title}</strong> is an `{entity_type}` without any properties\n\n"
+         return md
+
+      refs = []
+      for dd in allOf:
+         ref = dd.get("$ref")
+         if ref:
+            refType, refDefinition = _get_property_ref(ref, defs)
+            refs.append(refDefinition)
+
+      md += f"<strong>{title}</strong> is a JSON object with all properties from {wordListToString(refs)} as well as these additional ones:\n\n"
+      return md
+
+   md += f"<strong>Type:</strong> `{entity_type}`\n\n"
+   return md
+
+
+def _extract_inline_defs(schema: dict) -> dict:
+   """
+   Walk the schema tree and extract inline object definitions from
+   anyOf/oneOf/allOf combinators into $defs, replacing them with $ref.
+
+   Returns a new schema dict (deep copy) with inline objects promoted to $defs.
+   """
+   schema = copy.deepcopy(schema)
+
+   defs_key = "definitions" if "definitions" in schema else "$defs"
+
+   if defs_key not in schema:
+      schema[defs_key] = {}
+
+   defs = schema[defs_key]
+   counter = [0]
+
+   def _make_ref(name: str) -> dict:
+      return {"$ref": f"#/{defs_key}/{name}"}
+
+   def _choose_name(obj: dict) -> str:
+      title = obj.get("title")
+      if not title:
+         counter[0] += 1
+         return f"InlineObject{counter[0]}"
+
+      name = title
+      if name in defs:
+         if defs[name] == obj:
+            return name
+         suffix = 2
+         while f"{title}_{suffix}" in defs:
+            suffix += 1
+         return f"{title}_{suffix}"
+      return name
+
+   def _is_extractable(entry: dict) -> bool:
+      if not isinstance(entry, dict) or "$ref" in entry:
+         return False
+      has_properties = bool(entry.get("properties"))
+      is_object = _type_matches(entry.get("type"), "object") or (
+         has_properties and "type" not in entry
+      )
+      return is_object and has_properties
+
+   def _process_combinator(parent: dict, combinator_key: str):
+      entries = parent[combinator_key]
+      for i, entry in enumerate(entries):
+         if not isinstance(entry, dict):
+            continue
+         _walk(entry)
+         if _is_extractable(entry):
+            name = _choose_name(entry)
+            if name not in defs:
+               defs[name] = entry
+            entries[i] = _make_ref(name)
+
+   def _walk(node: dict):
+      if not isinstance(node, dict):
+         return
+
+      for _prop_name, prop_details in node.get("properties", {}).items():
+         if not isinstance(prop_details, dict):
+            continue
+
+         for combinator in ("anyOf", "oneOf", "allOf"):
+            if combinator in prop_details:
+               _process_combinator(prop_details, combinator)
+
+         items = prop_details.get("items")
+         if isinstance(items, dict):
+            for combinator in ("anyOf", "oneOf", "allOf"):
+               if combinator in items:
+                  _process_combinator(items, combinator)
+            _walk(items)
+
+         _walk(prop_details)
+
+   _walk(schema)
+
+   for def_name in list(defs.keys()):
+      _walk(defs[def_name])
+
+   if not defs:
+      del schema[defs_key]
+
+   return schema
+
+
+def generate(
+   schema: dict,
+   title: str = "DotBeer",
+   footer: bool = True,
+   replace_refs: bool = False,
+   debug: bool = False,
+   hide_empty_columns: bool = False,
+   examples_format: str = "text",
+   sort_yaml_keys: bool = False,
+) -> str:
+   """
+   Generate a markdown string from a given JSON schema.
+
+   Args:
+      schema: The JSON schema to generate markdown from.
+      title: The title of the markdown document.
+      footer: Whether to include a footer section in the markdown with the current date and time.
+      replace_refs: This feature is experimental. Whether to replace JSON references with their resolved values.
+      debug: Whether to print debug messages.
+      hide_empty_columns: Whether to hide empty columns in the output.
+      examples_format: Format of the examples in the output (text, yaml, json).
+      sort_yaml_keys: Whether to sort keys when formatting YAML examples.
+
+   Returns:
+      str: The generated markdown string.
+   """
+   # Set the log level
+   if debug:
+      logger.remove()
+      logger.add(sys.stderr, level="DEBUG")
+   else:
+      logger.remove()
+      logger.add(sys.stderr, level="INFO")
+
+   if replace_refs:
+      import jsonref
+
+      _schema: dict = jsonref.replace_refs(schema)  # type: ignore
+   else:
+      _schema = schema
+
+   _schema = _extract_inline_defs(_schema)
+   markdown = ""
+
+   defs = _schema.get("definitions", _schema.get("$defs", {}))
+
+   # Add the title and description of the schema
+   markdown += _get_schema_header(
+      schema = _schema,
+      defs = defs,
+      ref_key = title,
+      description_fallback = "JSON Schema missing a description, provide it using the `description` key in the root of the JSON document.",
+      examples_format = examples_format,
+      sort_yaml_keys = sort_yaml_keys,
+      hide_empty_columns = hide_empty_columns
+   )
+
+   markdown += _create_definition_table(
+      _schema, defs, hide_empty_columns=hide_empty_columns
+   )
+
+   if defs:
+      markdown += "\n---\n\n# Definitions\n\n"
+      for key, definition in defs.items():
+         markdown += _get_schema_header(
+            schema = definition,
+            defs = defs,
+            ref_key = key,
+            description_fallback = "No description provided for this model.",
+            nested = True,
+            examples_format = examples_format,
+            sort_yaml_keys = sort_yaml_keys,
+            hide_empty_columns = hide_empty_columns
+         )
+         markdown += _create_definition_table(
+            definition, defs, hide_empty_columns=hide_empty_columns
+         )
+
+   if footer:
+      dateStamp = datetime.today().strftime('%Y-%m-%d')
+      markdown += (
+         f"\n\n---\n\n"
+         "Documentation generated from the "
+         f"[DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on {dateStamp}.")
+
+   res = markdown.strip(" \n")
+   res += "\n"
+
+   return res
+
+
+def _process_properties_recursively(
+   properties: dict,
+   property_path: str,
+   required_props: list,
+   defs: dict,
+   conditional_properties: dict = {},
+) -> list:
+   """
+   Recursively process schema properties, including nested objects and arrays.
+
+   Args:
+      properties: Dictionary of properties to process
+      property_path: Current property path (for nested notation)
+      required_props: List of required properties at current level
+      defs: Definitions dictionary
+      conditional_properties: Dict mapping property names to conditional variants
+
+   Returns:
+      List of property items for markdown table
+   """
+   table_items = []
+
+   for prop_name, prop_details in properties.items():
+      # Build the full property path using dot notation
+      full_path = f"{property_path}.{prop_name}" if property_path else prop_name
+
+      prop_type = prop_details.get("type")
+      logger.debug(f"Processing {full_path} of type {prop_type}")
+
+      # Process the current property
+      property_type, possible_values = _get_property_details(
+         prop_type, prop_details, defs
+      )
+
+      has_default_value = "default" in prop_details
+      default_value = (
+         "`" + json.dumps(prop_details.get("default")) + "`"
+         if has_default_value
+         else ""
+      )
+      description = prop_details.get("description", "").strip(" \n")
+
+      # Replace newlines in description with <br /> for markdown to prevent table breaking
+      if "\n" in description:
+         description = description.replace("\n", "<br />")
+
+      examples = ", ".join(
+         [f"```{str(example)}```" for example in prop_details.get("examples", [])]
+      )
+
+      # Add the current property to our results
+      item = {
+         "property": full_path,
+         # We don't include the type column in the output as the possible_values column includes the same info
+#         "type": property_type,
+         "required": "✅" if prop_name in required_props else "",
+         "possible_values": possible_values,
+         "conditional": "" if conditional_properties else "",
+         "deprecated": (
+            "⛔️"
+            if "[deprecated]" in str(prop_details.get("description", "")).lower()
+            or prop_details.get("deprecated")
+            else ""
+         ),
+         "default": default_value,
+         "description": description,
+         "examples": examples,
+      }
+
+      # Remove conditional key if there are no conditionals to keep consistent dict keys
+      if not conditional_properties:
+         del item["conditional"]
+
+      table_items.append(item)
+
+      # Add conditional variants if they exist
+      if full_path in conditional_properties:
+         for conditional_variant in conditional_properties[full_path]:
+            conditional_item = {
+               "property": full_path,
+               "type": conditional_variant["type"],
+               "required": "✅" if conditional_variant.get("required") else "",
+               "possible_values": conditional_variant["possible_values"],
+               "conditional": conditional_variant["condition"],
+               "deprecated": "",
+               "default": "",
+               "description": "",
+               "examples": "",
+            }
+            table_items.append(conditional_item)
+
+      # If this is an object with properties, process its nested properties
+      if _type_matches(prop_type, "object") and prop_details.get("properties"):
+         nested_items = _process_properties_recursively(
+            prop_details["properties"],
+            full_path,
+            prop_details.get("required", []),
+            defs,
+            conditional_properties,
+         )
+         table_items.extend(nested_items)
+
+      # If this is an array with items that are objects, process them too
+      elif _type_matches(prop_type, "array") and isinstance(
+         prop_details.get("items"), dict
+      ):
+         items_schema = prop_details["items"]
+         if _type_matches(items_schema.get("type"), "object") and items_schema.get(
+            "properties"
+         ):
+            array_path = f"{full_path}[]"  # Add [] to indicate array items
+            _combinator_key = _get_combinator_key(items_schema)
+            if _combinator_key is not None and all(
+               _is_constraint_only(e) for e in items_schema[_combinator_key]
+            ):
+               # The combinator entries are pure constraints (e.g. required only),
+               # not type alternatives. Emit a single combined row for all properties.
+               combined_name = _COMBINATOR_SEPARATORS[_combinator_key].join(
+                  f"{array_path}.{p}" for p in items_schema["properties"]
+               )
+               all_prop_types = []
+               all_prop_values = []
+               for _prop in items_schema["properties"].values():
+                  _p_type, _p_values = _get_property_details(
+                     _prop.get("type"), _prop, defs
+                  )
+                  all_prop_types.append(_p_type)
+                  all_prop_values.append(_p_values)
+               distinct_types = {t for t in all_prop_types if t}
+               if len(distinct_types) == 1:
+                  combined_type = next(iter(distinct_types))
+                  combined_values = next((v for v in all_prop_values if v), "")
+               else:
+                  combined_type = (
+                     ", ".join(sorted(distinct_types)) if distinct_types else ""
+                  )
+                  combined_values = ""
+               combined_item = {
+                  "property": combined_name,
+                  "type": combined_type,
+                  "required": "",
+                  "possible_values": combined_values,
+                  "deprecated": "",
+                  "default": "",
+                  "description": "",
+                  "examples": "",
+               }
+               if conditional_properties:
+                  combined_item["conditional"] = ""
+               table_items.append(combined_item)
+            else:
+               nested_items = _process_properties_recursively(
+                  items_schema["properties"],
+                  array_path,
+                  items_schema.get("required", []),
+                  defs,
+                  conditional_properties,
+               )
+               table_items.extend(nested_items)
+
+   return table_items
+
+
+def _extract_all_conditionals(schema: dict, defs: dict, prefix: str = "") -> dict:
+   """
+   Recursively extract and process conditionals from a schema and all nested objects.
+
+   Args:
+      schema: The JSON schema to extract conditionals from.
+      defs: Definitions dictionary for resolving references.
+      prefix: Current property path prefix for nested objects (e.g. "address").
+
+   Returns:
+      A dict mapping full property paths (e.g. "address.postal_code") to lists of
+      conditional variant dictionaries, each containing condition, type,
+      possible_values, and required status.
+   """
+   conditional_properties = {}
+
+   # Extract conditionals at current level
+   conditionals = _extract_conditionals(schema)
+   if conditionals:
+      processed = _process_conditionals(conditionals, defs)
+      for prop_name, variants in processed.items():
+         full_path = f"{prefix}.{prop_name}" if prefix else prop_name
+         conditional_properties[full_path] = variants
+
+   # Recurse into nested object properties
+   properties = schema.get("properties", {})
+   for prop_name, prop_details in properties.items():
+      if isinstance(prop_details, dict) and _type_matches(
+         prop_details.get("type"), "object"
+      ):
+         full_path = f"{prefix}.{prop_name}" if prefix else prop_name
+         nested = _extract_all_conditionals(prop_details, defs, full_path)
+         conditional_properties.update(nested)
+
+   return conditional_properties
+
+
+def _create_definition_table(schema: dict, defs: dict, hide_empty_columns: bool) -> str:
+   """
+   Create a table of the properties in the schema.
+
+   Returns: Markdown table with the following columns
+   - Property name
+   - Type ××× MY: Suppressed this as Possible Values covers it
+   - Required
+   - Possible Values / Definition Subschema
+   - Deprecated
+   - Default value
+   - Description
+   - Examples
+
+   Search for deprecated string in the description or a deprecated key set to true in the property
+   """
+
+   logger.debug(f"Creating definition table for schema: {schema}")
+
+   if schema.get("enum"):
+      logger.debug("Creating enum markdown")
+      return create_enum_markdown(schema)
+
+   if schema.get("const"):
+      logger.debug("Creating const markdown")
+      return create_const_markdown(schema)
+
+   #
+   # The original code here generates a simple Markdown table with pipes.  However, such tables do not display borders,
+   # so we extend the code to generate an HTML version of the same table.
+   #
+   markdown = ""
+   htmlTable = "<table style=\"border-collapse: collapse;\">\n"
+
+    #
+    # 2026-05-29 MY: I think, for us, this warning is unnecessary and potentially confusing.  (It's just flagging up
+    #                which bits of the schema are not extensible without the schema itself being extended.)
+    #
+#   # Add a warning before the table to indicate if additional properties are allowed
+#   if not schema.get("additionalProperties", True):
+#      markdown += "> ⚠️ Additional properties are not allowed.\n\n"
+
+   properties = dict(schema.get("properties") or [])
+   required = schema.get("required", [])
+
+   #
+   # When "allOf" is used, "properties" is inside this rather than at the top-level
+   #
+   if not properties:
+      allOf = schema.get("allOf")
+      if not allOf:
+         return markdown
+
+      logger.debug(f"allOf: {allOf}")
+      for dd in allOf:
+         allOfProperties = dd.get("properties")
+         if allOfProperties:
+            properties |= allOfProperties
+            allOfRequired = dd.get("required")
+            if allOfRequired:
+               required.extend(allOfRequired)
+
+   logger.debug(f"required: {required}")
+
+   sorted_properties = sortProperties(properties, required)
+
+   # Extract and process conditionals from all levels (including nested objects)
+   conditional_properties = _extract_all_conditionals(schema, defs)
+
+   # Process properties recursively instead of just the top level
+   table_items = _process_properties_recursively(
+      sorted_properties,
+      "",  # Start with empty path
+#      schema.get("required", []),
+      required,
+      defs,
+      conditional_properties,
+   )
+
+   # This should not happen, but just in case
+   if not table_items:
+      markdown += "No items to display."
+      return markdown
+
+   cellBorderStyle = " style=\"border: 1px solid black; padding: 6px;\""
+
+   #
+   # See _process_properties_recursively for where the columns are defined.
+   #
+   # Originally these tables has both a "type" and a "possible_values" column.  However, this was somewhat duplicatory.
+   # We have suppressed the "type" column, and now display "possible_values" under the heading "type".  This is a bit
+   # confusing, but was a simpler change than renaming everything everywhere else in the code!
+   #
+   column_display_names = {
+      "property": "Property",
+      "required": "Required?",
+      "possible_values": "Type",
+      "conditional": "Conditional?",
+      "deprecated": "Deprecated?",
+      "default": "Default Value",
+      "description": "Description",
+      "examples": "Examples",
+   }
+
+   if hide_empty_columns:
+#      always_include_columns = ["property", "type", "required", "description"]
+      always_include_columns = ["property", "required", "possible_values"]
+      # Determine which columns should be included
+      columns = list(table_items[0].keys())
+      include_column = {
+         column: _should_include_column([item[column] for item in table_items])
+         for column in columns
+      }
+
+      # Include the columns that should always be included
+      for column in always_include_columns:
+         include_column[column] = True
+
+      # Generate the header row
+      capitalized_columns = [
+#         col.replace("_", " ").capitalize() for col in columns if include_column[col]
+         column_display_names[col] for col in columns if include_column[col]
+      ]
+      markdown += "| " + " | ".join(capitalized_columns) + " |\n"
+      htmlTable += ("<tr>\n" +
+                    f"<th{cellBorderStyle}>" + f"</th><th{cellBorderStyle}>".join(capitalized_columns) + "</th>\n"
+                    "</tr>\n")
+      # Generate the separator row
+      markdown += (
+         "| "
+         + " | ".join(["-" * len(col) for col in columns if include_column[col]])
+         + " |\n"
+      )
+
+      # Generate the item rows
+      for item in table_items:
+         markdown += (
+            "| "
+            + " | ".join([str(item[col]) for col in columns if include_column[col]])
+            + " |\n"
+         )
+         htmlTable += ("<tr>\n" +
+                       f"<td{cellBorderStyle}>" + f"</td><td{cellBorderStyle}>".join([str(item[col]) for col in columns if include_column[col]]) + "</td>\n"
+                       "</tr>\n")
+   else:
+      # Generate the header row
+      capitalized_columns = [
+#         col.replace("_", " ").capitalize() for col in table_items[0]
+         column_display_names[col] for col in table_items[0]
+      ]
+      markdown += "| " + " | ".join(capitalized_columns) + " |\n"
+      htmlTable += ("<tr>\n" +
+                    f"<th{cellBorderStyle}>" + f"</th><th{cellBorderStyle}>".join(capitalized_columns) + "</th>\n"
+                    "</tr>\n")
+
+      # Generate the separator row
+      markdown += (
+         "| " + " | ".join(["-" * len(col) for col in table_items[0]]) + " |\n"
+      )
+      # Generate the item rows
+      for item in table_items:
+         markdown += "| " + " | ".join(item.values()) + " |\n"
+         htmlTable += ("<tr>\n" +
+                       f"<td{cellBorderStyle}>" + f"</td><td{cellBorderStyle}>".join(item.values()) + "</td>\n"
+                       "</tr>\n")
+   # By choosing which of the following lines to uncomment, you control whether simple or HTML tables are produced
+#   return f"{markdown}\n"
+   return f"{htmlTable}\n"
+
+
+def headingToAnchor(heading):
+   return f"#{heading.replace(' ', '-').lower()}"
+
+#
+# Returns a pair (refType, refLink) for the supplied $ref and $defs, where:
+#    - refType is the name of the referenced type
+#    - refLink is the link to it
+#
+def _get_property_ref(ref, defs):
+   #
+   # In our schema, ref can take one of the following forms:
+   #   - "#/$defs/HotSideVessel" = local reference to "subsidiary" object in this schema file
+   #   - "Measurement.beer.schema#/$defs/Volume" = reference to "subsidiary" object in another schema file
+   #   - "Hop.beer.schema" = reference to "primary" object in another schema file
+   #
+   if ref.startswith("#/$defs/"):
+      # We are assuming no hierarchy inside the $defs section -- ie we will never have "#/$defs/Foo/Bar"
+      localRef = ref.split("/")[-1]
+      if localRef in defs:
+         t = defs[localRef].get("type")
+         return (
+            f"`{t}`" if t else "Missing type",
+            f"[{localRef}]({headingToAnchor(localRef)})",
+         )
+      return "Missing type", "Missing definition"
+
+   #
+   # Chopping at the first dot turns, eg, "Measurement.beer.schema#/$defs/Volume" to "Measurement", to which we
+   # append ".md" to get "Measurement.md"
+   #
+   refDocBase = ref.split(".")[0]
+   refDoc = f"{refDocBase}.md"
+
+   if "#/$defs/" in ref:
+      #
+      # Chopping at the last slash turns, eg, "Measurement.beer.schema#/$defs/Volume" to "Volume"
+      #
+      localRef = ref.split("/")[-1]
+      return (
+         f"`{localRef}`",
+         # NB no slash at the start of the local part of the link.  Eg "Measurement.md#volume" is correct, and inserting
+         # a slash before the hash will break things!
+         f"[{refDocBase}::{localRef}]({refDoc}{headingToAnchor(localRef)})"
+      )
+
+   return (
+      f"`{refDocBase}`",
+      f"[{refDocBase}]({refDoc})"
+   )
+
+
+def get_property_if_ref(property_details: dict, defs) -> tuple:
+   """
+   Check if the property is a reference.
+   """
+
+   # Check if the property is a reference
+   ref_from_property = property_details.get("$ref")
+   if ref_from_property:
+      return _get_property_ref(ref_from_property, defs)
+
+   # Check if the property is a reference in additionalProperties
+   ref_from_additional_properties = (
+      property_details["additionalProperties"].get("$ref")
+      if isinstance(property_details.get("additionalProperties"), dict)
+      else None
+   )
+   if ref_from_additional_properties:
+      return _get_property_ref(ref_from_additional_properties, defs)
+
+   return None, None
+
+
+_TYPE_INFO_KEYS = frozenset(
+   {
+      "type",
+      "$ref",
+      "properties",
+      "anyOf",
+      "oneOf",
+      "allOf",
+      "enum",
+      "const",
+      "items",
+      "pattern",
+      "format",
+      "additionalProperties",
+      "not",
+      "if",
+      "then",
+      "else",
+      "prefixItems",
+      "contains",
+      "patternProperties",
+      "propertyNames",
+      "contentEncoding",
+      "contentMediaType",
+      "contentSchema",
+   }
+)
+
+
+_COMBINATOR_SEPARATORS = {"oneOf": " or ", "anyOf": " and/or ", "allOf": " and "}
+
+
+def _is_constraint_only(schema_entry: dict) -> bool:
+   """Return True if entry has only constraint keywords (e.g. required), no type info."""
+   return not any(key in schema_entry for key in _TYPE_INFO_KEYS)
+
+
+def _get_combinator_key(schema: dict) -> str | None:
+   """Return the first combinator keyword found in schema, or None."""
+   for key in ("oneOf", "anyOf", "allOf"):
+      if key in schema:
+         return key
+   return None
+
+
+def _handle_array_like_property(
+   property_type: str, property_details: dict, defs: dict, is_array=False
+):
+   """
+   Handle properties that are array-like.
+   """
+   # TODO: Refactor this function to be more readable, handle arrays in a separate function
+
+   array_type = _get_combinator_key(property_details)
+
+   if array_type is None:
+      logger.warning(
+         f"Array-like property without oneOf, anyOf or allOf: {property_type} {property_details}"
+      )
+      # TODO: Support for items, prefixItems, contains, minContains, maxContains, uniqueItems, unevaluatedItems
+      # https://json-schema.org/understanding-json-schema/reference/array
+      return f"`{property_type}`", {}
+
+   removed_null = False
+   with contextlib.suppress(Exception):
+      property_details[array_type].remove({"type": "null"})
+      removed_null = True
+
+   types = []
+   details = []
+
+   for value in property_details[array_type]:
+      if _is_constraint_only(value):
+         continue
+      ref_type, ref_details = get_property_if_ref(value, defs)
+      if ref_type or ref_details:
+         types.append(ref_type)
+         details.append(ref_details)
+      else:
+         ref_type, ref_details = _get_property_details(
+            value.get("type"), value, defs
+         )
+         types.append(ref_type)
+         details.append(ref_details)
+
+   # FIXME: Hacky way to handle arrays with null values
+   return_type = None
+   if is_array:
+      return_type = "`array`"
+      if removed_null:
+         return_type = "`array` or `null`"
+   else:
+      if removed_null:
+         types.append("`null`")
+
+   # Arrays should return the type as array
+   # Other array-like properties should return the types of the nested oneOf, anyOf or allOf
+   non_null_details = sorted(d for d in details if d is not None)
+   if return_type:
+      return return_type, _COMBINATOR_SEPARATORS[array_type].join(non_null_details)
+   else:
+      # Dedeuplicate list of types, join them with null at the end if present
+      types = sorted(set(types))
+      if "`null`" in types:
+         types.remove("`null`")
+         types.append("`null`")
+      return " or ".join(types), _COMBINATOR_SEPARATORS[array_type].join(
+         non_null_details
+      )
+
+
+def _extract_conditionals(schema: dict) -> list:
+   """
+   Extract if/then/else structures from a schema.
+
+   Returns a list of conditional blocks, each containing 'if', 'then', and optionally 'else'.
+   """
+   conditionals = []
+
+   # Check for direct if/then/else at schema level
+   if "if" in schema:
+      if_block = schema["if"]
+      then_block = schema.get("then", {})
+      else_block = schema.get("else", {})
+
+      # Per JSON Schema spec, we ignore if without then or else
+      if then_block or else_block:
+         conditionals.append(
+            {"if": if_block, "then": then_block, "else": else_block}
+         )
+
+   # Check for conditionals within allOf
+   all_of = schema.get("allOf", [])
+   if isinstance(all_of, list):
+      for item in all_of:
+         if isinstance(item, dict) and "if" in item:
+            if_block = item["if"]
+            then_block = item.get("then", {})
+            else_block = item.get("else", {})
+
+            if then_block or else_block:
+               conditionals.append(
+                  {"if": if_block, "then": then_block, "else": else_block}
+               )
+
+   return conditionals
+
+
+def _format_condition(if_schema: dict) -> str:
+   """
+   Convert an if schema into a human-readable condition string.
+
+   Handles const, enum, type, minimum, maximum, pattern, and property constraints.
+   """
+   if not isinstance(if_schema, dict):
+      return "Complex condition"
+
+   conditions = []
+
+   # Handle properties with constraints
+   if "properties" in if_schema and isinstance(if_schema["properties"], dict):
+      for prop_name, prop_schema in if_schema["properties"].items():
+         if isinstance(prop_schema, dict):
+            if "const" in prop_schema:
+               conditions.append(f"{prop_name} = {prop_schema['const']}")
+            elif "enum" in prop_schema:
+               values = ", ".join(str(v) for v in prop_schema["enum"])
+               conditions.append(f"{prop_name} in [{values}]")
+            elif "type" in prop_schema:
+               conditions.append(f"{prop_name} is {prop_schema['type']}")
+            elif "minimum" in prop_schema:
+               conditions.append(f"{prop_name} >= {prop_schema['minimum']}")
+            elif "maximum" in prop_schema:
+               conditions.append(f"{prop_name} <= {prop_schema['maximum']}")
+            elif "pattern" in prop_schema:
+               conditions.append(f'{prop_name} matches "{prop_schema["pattern"]}"')
+
+   # If we found conditions, format them
+   if conditions:
+      condition_str = " AND ".join(conditions)
+      return f"**If** {condition_str}"
+
+   return "Complex condition"
+
+
+def _process_conditionals(conditionals: list, defs: dict) -> dict:
+   """
+   Process conditional schemas into property modifications.
+
+   Returns a dict mapping property paths to lists of conditional variants.
+   Each variant includes condition, type, possible_values, and required status.
+   """
+   conditional_properties = {}
+
+   for conditional_block in conditionals:
+      condition = _format_condition(conditional_block["if"])
+
+      # Process 'then' schema
+      then_schema = conditional_block.get("then", {})
+      if isinstance(then_schema, dict) and "properties" in then_schema:
+         for prop_name, prop_details in then_schema["properties"].items():
+            prop_type = prop_details.get("type")
+            property_type, possible_values = _get_property_details(
+               prop_type, prop_details, defs
+            )
+
+            if prop_name not in conditional_properties:
+               conditional_properties[prop_name] = []
+
+            conditional_properties[prop_name].append(
+               {
+                  "condition": condition,
+                  "type": property_type,
+                  "possible_values": possible_values,
+                  "required": prop_name in then_schema.get("required", []),
+               }
+            )
+
+      # Process 'else' schema
+      else_schema = conditional_block.get("else", {})
+      if isinstance(else_schema, dict) and "properties" in else_schema:
+         else_condition = _format_condition(conditional_block["if"])
+         # Indicate it's the else branch
+         else_condition = else_condition.replace("**If**", "**If NOT**")
+
+         for prop_name, prop_details in else_schema["properties"].items():
+            prop_type = prop_details.get("type")
+            property_type, possible_values = _get_property_details(
+               prop_type, prop_details, defs
+            )
+
+            if prop_name not in conditional_properties:
+               conditional_properties[prop_name] = []
+
+            conditional_properties[prop_name].append(
+               {
+                  "condition": else_condition,
+                  "type": property_type,
+                  "possible_values": possible_values,
+                  "required": prop_name in else_schema.get("required", []),
+               }
+            )
+
+   return conditional_properties
+
+
+def _get_property_details(
+   property_type: str, property_details: dict, defs: dict
+) -> tuple[str, str]:
+   """
+   Get the possible values for a property.
+   """
+   # Normalize list-form types (e.g. ["object", "null"]) into a recognizable
+   # base type plus an optional "or null" suffix so the rest of this function
+   # can rely on scalar type strings.
+   if isinstance(property_type, list):
+      non_null = [t for t in property_type if t != "null"]
+      has_null = "null" in property_type
+      if len(non_null) == 1:
+         base_type, base_details = _get_property_details(
+            non_null[0], property_details, defs
+         )
+         if has_null:
+            return f"{base_type} or `null`", base_details
+         return base_type, base_details
+      types = " or ".join(f"`{t}` <br> " for t in property_type)
+      return types, ""
+
+   # Check if the property is a reference
+   ref_type, ref_details = get_property_if_ref(property_details, defs)
+   if ref_type or ref_details:
+      return ref_type, ref_details
+
+   if "additionalProperties" in property_details and not isinstance(
+      property_details["additionalProperties"], bool
+   ):
+      logger.warning(
+         f"Additional properties not a boolean: {property_details['additionalProperties']}"
+      )
+      # new_type = property_details["additionalProperties"].get("type")
+      # return new_type, new_type
+
+   if "enum" in property_details:
+      return (
+         f"`{property_type}`",
+         # 2026-05-27 MY Put each enum value on separate line
+#         " ".join([f"`{str(value)}`" for value in property_details["enum"]]),
+#         "\n<ul>\n" + "\n".join([f"<li>`{str(value)}`</li>" for value in property_details["enum"]]) + "</ul>\n",
+         "Enum:<br/>" + "<br/>\n".join([f"&nbsp;∙ `{str(value)}`" for value in property_details["enum"]]),
+      )
+
+   # Handle array-like properties
+   if any(key in property_details for key in ["oneOf", "anyOf", "allOf"]):
+      t, d = _handle_array_like_property(property_type, property_details, defs)
+      if t and d:
+         return t, d
+
+   if property_details.get("items") == {}:
+      return f"`{property_type}`", "Any type"
+
+   if "items" in property_details:
+      if any(key in property_details["items"] for key in ["oneOf", "anyOf", "allOf"]):
+         t, d = _handle_array_like_property(
+            property_type, property_details["items"], defs, is_array=True
+         )
+         if t and d:
+            return t, d
+
+      ref_type, ref_details = get_property_if_ref(property_details["items"], defs)
+      if ref_type or ref_details:
+         return f"`{property_type}`", ref_details
+      else:
+         ref_type, ref_details = _get_property_details(
+            property_details["items"].get("type"), property_details["items"], defs
+         )
+         return f"`{property_type}`", ref_details
+
+   elif "pattern" in property_details:
+      pattern = property_details["pattern"]
+      # escape any pipe characters in the pattern string to prevent markdown table formatting issues
+      md_table_safe = pattern.replace("|", r"\|")
+      res_details = f" matching regular expression [`{md_table_safe}`](https://regex101.com/?regex={urllib.parse.quote_plus(pattern)})"
+      return f"`{property_type}`", res_details
+   elif "const" in property_details:
+      res_details = f"`{property_details.get('const')}`"
+      return "`const`", res_details
+   elif property_type in ["integer", "number"]:
+      # write the range of the integer in the format a <= x <= b
+      minimum = property_details.get("minimum")
+      maximum = property_details.get("maximum")
+      exclusive_minimum = property_details.get("exclusiveMinimum")
+      exclusive_maximum = property_details.get("exclusiveMaximum")
+
+      min_details = ""
+      max_details = ""
+      res_details = ""
+
+      if minimum is not None:
+         min_details += f"{minimum} <="
+      elif exclusive_minimum is not None:
+         min_details += f"{exclusive_minimum} <"
+
+      if maximum is not None:
+         max_details += f"<= {maximum}"
+      elif exclusive_maximum is not None:
+         max_details += f"< {exclusive_maximum}"
+
+      if min_details == "" and max_details == "":
+         # fallback to original property_type when no range is specified
+         res_details = property_type
+      else:
+         res_details = f"`{min_details} x {max_details}`"
+
+      # check if multipleOf is present
+      multiple_of = property_details.get("multipleOf")
+      if multiple_of:
+         res_details += f" and multiple of `{multiple_of}`"
+
+      return f"`{property_type}`", res_details
+   elif property_details.get("type") == "string":
+      constraint_format = property_details.get("format")
+      constraint_max_length = property_details.get("maxLength")
+      constraint_min_length = property_details.get("minLength")
+      # MY Added regex
+      constraint_RegEx = property_details.get("pattern")
+      if constraint_format:
+         return (
+            f"`{property_type}`",
+            f"Format: [`{constraint_format}`](https://json-schema.org/understanding-json-schema/reference/string#built-in-formats)",
+         )
+      elif constraint_max_length or constraint_min_length:
+         if constraint_max_length and constraint_min_length:
+            return (
+               f"`{property_type}`",
+               f"Length: `{constraint_min_length} <= string <= {constraint_max_length}`",
+            )
+         elif constraint_max_length:
+            return f"`{property_type}`", f"Length: `string <= {constraint_max_length}`"
+         elif constraint_min_length:
+            return f"`{property_type}`", f"Length: `string >= {constraint_min_length}`"
+         else:
+            return f"`{property_type}`", property_type
+      elif constraint_RegEx:
+         return (
+            f"`{property_type}`",
+            f"string matching regular expression `{constraint_RegEx}`"
+         )
+      else:
+         return f"`{property_type}`", property_type
+   else:
+      return f"`{property_type}`", property_type

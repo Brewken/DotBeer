@@ -26,11 +26,7 @@
     },
     "mash_tun": {
       "description": "Mash Tun",
-      "$ref": "#/$defs/HotSideVessel",
-      "grain_absorption_rate": {
-        "description": "The apparent volume absorbed by grain, typical values are 0.125 qt/lb (1.04 L/kg) for a mash tun, 0.08 gal/lb (0.66 L/kg) for BIAB.",
-        "$ref": "Measurement.beer.schema#/$defs/SpecificVolume"
-      }
+      "$ref": "#/$defs/MashTun"
     },
     "lauter_tun": {
       "description": "Lauter Tun",
@@ -38,23 +34,7 @@
     },
     "kettle": {
       "description": "Boil Kettle",
-      "$ref": "#/$defs/HotSideVessel",
-      "boil_rate_per_hour": {
-        "description": "The volume boiled off during 1 hour, measured before and after at room temperature.",
-        "$ref": "Measurement.beer.schema#/$defs/Volume"
-      },
-      "drain_rate_per_minute": {
-        "description": "The volume that leaves the kettle, especially important for non-immersion chillers that cool the wort as it leaves the kettle.",
-        "$ref": "Measurement.beer.schema#/$defs/Volume"
-      },
-      "internalDiameter": {
-        "description": "With openingDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula",
-        "$ref": "Measurement.beer.schema#/$defs/Length"
-      },
-      "openingDiameter": {
-        "description": "With internalDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula",
-        "$ref": "Measurement.beer.schema#/$defs/Length"
-      }
+      "$ref": "#/$defs/BoilKettle"
     },
     "fermenter": {
       "description": "Fermentation Vessel",
@@ -99,7 +79,7 @@
     },
     "HotSideVessel": {
       "type": "object",
-      "description": "Additional parameters for hot-side vessels.",
+      "description": "A vessel used for the hot-side of brewing.",
       "allOf": [
         {
           "$ref": "#/$defs/Vessel"
@@ -113,6 +93,52 @@
             "specific_heat_capacity": {
               "description": "The specific heat capacity of the piece of equipment, especially important for when the mash tun is not preheated.",
               "$ref": "Measurement.beer.schema#/$defs/SpecificHeatCapacity"
+            }
+          }
+        }
+      ]
+    },
+    "MashTun": {
+      "type": "object",
+      "description": "A hot-side vessel used for the mash.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/HotSideVessel"
+        },
+        {
+          "properties": {
+            "grain_absorption_rate": {
+              "description": "The apparent volume absorbed by grain, typical values are 0.125 qt/lb (1.04 L/kg) for a mash tun, 0.08 gal/lb (0.66 L/kg) for BIAB.",
+              "$ref": "Measurement.beer.schema#/$defs/SpecificVolume"
+            }
+          }
+        }
+      ]
+    },
+    "BoilKettle": {
+      "type": "object",
+      "description": "A hot-side vessel used for the boil.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/HotSideVessel"
+        },
+        {
+          "properties": {
+            "boil_rate_per_hour": {
+              "description": "The volume boiled off during 1 hour, measured before and after at room temperature.",
+              "$ref": "Measurement.beer.schema#/$defs/Volume"
+            },
+            "drain_rate_per_minute": {
+              "description": "The volume that leaves the kettle, especially important for non-immersion chillers that cool the wort as it leaves the kettle.",
+              "$ref": "Measurement.beer.schema#/$defs/Volume"
+            },
+            "internalDiameter": {
+              "description": "With openingDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula",
+              "$ref": "Measurement.beer.schema#/$defs/Length"
+            },
+            "openingDiameter": {
+              "description": "With internalDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula",
+              "$ref": "Measurement.beer.schema#/$defs/Length"
             }
           }
         }
