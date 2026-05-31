@@ -43,16 +43,15 @@ FermentableBase provides unique properties to identify individual records of fer
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
 | type | ✅ | Enum:<br>&nbsp;∙ `dry extract`<br>&nbsp;∙ `extract`<br>&nbsp;∙ `grain`<br>&nbsp;∙ `sugar`<br>&nbsp;∙ `fruit`<br>&nbsp;∙ `juice`<br>&nbsp;∙ `honey`<br>&nbsp;∙ `other` |  |
-| yield | ✅ | object | The potential yield of the fermentable ingredient, supporting SG, or percentage. eg 1.037 or 80% are valid yield types. |
-| yield.fine_grind |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Yield Dry Basis Fine Grind (DBFG) - aka percentage yield, compared to sucrose, of a fine grind. |
-| yield.coarse_grind |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Yield Dry Basis Coarse Grind (DBCG) - aka percentage yield, compared to sucrose, of a coarse grind. |
-| yield.fine_coarse_difference |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Fine Grind/Coarse Grind Difference (FG/CG) - aka the difference in yield between coarsely milled and finely milled grain.  A FG/CG difference of 0.5–1.0 percentage points is well suited to a single step infusion, while a value greater than 1.5 percentage points indicates that a protein rest or step mash may be advisable.<br />Note that `fine_coarse_difference` should be the same as `fine_grind` minus `coarse_grind`. |
-| yield.potential |  | [Measurement::Density](./Measurement.md#density) | The potential yield is the specific gravity that can be achieved with 1.00 pound (455 g) of malt mashed in 1.00 gallon (3.78 L) of water.  Calculated as (extract) potential (SG) = 1 + (DBFG / 100) * 0.04621. |
-| color | ✅ | [Measurement::Color](./Measurement.md#color) |  |
-| origin |  | string |  |
+| color | ✅ | [Measurement::Color](./Measurement.md#color) | Maltsters typically measure grain color in degrees Lovibond, but other units are supported here. |
+| origin |  | string | Country or place of origin |
 | producer |  | string |  |
 | product_id |  | string |  |
 | grain_group |  | Enum:<br>&nbsp;∙ `base`<br>&nbsp;∙ `caramel`<br>&nbsp;∙ `flaked`<br>&nbsp;∙ `roasted`<br>&nbsp;∙ `specialty`<br>&nbsp;∙ `smoked`<br>&nbsp;∙ `adjunct` | This should only be set when `type` is `grain`. |
+| yield_fine_grind |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Yield Dry Basis Fine Grind (DBFG) - aka percentage yield, compared to sucrose, of a fine grind. |
+| yield_coarse_grind |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Yield Dry Basis Coarse Grind (DBCG) - aka percentage yield, compared to sucrose, of a coarse grind. |
+| yield_fine_coarse_difference |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Fine Grind/Coarse Grind Difference (FG/CG) - aka the difference in yield between coarsely milled and finely milled grain.  A FG/CG difference of 0.5–1.0 percentage points is well suited to a single step infusion, while a value greater than 1.5 percentage points indicates that a protein rest or step mash may be advisable.<br />Note that `fine_coarse_difference` should be the same as `fine_grind` minus `coarse_grind`. |
+| yield_potential |  | [Measurement::Density](./Measurement.md#density) | The potential yield is the specific gravity that can be achieved with 1.00 pound (455 g) of malt mashed in 1.00 gallon (3.78 L) of water.  Calculated as (extract) potential (SG) = 1 + (DBFG / 100) * 0.04621. |
 
 ## FermentableInventory
 
@@ -68,4 +67,4 @@ No description provided for this model.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:29:03+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:49:39+0200.

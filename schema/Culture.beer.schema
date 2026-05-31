@@ -69,27 +69,8 @@
         "inventory": {
           "$ref": "#/$defs/CultureInventory"
         },
-        "zymocide": {
-          "type": "object",
-          "description": "Zymocide, also known as killer yeast properties, is common among wine yeasts. There are also some ale and brett yeasts that are immune to some zymocidic properties, these are known as killer neutral.",
-          "additionalProperties": false,
-          "properties": {
-            "no1": {
-              "type": "boolean"
-            },
-            "no2": {
-              "type": "boolean"
-            },
-            "no28": {
-              "type": "boolean"
-            },
-            "klus": {
-              "type": "boolean"
-            },
-            "neutral": {
-              "type": "boolean"
-            }
-          }
+        "killer": {
+          "$ref": "#/$defs/KillerProperties"
         }
       }
     }
@@ -156,6 +137,28 @@
         },
         "culture": {
           "$ref": "Measurement.beer.schema#/$defs/Volume"
+        }
+      }
+    },
+    "KillerProperties": {
+      "type": "object",
+      "description": "Killer yeast properties (also known as zymocide) are common among wine yeasts.  There are some ale and brett yeasts that are immune to some killer (aka zymocidic) properties, these are known as \"killer neutral\".\n\nSee https://www.milkthefunk.com/wiki/Saccharomyces#Killer_Wine_Yeast for more on \"killer\" yeasts and \"killer neutral\" yeasts.  Some folks call these killer yeast properties \"zymocide\", but AFAICT \"killer\" is still the more widely used term, at least in relation to brewing.\n\nNote that `killerNeutral` being `true` implies all the other `producingXxxToxin` properties are `false`, because \"neutral strains do not produce toxins, nor are they killed by them\".",
+      "additionalProperties": false,
+      "properties": {
+        "producingK1Toxin": {
+          "type": "boolean"
+        },
+        "producingK2Toxin": {
+          "type": "boolean"
+        },
+        "producingK28Toxin": {
+          "type": "boolean"
+        },
+        "producingKlusToxin": {
+          "type": "boolean"
+        },
+        "neutral": {
+          "type": "boolean"
         }
       }
     }

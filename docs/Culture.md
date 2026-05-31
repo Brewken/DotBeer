@@ -16,12 +16,7 @@ Collects the attributes of a microbial culture such as a yeast.
 | pof |  | boolean | A POF+ culture is capable of producing phenols, which is a common distinctive property of saison, and brett yeasts. |
 | glucoamylase |  | boolean | A glucoamylase positive culture is capable of producing glucoamylase, the enzyme produced through expression of the diastatic gene, which allows yeast to attenuate dextrins and starches leading to a very low FG. This is positive in some saison/brett yeasts as well as the new gulo hybrid by Omega yeast labs. |
 | inventory |  | [CultureInventory](#cultureinventory) |  |
-| zymocide |  | object | Zymocide, also known as killer yeast properties, is common among wine yeasts. There are also some ale and brett yeasts that are immune to some zymocidic properties, these are known as killer neutral. |
-| zymocide.no1 |  | boolean |  |
-| zymocide.no2 |  | boolean |  |
-| zymocide.no28 |  | boolean |  |
-| zymocide.klus |  | boolean |  |
-| zymocide.neutral |  | boolean |  |
+| killer |  | [KillerProperties](#killerproperties) |  |
 
 
 ---
@@ -55,8 +50,26 @@ No description provided for this model.
 | slant |  | [Measurement::Volume](./Measurement.md#volume) |
 | culture |  | [Measurement::Volume](./Measurement.md#volume) |
 
+## KillerProperties
+
+Killer yeast properties (also known as zymocide) are common among wine yeasts.  There are some ale and brett yeasts that are immune to some killer (aka zymocidic) properties, these are known as "killer neutral".
+
+See https://www.milkthefunk.com/wiki/Saccharomyces#Killer_Wine_Yeast for more on "killer" yeasts and "killer neutral" yeasts.  Some folks call these killer yeast properties "zymocide", but AFAICT "killer" is still the more widely used term, at least in relation to brewing.
+
+Note that `killerNeutral` being `true` implies all the other `producingXxxToxin` properties are `false`, because "neutral strains do not produce toxins, nor are they killed by them".
+
+<strong>KillerProperties</strong> is a JSON object with the following properties:
+
+| Property | Required? | Type |
+| -------- | --------- | ---- |
+| producingK1Toxin |  | boolean |
+| producingK2Toxin |  | boolean |
+| producingK28Toxin |  | boolean |
+| producingKlusToxin |  | boolean |
+| neutral |  | boolean |
+
 
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:29:03+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:49:39+0200.
