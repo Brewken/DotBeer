@@ -79,7 +79,7 @@ Detailed documentation is [here](./docs/DotBeer.md).
 ## Technical
 DotBeer files have the <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file extension.
 
-DotBeer schema files have the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> file extension but are otherwise .
+DotBeer schema files have the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> file extension.
 
 The underlying format for both types of file is [JSONC](https://jsonc.org/) --- ie JSON with comments allowed.
 
