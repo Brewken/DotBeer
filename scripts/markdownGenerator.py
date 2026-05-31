@@ -594,8 +594,14 @@ def _create_definition_table(schema: dict, defs: dict, hide_empty_columns: bool)
       return create_const_markdown(schema)
 
    #
-   # The original code here generates a simple Markdown table with pipes.  However, such tables do not display borders,
-   # so we extend the code to generate an HTML version of the same table.
+   # There are two versions of the table generation code here.
+   #
+   # One generates a simple Markdown table with pipes.  However, in many Markdown readers, such tables do not display
+   # borders.
+   #
+   # The alternate code generates the table with HTML tags.  This gives better results in Markdown readers, but,
+   # unfortunately breaks hyperlinks on GitHub Pages (because Jekyll doesn't want to convert Markdown links to HTML
+   # links when they are inside other bits of HTML in the source document).
    #
    markdown = ""
    htmlTable = "<table style=\"border-collapse: collapse;\">\n"
@@ -696,7 +702,7 @@ def _create_definition_table(schema: dict, defs: dict, hide_empty_columns: bool)
       # Generate the separator row
       markdown += (
          "| "
-         + " | ".join(["-" * len(col) for col in columns if include_column[col]])
+         + " | ".join(["-" * len(column_display_names[col]) for col in columns if include_column[col]])
          + " |\n"
       )
 
@@ -708,8 +714,9 @@ def _create_definition_table(schema: dict, defs: dict, hide_empty_columns: bool)
             + " |\n"
          )
          #
-         # We try putting cell contents on separate line to help Jekyll convert links properly, but we have to ensure
-         # no blank lines, otherwise Markdown will break the table.
+         # Here, we try putting cell contents on separate line to help Jekyll convert links properly, whilst still
+         # ensuring (as they get interpreted as Markdown, which will break the table).  I don't think it solved
+         # anything, but it didn't make things worse either!
          #
          htmlTable += "<tr>\n"
          for col in columns:
@@ -732,17 +739,20 @@ def _create_definition_table(schema: dict, defs: dict, hide_empty_columns: bool)
 
       # Generate the separator row
       markdown += (
-         "| " + " | ".join(["-" * len(col) for col in table_items[0]]) + " |\n"
+         "| " + " | ".join(["-" * len(column_display_names[col]) for col in table_items[0]]) + " |\n"
       )
       # Generate the item rows
       for item in table_items:
          markdown += "| " + " | ".join(item.values()) + " |\n"
-         htmlTable += ("<tr>\n" +
-                       f"<td{cellBorderStyle}>" + f"</td><td{cellBorderStyle}>".join(item.values()) + "</td>\n"
-                       "</tr>\n")
+         htmlTable += "<tr>\n"
+         for cellContents in item.values():
+            if not cellContents:
+               cellContents += "&nbsp;"
+            htmlTable += f"<td{cellBorderStyle}>\n{cellContents}\n</td>"
+         htmlTable += "</tr>\n"
    # By choosing which of the following lines to uncomment, you control whether simple or HTML tables are produced
-   return f"{markdown}\n"
-#   return f"{htmlTable}\n"
+#   return f"{markdown}\n"
+   return f"{htmlTable}\n"
 
 
 def headingToAnchor(heading):
