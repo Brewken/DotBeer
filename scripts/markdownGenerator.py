@@ -741,8 +741,8 @@ def _create_definition_table(schema: dict, defs: dict, hide_empty_columns: bool)
                        f"<td{cellBorderStyle}>" + f"</td><td{cellBorderStyle}>".join(item.values()) + "</td>\n"
                        "</tr>\n")
    # By choosing which of the following lines to uncomment, you control whether simple or HTML tables are produced
-#   return f"{markdown}\n"
-   return f"{htmlTable}\n"
+   return f"{markdown}\n"
+#   return f"{htmlTable}\n"
 
 
 def headingToAnchor(heading):
@@ -1106,7 +1106,8 @@ def _get_property_details(
          # 2026-05-27 MY Put each enum value on separate line
 #         " ".join([f"`{str(value)}`" for value in property_details["enum"]]),
 #         "\n<ul>\n" + "\n".join([f"<li>`{str(value)}`</li>" for value in property_details["enum"]]) + "</ul>\n",
-         "Enum:<br/>" + "<br/>\n".join([f"&nbsp;∙ `{str(value)}`" for value in property_details["enum"]]),
+         # NB "<br>" is OK here, but "<br/>" will break Markdown.  Similarly, no "\n" allowed in Markdown tables
+         "Enum:<br>" + "<br>".join([f"&nbsp;∙ `{str(value)}`" for value in property_details["enum"]]),
       )
 
    # Handle array-like properties

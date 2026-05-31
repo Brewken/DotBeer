@@ -21,26 +21,10 @@ No description provided for this model.
 
 <strong>Acidity</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `pH`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `pH` |
+| value | ✅ | number |
 
 ## Bitterness
 
@@ -48,26 +32,10 @@ No description provided for this model.
 
 <strong>Bitterness</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `IBUs`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `IBUs` |
+| value | ✅ | number |
 
 ## Carbonation
 
@@ -75,27 +43,10 @@ No description provided for this model.
 
 <strong>Carbonation</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `vols`<br/>
-&nbsp;∙ `g/l`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `vols`<br>&nbsp;∙ `g/l` |
+| value | ✅ | number |
 
 ## Color
 
@@ -103,28 +54,10 @@ Supports both grain color properties, such as Lovibond, and wort color propertie
 
 <strong>Color</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `EBC`<br/>
-&nbsp;∙ `Lovi`<br/>
-&nbsp;∙ `SRM`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `EBC`<br>&nbsp;∙ `Lovi`<br>&nbsp;∙ `SRM` |
+| value | ✅ | number |
 
 ## Count
 
@@ -132,30 +65,10 @@ Used where unitless amounts are required, such as 1 apple, or 1 yeast packet.  N
 
 <strong>Count</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `1`<br/>
-&nbsp;∙ `unit`<br/>
-&nbsp;∙ `each`<br/>
-&nbsp;∙ `dimensionless`<br/>
-&nbsp;∙ `pkg`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `1`<br>&nbsp;∙ `unit`<br>&nbsp;∙ `each`<br>&nbsp;∙ `dimensionless`<br>&nbsp;∙ `pkg` |
+| value | ✅ | number |
 
 ## Date
 
@@ -169,28 +82,10 @@ Sometimes referred to as "gravity" as a shorthand for "specific gravity".  Typic
 
 <strong>Density</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `sg`<br/>
-&nbsp;∙ `plato`<br/>
-&nbsp;∙ `brix`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `sg`<br>&nbsp;∙ `plato`<br>&nbsp;∙ `brix` |
+| value | ✅ | number |
 
 ## DiastaticPower
 
@@ -198,27 +93,10 @@ Diastatic power is a measurement of malted grains enzymatic content. A value of 
 
 <strong>DiastaticPower</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `Lintner`<br/>
-&nbsp;∙ `WK`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `Lintner`<br>&nbsp;∙ `WK` |
+| value | ✅ | number |
 
 ## Length
 
@@ -226,30 +104,10 @@ No description provided for this model.
 
 <strong>Length</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `mm`<br/>
-&nbsp;∙ `cm`<br/>
-&nbsp;∙ `m`<br/>
-&nbsp;∙ `in`<br/>
-&nbsp;∙ `ft`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `mm`<br>&nbsp;∙ `cm`<br>&nbsp;∙ `m`<br>&nbsp;∙ `in`<br>&nbsp;∙ `ft` |
+| value | ✅ | number |
 
 ## Mass
 
@@ -257,30 +115,10 @@ No description provided for this model.
 
 <strong>Mass</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `mg`<br/>
-&nbsp;∙ `g`<br/>
-&nbsp;∙ `kg`<br/>
-&nbsp;∙ `lb`<br/>
-&nbsp;∙ `oz`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `mg`<br>&nbsp;∙ `g`<br>&nbsp;∙ `kg`<br>&nbsp;∙ `lb`<br>&nbsp;∙ `oz` |
+| value | ✅ | number |
 
 ## MassFractionOrConcentration
 
@@ -288,28 +126,10 @@ Strictly speaking, mass concentration (eg mg/l) is different from mass fraction 
 
 <strong>MassFractionOrConcentration</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `ppm`<br/>
-&nbsp;∙ `ppb`<br/>
-&nbsp;∙ `mg/l`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `ppm`<br>&nbsp;∙ `ppb`<br>&nbsp;∙ `mg/l` |
+| value | ✅ | number |
 
 ## Percentage
 
@@ -317,26 +137,10 @@ No description provided for this model.
 
 <strong>Percentage</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `%`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `%` |
+| value | ✅ | number |
 
 ## Pressure
 
@@ -344,28 +148,10 @@ No description provided for this model.
 
 <strong>Pressure</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `kPa`<br/>
-&nbsp;∙ `psi`<br/>
-&nbsp;∙ `bar`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `kPa`<br>&nbsp;∙ `psi`<br>&nbsp;∙ `bar` |
+| value | ✅ | number |
 
 ## SpecificHeatCapacity
 
@@ -373,28 +159,10 @@ The amount of heat that must be added to one unit of mass of the substance in or
 
 <strong>SpecificHeatCapacity</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `Cal/(g C)`<br/>
-&nbsp;∙ `J/(kg K)`<br/>
-&nbsp;∙ `BTU/(lb F)`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `Cal/(g C)`<br>&nbsp;∙ `J/(kg K)`<br>&nbsp;∙ `BTU/(lb F)` |
+| value | ✅ | number |
 
 ## SpecificVolume
 
@@ -402,33 +170,10 @@ Specific volume is the reciprocal of density, commonly used for mash thickness.
 
 <strong>SpecificVolume</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `qt/lb`<br/>
-&nbsp;∙ `gal/lb`<br/>
-&nbsp;∙ `gal/oz`<br/>
-&nbsp;∙ `l/g`<br/>
-&nbsp;∙ `l/kg`<br/>
-&nbsp;∙ `floz/oz`<br/>
-&nbsp;∙ `m^3/kg`<br/>
-&nbsp;∙ `ft^3/lb`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `qt/lb`<br>&nbsp;∙ `gal/lb`<br>&nbsp;∙ `gal/oz`<br>&nbsp;∙ `l/g`<br>&nbsp;∙ `l/kg`<br>&nbsp;∙ `floz/oz`<br>&nbsp;∙ `m^3/kg`<br>&nbsp;∙ `ft^3/lb` |
+| value | ✅ | number |
 
 ## Temperature
 
@@ -436,27 +181,10 @@ No description provided for this model.
 
 <strong>Temperature</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `C`<br/>
-&nbsp;∙ `F`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `C`<br>&nbsp;∙ `F` |
+| value | ✅ | number |
 
 ## Time
 
@@ -464,30 +192,10 @@ Note this is NOT dates or times of day but length-of-time or elapsed time, eg du
 
 <strong>Time</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `sec`<br/>
-&nbsp;∙ `min`<br/>
-&nbsp;∙ `hr`<br/>
-&nbsp;∙ `day`<br/>
-&nbsp;∙ `week`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-integer
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `sec`<br>&nbsp;∙ `min`<br>&nbsp;∙ `hr`<br>&nbsp;∙ `day`<br>&nbsp;∙ `week` |
+| value | ✅ | integer |
 
 ## VersionNumber
 
@@ -501,27 +209,10 @@ Viscosity of fluids
 
 <strong>Viscosity</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `cP`<br/>
-&nbsp;∙ `mPa-s`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `cP`<br>&nbsp;∙ `mPa-s` |
+| value | ✅ | number |
 
 ## Volume
 
@@ -529,43 +220,10 @@ No description provided for this model.
 
 <strong>Volume</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-unit
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-Enum:<br/>&nbsp;∙ `ml`<br/>
-&nbsp;∙ `l`<br/>
-&nbsp;∙ `tsp`<br/>
-&nbsp;∙ `tbsp`<br/>
-&nbsp;∙ `floz`<br/>
-&nbsp;∙ `cup`<br/>
-&nbsp;∙ `pt`<br/>
-&nbsp;∙ `qt`<br/>
-&nbsp;∙ `gal`<br/>
-&nbsp;∙ `bbl`<br/>
-&nbsp;∙ `itsp`<br/>
-&nbsp;∙ `itbsp`<br/>
-&nbsp;∙ `ifloz`<br/>
-&nbsp;∙ `icup`<br/>
-&nbsp;∙ `ipt`<br/>
-&nbsp;∙ `iqt`<br/>
-&nbsp;∙ `igal`<br/>
-&nbsp;∙ `ibbl`
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-value
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-number
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `ml`<br>&nbsp;∙ `l`<br>&nbsp;∙ `tsp`<br>&nbsp;∙ `tbsp`<br>&nbsp;∙ `floz`<br>&nbsp;∙ `cup`<br>&nbsp;∙ `pt`<br>&nbsp;∙ `qt`<br>&nbsp;∙ `gal`<br>&nbsp;∙ `bbl`<br>&nbsp;∙ `itsp`<br>&nbsp;∙ `itbsp`<br>&nbsp;∙ `ifloz`<br>&nbsp;∙ `icup`<br>&nbsp;∙ `ipt`<br>&nbsp;∙ `iqt`<br>&nbsp;∙ `igal`<br>&nbsp;∙ `ibbl` |
+| value | ✅ | number |
 
 ## RangeOfBitterness
 
@@ -573,26 +231,10 @@ No description provided for this model.
 
 <strong>RangeOfBitterness</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-minimum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Bitterness](#bitterness)
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-maximum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Bitterness](#bitterness)
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| minimum | ✅ | [Bitterness](#bitterness) |
+| maximum | ✅ | [Bitterness](#bitterness) |
 
 ## RangeOfCarbonation
 
@@ -600,26 +242,10 @@ No description provided for this model.
 
 <strong>RangeOfCarbonation</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-minimum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Carbonation](#carbonation)
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-maximum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Carbonation](#carbonation)
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| minimum | ✅ | [Carbonation](#carbonation) |
+| maximum | ✅ | [Carbonation](#carbonation) |
 
 ## RangeOfTemperature
 
@@ -627,26 +253,10 @@ No description provided for this model.
 
 <strong>RangeOfTemperature</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-minimum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Temperature](#temperature)
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-maximum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Temperature](#temperature)
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| minimum | ✅ | [Temperature](#temperature) |
+| maximum | ✅ | [Temperature](#temperature) |
 
 ## RangeOfColor
 
@@ -654,26 +264,10 @@ No description provided for this model.
 
 <strong>RangeOfColor</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-minimum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Color](#color)
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-maximum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Color](#color)
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| minimum | ✅ | [Color](#color) |
+| maximum | ✅ | [Color](#color) |
 
 ## RangeOfDensity
 
@@ -681,26 +275,10 @@ No description provided for this model.
 
 <strong>RangeOfDensity</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-minimum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Density](#density)
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-maximum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Density](#density)
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| minimum | ✅ | [Density](#density) |
+| maximum | ✅ | [Density](#density) |
 
 ## RangeOfPercentage
 
@@ -708,26 +286,10 @@ No description provided for this model.
 
 <strong>RangeOfPercentage</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-minimum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Percentage](#percentage)
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-maximum
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Percentage](#percentage)
-</td></tr>
+| Property | Required? | Type |
+| -------- | -------- | --------------- |
+| minimum | ✅ | [Percentage](#percentage) |
+| maximum | ✅ | [Percentage](#percentage) |
 
 
 
