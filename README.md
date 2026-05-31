@@ -83,7 +83,7 @@ DotBeer schema files have the <span style="color:BlueViolet; font-weight: bold; 
 
 The underlying format for both types of file is [JSONC](https://jsonc.org/) --- ie JSON with comments allowed.
 
-Detailed documentation is generated in the `docs` directory from the schema files in the `schema` directory by `scripts/generateDocs.py`.  All documentation is available online at www.dotbeer.org.
+Detailed documentation is generated in the `docs` directory from the schema files in the `schema` directory by `scripts/generateDocs.py`.  All documentation is available online at [www.dotbeer.org](https://www.dotbeer.org/).
 
 
 ## Contributing
