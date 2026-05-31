@@ -751,8 +751,8 @@ def _create_definition_table(schema: dict, defs: dict, hide_empty_columns: bool)
             htmlTable += f"<td{cellBorderStyle}>\n{cellContents}\n</td>"
          htmlTable += "</tr>\n"
    # By choosing which of the following lines to uncomment, you control whether simple or HTML tables are produced
-#   return f"{markdown}\n"
-   return f"{htmlTable}\n"
+   return f"{markdown}\n"
+#   return f"{htmlTable}\n"
 
 
 def headingToAnchor(heading):

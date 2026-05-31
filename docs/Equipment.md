@@ -4,90 +4,16 @@ Groups together all the vessels in a set of brewing equipment.  Note that, in so
 
 <strong>Equipment</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th><th style="border: 1px solid black; padding: 6px;">Description</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-name
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-string
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-kettle
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[BoilKettle](#boilkettle)
-</td><td style="border: 1px solid black; padding: 6px;">
-Boil Kettle
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-hlt
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[HotSideVessel](#hotsidevessel)
-</td><td style="border: 1px solid black; padding: 6px;">
-Hot Liquor Tank
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-mash_tun
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[MashTun](#mashtun)
-</td><td style="border: 1px solid black; padding: 6px;">
-Mash Tun
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-lauter_tun
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[HotSideVessel](#hotsidevessel)
-</td><td style="border: 1px solid black; padding: 6px;">
-Lauter Tun
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-fermenter
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Vessel](#vessel)
-</td><td style="border: 1px solid black; padding: 6px;">
-Fermentation Vessel
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-aging_vessel
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Vessel](#vessel)
-</td><td style="border: 1px solid black; padding: 6px;">
-Aging Vessel
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-packaging_vessel
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Vessel](#vessel)
-</td><td style="border: 1px solid black; padding: 6px;">
-Packaging Vessel
-</td></tr>
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| name | ✅ | string |  |
+| kettle | ✅ | [BoilKettle](#boilkettle) | Boil Kettle |
+| hlt |  | [HotSideVessel](#hotsidevessel) | Hot Liquor Tank |
+| mash_tun |  | [MashTun](#mashtun) | Mash Tun |
+| lauter_tun |  | [HotSideVessel](#hotsidevessel) | Lauter Tun |
+| fermenter |  | [Vessel](#vessel) | Fermentation Vessel |
+| aging_vessel |  | [Vessel](#vessel) | Aging Vessel |
+| packaging_vessel |  | [Vessel](#vessel) | Packaging Vessel |
 
 
 ---
@@ -100,50 +26,12 @@ An individual vessel (eg mash tun, boil kettle) that forms part of brewing equip
 
 <strong>Vessel</strong> is a JSON object with the following properties:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th><th style="border: 1px solid black; padding: 6px;">Description</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-loss
-</td><td style="border: 1px solid black; padding: 6px;">
-✅
-</td><td style="border: 1px solid black; padding: 6px;">
-[Measurement::Volume](./Measurement.md#volume)
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-vessel_type
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-string
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-max_volume
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Measurement::Volume](./Measurement.md#volume)
-</td><td style="border: 1px solid black; padding: 6px;">
-Maximum usable capacity of the vessel.
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-notes
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-string
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td></tr>
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| loss | ✅ | [Measurement::Volume](./Measurement.md#volume) |  |
+| vessel_type |  | string |  |
+| max_volume |  | [Measurement::Volume](./Measurement.md#volume) | Maximum usable capacity of the vessel. |
+| notes |  | string |  |
 
 ## HotSideVessel
 
@@ -151,30 +39,10 @@ A vessel used for the hot-side of brewing.
 
 <strong>HotSideVessel</strong> is a JSON object with all properties from [Vessel](#vessel) as well as these additional ones:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th><th style="border: 1px solid black; padding: 6px;">Description</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-weight
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Measurement::Mass](./Measurement.md#mass)
-</td><td style="border: 1px solid black; padding: 6px;">
-The weight of the piece of equipment, especially important for when the mash tun is not preheated.
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-specific_heat_capacity
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Measurement::SpecificHeatCapacity](./Measurement.md#specificheatcapacity)
-</td><td style="border: 1px solid black; padding: 6px;">
-The specific heat capacity of the piece of equipment, especially important for when the mash tun is not preheated.
-</td></tr>
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| weight |  | [Measurement::Mass](./Measurement.md#mass) | The weight of the piece of equipment, especially important for when the mash tun is not preheated. |
+| specific_heat_capacity |  | [Measurement::SpecificHeatCapacity](./Measurement.md#specificheatcapacity) | The specific heat capacity of the piece of equipment, especially important for when the mash tun is not preheated. |
 
 ## MashTun
 
@@ -182,20 +50,9 @@ A hot-side vessel used for the mash.
 
 <strong>MashTun</strong> is a JSON object with all properties from [HotSideVessel](#hotsidevessel) as well as these additional ones:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th><th style="border: 1px solid black; padding: 6px;">Description</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-grain_absorption_rate
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Measurement::SpecificVolume](./Measurement.md#specificvolume)
-</td><td style="border: 1px solid black; padding: 6px;">
-The apparent volume absorbed by grain, typical values are 0.125 qt/lb (1.04 L/kg) for a mash tun, 0.08 gal/lb (0.66 L/kg) for BIAB.
-</td></tr>
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| grain_absorption_rate |  | [Measurement::SpecificVolume](./Measurement.md#specificvolume) | The apparent volume absorbed by grain, typical values are 0.125 qt/lb (1.04 L/kg) for a mash tun, 0.08 gal/lb (0.66 L/kg) for BIAB. |
 
 ## BoilKettle
 
@@ -203,50 +60,12 @@ A hot-side vessel used for the boil.
 
 <strong>BoilKettle</strong> is a JSON object with all properties from [HotSideVessel](#hotsidevessel) as well as these additional ones:
 
-<table style="border-collapse: collapse;">
-<tr>
-<th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th><th style="border: 1px solid black; padding: 6px;">Description</th>
-</tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-boil_rate_per_hour
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Measurement::Volume](./Measurement.md#volume)
-</td><td style="border: 1px solid black; padding: 6px;">
-The volume boiled off during 1 hour, measured before and after at room temperature.
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-drain_rate_per_minute
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Measurement::Volume](./Measurement.md#volume)
-</td><td style="border: 1px solid black; padding: 6px;">
-The volume that leaves the kettle, especially important for non-immersion chillers that cool the wort as it leaves the kettle.
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-internalDiameter
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Measurement::Length](./Measurement.md#length)
-</td><td style="border: 1px solid black; padding: 6px;">
-With openingDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula
-</td></tr>
-<tr>
-<td style="border: 1px solid black; padding: 6px;">
-openingDiameter
-</td><td style="border: 1px solid black; padding: 6px;">
-&nbsp;
-</td><td style="border: 1px solid black; padding: 6px;">
-[Measurement::Length](./Measurement.md#length)
-</td><td style="border: 1px solid black; padding: 6px;">
-With internalDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula
-</td></tr>
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| boil_rate_per_hour |  | [Measurement::Volume](./Measurement.md#volume) | The volume boiled off during 1 hour, measured before and after at room temperature. |
+| drain_rate_per_minute |  | [Measurement::Volume](./Measurement.md#volume) | The volume that leaves the kettle, especially important for non-immersion chillers that cool the wort as it leaves the kettle. |
+| internalDiameter |  | [Measurement::Length](./Measurement.md#length) | With openingDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula |
+| openingDiameter |  | [Measurement::Length](./Measurement.md#length) | With internalDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula |
 
 
 
