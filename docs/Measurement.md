@@ -26,11 +26,21 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `pH`</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `pH`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Bitterness
 
@@ -43,11 +53,21 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `IBUs`</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `IBUs`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Carbonation
 
@@ -60,12 +80,22 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `vols`<br/>
-&nbsp;∙ `g/l`</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `vols`<br/>
+&nbsp;∙ `g/l`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Color
 
@@ -78,13 +108,23 @@ Supports both grain color properties, such as Lovibond, and wort color propertie
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `EBC`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `EBC`<br/>
 &nbsp;∙ `Lovi`<br/>
-&nbsp;∙ `SRM`</td>
-</tr>
+&nbsp;∙ `SRM`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Count
 
@@ -97,15 +137,25 @@ Used where unitless amounts are required, such as 1 apple, or 1 yeast packet.  N
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `1`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `1`<br/>
 &nbsp;∙ `unit`<br/>
 &nbsp;∙ `each`<br/>
 &nbsp;∙ `dimensionless`<br/>
-&nbsp;∙ `pkg`</td>
-</tr>
+&nbsp;∙ `pkg`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Date
 
@@ -124,13 +174,23 @@ Sometimes referred to as "gravity" as a shorthand for "specific gravity".  Typic
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `sg`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `sg`<br/>
 &nbsp;∙ `plato`<br/>
-&nbsp;∙ `brix`</td>
-</tr>
+&nbsp;∙ `brix`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## DiastaticPower
 
@@ -143,12 +203,22 @@ Diastatic power is a measurement of malted grains enzymatic content. A value of 
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `Lintner`<br/>
-&nbsp;∙ `WK`</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `Lintner`<br/>
+&nbsp;∙ `WK`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Length
 
@@ -161,15 +231,25 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `mm`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `mm`<br/>
 &nbsp;∙ `cm`<br/>
 &nbsp;∙ `m`<br/>
 &nbsp;∙ `in`<br/>
-&nbsp;∙ `ft`</td>
-</tr>
+&nbsp;∙ `ft`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Mass
 
@@ -182,15 +262,25 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `mg`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `mg`<br/>
 &nbsp;∙ `g`<br/>
 &nbsp;∙ `kg`<br/>
 &nbsp;∙ `lb`<br/>
-&nbsp;∙ `oz`</td>
-</tr>
+&nbsp;∙ `oz`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## MassFractionOrConcentration
 
@@ -203,13 +293,23 @@ Strictly speaking, mass concentration (eg mg/l) is different from mass fraction 
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `ppm`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `ppm`<br/>
 &nbsp;∙ `ppb`<br/>
-&nbsp;∙ `mg/l`</td>
-</tr>
+&nbsp;∙ `mg/l`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Percentage
 
@@ -222,11 +322,21 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `%`</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `%`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Pressure
 
@@ -239,13 +349,23 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `kPa`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `kPa`<br/>
 &nbsp;∙ `psi`<br/>
-&nbsp;∙ `bar`</td>
-</tr>
+&nbsp;∙ `bar`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## SpecificHeatCapacity
 
@@ -258,13 +378,23 @@ The amount of heat that must be added to one unit of mass of the substance in or
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `Cal/(g C)`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `Cal/(g C)`<br/>
 &nbsp;∙ `J/(kg K)`<br/>
-&nbsp;∙ `BTU/(lb F)`</td>
-</tr>
+&nbsp;∙ `BTU/(lb F)`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## SpecificVolume
 
@@ -277,18 +407,28 @@ Specific volume is the reciprocal of density, commonly used for mash thickness.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `qt/lb`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `qt/lb`<br/>
 &nbsp;∙ `gal/lb`<br/>
 &nbsp;∙ `gal/oz`<br/>
 &nbsp;∙ `l/g`<br/>
 &nbsp;∙ `l/kg`<br/>
 &nbsp;∙ `floz/oz`<br/>
 &nbsp;∙ `m^3/kg`<br/>
-&nbsp;∙ `ft^3/lb`</td>
-</tr>
+&nbsp;∙ `ft^3/lb`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Temperature
 
@@ -301,12 +441,22 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `C`<br/>
-&nbsp;∙ `F`</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `C`<br/>
+&nbsp;∙ `F`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Time
 
@@ -319,15 +469,25 @@ Note this is NOT dates or times of day but length-of-time or elapsed time, eg du
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `sec`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `sec`<br/>
 &nbsp;∙ `min`<br/>
 &nbsp;∙ `hr`<br/>
 &nbsp;∙ `day`<br/>
-&nbsp;∙ `week`</td>
-</tr>
+&nbsp;∙ `week`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">integer</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+integer
+</td></tr>
 
 ## VersionNumber
 
@@ -346,12 +506,22 @@ Viscosity of fluids
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `cP`<br/>
-&nbsp;∙ `mPa-s`</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `cP`<br/>
+&nbsp;∙ `mPa-s`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## Volume
 
@@ -364,7 +534,12 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">unit</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">Enum:<br/>&nbsp;∙ `ml`<br/>
+<td style="border: 1px solid black; padding: 6px;">
+unit
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+Enum:<br/>&nbsp;∙ `ml`<br/>
 &nbsp;∙ `l`<br/>
 &nbsp;∙ `tsp`<br/>
 &nbsp;∙ `tbsp`<br/>
@@ -381,11 +556,16 @@ No description provided for this model.
 &nbsp;∙ `ipt`<br/>
 &nbsp;∙ `iqt`<br/>
 &nbsp;∙ `igal`<br/>
-&nbsp;∙ `ibbl`</td>
-</tr>
+&nbsp;∙ `ibbl`
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">value</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">number</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+value
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+number
+</td></tr>
 
 ## RangeOfBitterness
 
@@ -398,11 +578,21 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">minimum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Bitterness](#bitterness)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+minimum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Bitterness](#bitterness)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">maximum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Bitterness](#bitterness)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+maximum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Bitterness](#bitterness)
+</td></tr>
 
 ## RangeOfCarbonation
 
@@ -415,11 +605,21 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">minimum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Carbonation](#carbonation)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+minimum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Carbonation](#carbonation)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">maximum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Carbonation](#carbonation)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+maximum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Carbonation](#carbonation)
+</td></tr>
 
 ## RangeOfTemperature
 
@@ -432,11 +632,21 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">minimum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Temperature](#temperature)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+minimum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Temperature](#temperature)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">maximum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Temperature](#temperature)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+maximum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Temperature](#temperature)
+</td></tr>
 
 ## RangeOfColor
 
@@ -449,11 +659,21 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">minimum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Color](#color)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+minimum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Color](#color)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">maximum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Color](#color)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+maximum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Color](#color)
+</td></tr>
 
 ## RangeOfDensity
 
@@ -466,11 +686,21 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">minimum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Density](#density)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+minimum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Density](#density)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">maximum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Density](#density)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+maximum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Density](#density)
+</td></tr>
 
 ## RangeOfPercentage
 
@@ -483,11 +713,21 @@ No description provided for this model.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">minimum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Percentage](#percentage)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+minimum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Percentage](#percentage)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">maximum</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Percentage](#percentage)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+maximum
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Percentage](#percentage)
+</td></tr>
 
 
 

@@ -9,11 +9,21 @@ Full definition of a water profile.
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">pH</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::Acidity](./Measurement.md#acidity)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+pH
+</td><td style="border: 1px solid black; padding: 6px;">
+&nbsp;
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::Acidity](./Measurement.md#acidity)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">notes</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">string</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+notes
+</td><td style="border: 1px solid black; padding: 6px;">
+&nbsp;
+</td><td style="border: 1px solid black; padding: 6px;">
+string
+</td></tr>
 
 
 ---
@@ -31,44 +41,109 @@ Provides unique properties to identify individual records of brewing water.  NOT
 <th style="border: 1px solid black; padding: 6px;">Property</th><th style="border: 1px solid black; padding: 6px;">Required?</th><th style="border: 1px solid black; padding: 6px;">Type</th>
 </tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">name</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">string</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+name
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+string
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">calcium</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+calcium
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">bicarbonate</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+bicarbonate
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">sulfate</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+sulfate
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">chloride</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+chloride
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">sodium</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+sodium
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">magnesium</td><td style="border: 1px solid black; padding: 6px;">✅</td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+magnesium
+</td><td style="border: 1px solid black; padding: 6px;">
+✅
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">carbonate</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+carbonate
+</td><td style="border: 1px solid black; padding: 6px;">
+&nbsp;
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">potassium</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+potassium
+</td><td style="border: 1px solid black; padding: 6px;">
+&nbsp;
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">iron</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+iron
+</td><td style="border: 1px solid black; padding: 6px;">
+&nbsp;
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">nitrate</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+nitrate
+</td><td style="border: 1px solid black; padding: 6px;">
+&nbsp;
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">nitrite</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+nitrite
+</td><td style="border: 1px solid black; padding: 6px;">
+&nbsp;
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 <tr>
-<td style="border: 1px solid black; padding: 6px;">fluoride</td><td style="border: 1px solid black; padding: 6px;"></td><td style="border: 1px solid black; padding: 6px;">[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)</td>
-</tr>
+<td style="border: 1px solid black; padding: 6px;">
+fluoride
+</td><td style="border: 1px solid black; padding: 6px;">
+&nbsp;
+</td><td style="border: 1px solid black; padding: 6px;">
+[Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration)
+</td></tr>
 
 
 

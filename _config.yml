@@ -8,6 +8,8 @@ incremental: false
 highlighter: rouge
 gist:
   noscript: false
+markdown: kramdown
 kramdown:
+  input: GFM
   math_engine: mathjax
   syntax_highlighter: rouge

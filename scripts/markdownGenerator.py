@@ -707,9 +707,18 @@ def _create_definition_table(schema: dict, defs: dict, hide_empty_columns: bool)
             + " | ".join([str(item[col]) for col in columns if include_column[col]])
             + " |\n"
          )
-         htmlTable += ("<tr>\n" +
-                       f"<td{cellBorderStyle}>" + f"</td><td{cellBorderStyle}>".join([str(item[col]) for col in columns if include_column[col]]) + "</td>\n"
-                       "</tr>\n")
+         #
+         # We try putting cell contents on separate line to help Jekyll convert links properly, but we have to ensure
+         # no blank lines, otherwise Markdown will break the table.
+         #
+         htmlTable += "<tr>\n"
+         for col in columns:
+            if include_column[col]:
+               cellContents = str(item[col])
+               if not cellContents:
+                  cellContents += "&nbsp;"
+               htmlTable += f"<td{cellBorderStyle}>\n{cellContents}\n</td>"
+         htmlTable += "</tr>\n"
    else:
       # Generate the header row
       capitalized_columns = [
