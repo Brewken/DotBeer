@@ -16,10 +16,10 @@ The information stored in a beer recipe.
 | efficiency.mash |  | [Measurement::Percentage](./Measurement.md#percentage) | The percentage of sugar that makes it from the grain to the kettle. |
 | efficiency.brewhouse | ✅ | [Measurement::Percentage](./Measurement.md#percentage) | The percentage of sugar that makes it from the grain to the fermenter. |
 | ingredients | ✅ | object | All the recipe's ingredient additions.  Note that these lists are "abbreviated" versions of each ingredient, which saves on repetition when, eg, the same type of hop is added at more then one point.  If you are exporting one or more recipes, you should also export the full versions of their ingredients in the same file. |
-| ingredients.fermentable_additions | ✅ | [FermentableRecipeAddition](#fermentablerecipeaddition) | All the fermentable additions to the recipe |
-| ingredients.hop_additions |  | [HopRecipeAddition](#hoprecipeaddition) | All the hop additions to the recipe |
-| ingredients.miscellaneous_additions |  | [OtherIngredientRecipeAddition](#otheringredientrecipeaddition) | All the miscellaneous item additions to the recipe |
-| ingredients.culture_additions |  | [CultureRecipeAddition](#culturerecipeaddition) | All the yeast and/or other culture additions to the recipe |
+| ingredients.fermentable_additions | ✅ | array of [FermentableRecipeAddition](#fermentablerecipeaddition) | All the fermentable additions to the recipe |
+| ingredients.hop_additions |  | array of [HopRecipeAddition](#hoprecipeaddition) | All the hop additions to the recipe |
+| ingredients.miscellaneous_additions |  | array of [OtherIngredientRecipeAddition](#otheringredientrecipeaddition) | All the miscellaneous item additions to the recipe |
+| ingredients.culture_additions |  | array of [CultureRecipeAddition](#culturerecipeaddition) | All the yeast and/or other culture additions to the recipe |
 | coauthor |  | string |  |
 | created |  | [Measurement::Date](./Measurement.md#date) |  |
 | style |  | [Style::StyleBase](./Style.md#stylebase) |  |
@@ -115,4 +115,4 @@ Collects the attributes of each miscellaneous ingredient for use in a recipe.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:29:03+0200.

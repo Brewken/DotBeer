@@ -11,7 +11,7 @@ A boil procedure, which can be used by multiple recipes.  A boil procedure with 
 | boil_description |  | string |
 | notes |  | string |
 | pre_boil_size |  | [Measurement::Volume](./Measurement.md#volume) |
-| boil_steps |  | [BoilStep](#boilstep) |
+| boil_steps |  | array of [BoilStep](#boilstep) |
 
 
 ---
@@ -32,4 +32,4 @@ Individual step of a boil, including preboil steps, non-boiling pasteurization s
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:29:03+0200.

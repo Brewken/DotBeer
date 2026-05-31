@@ -8,7 +8,7 @@ A mash procedure, which can be used by multiple recipes.
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
 | grain_temperature | ✅ | [Measurement::Temperature](./Measurement.md#temperature) | Initial grain temperature prior to the start of the mash. |
-| mash_steps | ✅ | [MashStep](#mashstep) |  |
+| mash_steps | ✅ | array of [MashStep](#mashstep) |  |
 | notes |  | string |  |
 
 
@@ -33,4 +33,4 @@ Individual step of a mash.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:29:03+0200.

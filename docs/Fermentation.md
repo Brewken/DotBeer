@@ -7,7 +7,7 @@ A fermentation procedure, which can be used by multiple recipes.
 | Property | Required? | Type |
 | -------- | --------- | ---- |
 | name | ✅ | string |
-| fermentation_steps | ✅ | [FermentationStep](#fermentationstep) |
+| fermentation_steps | ✅ | array of [FermentationStep](#fermentationstep) |
 | fermentation_description |  | string |
 | notes |  | string |
 
@@ -31,4 +31,4 @@ Individual step of a fermentation.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:29:03+0200.

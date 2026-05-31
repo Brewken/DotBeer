@@ -44,56 +44,11 @@
           "$ref": "Measurement.beer.schema#/$defs/Percentage"
         },
         "substitutes": {
-          "type": "string"
+          "type": "string",
+          "description": "Alternate hop varieties that can be used in place of this hop variety"
         },
         "oil_content": {
-          "type": "object",
-          "description": "Collects all information of a hop variety pertaining to oil content, polyphenols, and thiols. Each individual compound is expressed as a percent of the total oil measurement.",
-          "properties": {
-            "total_oil_ml_per_100g": {
-              "description": "The total amount of oil, including hydrocarbons, esters, and terpene alcohols in units of ml of oil per 100g of hop mass.",
-              "type": "number"
-            },
-            "humulene": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "caryophyllene": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "cohumulone": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "myrcene": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "farnesene": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "geraniol": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "b_pinene": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "linalool": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "limonene": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "nerol": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "pinene": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "polyphenols": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            },
-            "xanthohumol": {
-              "$ref": "Measurement.beer.schema#/$defs/Percentage"
-            }
-          }
+          "$ref": "#/$defs/OilContent"
         },
         "inventory": {
           "$ref": "#/$defs/HopInventory"
@@ -117,7 +72,8 @@
           "type": "string"
         },
         "origin": {
-          "type": "string"
+          "type": "string",
+          "description": "Country of origin for the hop variety"
         },
         "year": {
           "type": "string"
@@ -157,6 +113,55 @@
               "$ref": "Measurement.beer.schema#/$defs/Mass"
             }
           ]
+        }
+      }
+    },
+    "OilContent": {
+      "type": "object",
+      "description": "Collects all information of a hop variety pertaining to oil content, polyphenols, and thiols. Each individual compound is expressed as a percent of the total oil measurement.",
+      "properties": {
+        "total_oil_ml_per_100g": {
+          "description": "The total amount of oil, including hydrocarbons, esters, and terpene alcohols in units of ml of oil per 100g of hop mass.",
+          "type": "number"
+        },
+        "humulene": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "caryophyllene": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "cohumulone": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "myrcene": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "farnesene": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "geraniol": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "b_pinene": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "linalool": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "limonene": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "nerol": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "pinene": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "polyphenols": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "xanthohumol": {
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
         }
       }
     }

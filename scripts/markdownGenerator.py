@@ -9,15 +9,18 @@
 # DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 # warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
 #======================================================================================================================
+
 import contextlib
 import copy
 import json
 import sys
 import urllib.parse
-
 import yaml
-from loguru import logger
+
 from datetime import datetime
+from datetime import timezone
+
+from loguru import logger
 
 #
 # Turns a native list of strings (eg ["foo", "bar", "hum", "bug"]) into a printable string with correct commas etc (eg
@@ -321,6 +324,16 @@ def generate(
 
    defs = _schema.get("definitions", _schema.get("$defs", {}))
 
+   #
+   # We do a bit of a hack to have special processing for the root file of the schema
+   #
+   properties = _schema.get("properties")
+   if properties:
+      dotBeer = properties.get("DotBeer")
+      if dotBeer:
+         logger.debug("Special processing for DotBeer root object")
+         _schema = dotBeer
+
    # Add the title and description of the schema
    markdown += _get_schema_header(
       schema = _schema,
@@ -354,11 +367,14 @@ def generate(
          )
 
    if footer:
-      dateStamp = datetime.today().strftime('%Y-%m-%d')
+      timeAndDateNowUtc = datetime.now(timezone.utc)
+      timeAndDateLocal = timeAndDateNowUtc.astimezone()
+      dateStamp = timeAndDateLocal.strftime('%Y-%m-%d')
+      timeStamp = timeAndDateLocal.strftime('%H:%M:%S%z')
       markdown += (
          f"\n\n---\n\n"
          "Documentation generated from the "
-         f"[DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on {dateStamp}.")
+         f"[DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on {dateStamp} at {timeStamp}.")
 
    res = markdown.strip(" \n")
    res += "\n"
@@ -1078,7 +1094,7 @@ def _get_property_details(
    property_type: str, property_details: dict, defs: dict
 ) -> tuple[str, str]:
    """
-   Get the possible values for a property.
+   Get the "type" and "possible values" for a property as a pair.
    """
    # Normalize list-form types (e.g. ["object", "null"]) into a recognizable
    # base type plus an optional "or null" suffix so the rest of this function
@@ -1131,15 +1147,16 @@ def _get_property_details(
 
    if "items" in property_details:
       if any(key in property_details["items"] for key in ["oneOf", "anyOf", "allOf"]):
-         t, d = _handle_array_like_property(
+         tt, dd = _handle_array_like_property(
             property_type, property_details["items"], defs, is_array=True
          )
-         if t and d:
-            return t, d
+         if tt and dd:
+            return tt, dd
 
       ref_type, ref_details = get_property_if_ref(property_details["items"], defs)
+      logger.debug(f"¥¥¥ ref_type:{ref_type}, ref_details:{ref_details}")
       if ref_type or ref_details:
-         return f"`{property_type}`", ref_details
+         return f"`{property_type}`", f"array of {ref_details}"
       else:
          ref_type, ref_details = _get_property_details(
             property_details["items"].get("type"), property_details["items"], defs

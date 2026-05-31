@@ -15,7 +15,11 @@
 # to GitHub to make them easily available to those interested in the project.
 #
 # For the moment, at least, we assume it is not necessary to directly generate documetation in other formats, because,
-# eg, HTML documentation can be automatically generated from Markdown.
+# eg, HTML documentation can be automatically generated from Markdown.  This, eg, is done by Jekyll in GitHub pages.
+# NOTE that, as you might expect, GitHub pages has some level of caching.  So, when you publish an update to the
+# documentation, the changes show up straight away in https://github.com/Brewken/DotBeer/tree/main/docs, but only after
+# a delay of a few minutes in http://www.dotbeer.org/docs/DotBeer.html and related pages.  (This is one reason we have
+# a generation timestamp at the bottom of each page!)
 #
 
 #
