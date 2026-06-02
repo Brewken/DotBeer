@@ -47,9 +47,40 @@ import glob
 import inspect
 import os
 
+from datetime import datetime
+from datetime import timezone
+
 from jsonc_parser.parser import JsoncParser
 
 import markdownGenerator
+
+#
+# Given an input list (inputList) and a preferred order (preferredOrder), returns a "sorted" version of inputList where:
+#    - Any elements in inputList that are also in preferredOrder come first and in the same order as preferredOrder
+#    - Remaining elements are ordered alphabetically
+#
+def sortWithPreference(inputList, preferredOrder):
+   #
+   # Calling enumerate() gives us a list of (index, element) pairs for all elements in preferredOrder
+   # We then loop through that to construct a dictionary element->index for all elements in preferredOrder
+   #
+   preferredOrderIndexLookup = {element: index for index, element in enumerate(preferredOrder)}
+   preferredOrderLen = len(preferredOrder)
+
+   #
+   # Now we call sorted() with a `key` function that takes an element (inputElement) in inputList and returns the key to
+   # use for sorting purposes.  In our case, our key we return is a pair, (preferredIndex, inputElement), where
+   # preferredIndex is either
+   #      - the index in preferredOrder of inputElement, if the item was found in preferredOrderIndexLookup
+   #      - one more than the highest index in preferredOrder
+   #
+   # Since the key is a pair, it sorts as:
+   #    (A1, B1) < (A2, B2)  <=>  A1 < A2  or  A1 == A2 and B1 < B2
+   #
+   return sorted(
+      inputList,
+      key=lambda inputElement: (preferredOrderIndexLookup.get(inputElement, preferredOrderLen), inputElement)
+   )
 
 #
 # Parse command line arguments
@@ -73,29 +104,125 @@ print(f"Current directory now {os.getcwd()}")
 
 os.makedirs("../docs", exist_ok=True)
 
-#
-# To keep things easily digestible for readers, we generate one documentation markdown file for each schema file
-#
-schemaFiles = glob.glob("../schema/*.beer.schema")
-for schemaFile in schemaFiles:
-   baseName = os.path.basename(schemaFile).removesuffix(".beer.schema")
-   docFile = f"../docs/{baseName}.md"
-   print(f"Parsing {schemaFile} to {docFile}")
-   schema = JsoncParser.parse_file(schemaFile)
+topLevelMd = ""
+footerMarkdown = ""
+timeAndDateNowUtc = datetime.now(timezone.utc)
+timeAndDateLocal = timeAndDateNowUtc.astimezone()
+dateStamp = timeAndDateLocal.strftime('%Y-%m-%d')
+timeStamp = timeAndDateLocal.strftime('%H:%M:%S%z')
 
-   schemaBase = os.path.abspath(schemaFile)
-   jsm_kwargs = {
-      "title": baseName,
-      "footer": True,
-      "replace_refs": False,
-      "debug": args.verbose,  # Turning this on sends log messages to stderr
-      "hide_empty_columns": True,
-      "examples_format": "text",
-      "sort_yaml_keys": False,
-   }
+#
+# To keep things easily digestible for readers, we generate one documentation Markdown file for each schema file.
+# As we're going along, we'll also generate the contents of top-level index file that lists all the other ones.
+#
 
-   markdown = markdownGenerator.generate(schema, **jsm_kwargs)
-   with open(docFile, "w") as document:
-      document.write(markdown)
+#
+# Although we list the file order here (for the INDEX document), we make sure we pick up all the schema files, including
+# any not listed here.  This means that, if we add a new schema file but forget to add it to the list here, it will
+# still get included in the documentation.
+#
+# Since we'd like to group things together in the INDEX document, we have headings as well as files in this list.
+# Headings begin with '>'.  Note however that the first item in this list cannot be a heading.  (This restriction makes
+# the code below simpler, and doesn't really tie our hands as we already have special processing for the DotBeer file.)
+#
+preferredOrder = [
+   "DotBeer",
+   ">Ingredients",
+   "Fermentable", "Hop", "MiscIngredient", "Culture",
+   #"WaterAdjustment",
+   ">Processes",
+   "Mash", "Boil", "Fermentation", "StepCommon",
+   ">Other freestanding elements used in a recipe",
+   "Style", "Equipment", "Water",
+   ">Recipe is best read or written after all above (see note below)",
+   "Recipe",
+   ">Other",
+   "Measurement"
+]
+
+#
+# We create a merged list of the hard-coded files and headings above plus any files in the schema directory that were
+# not in that list.  (Going via `set` removes duplicates.)   Then we sort the combined list to match the order of
+# preferredOrder above.  This is obviously far from being optimal, but the lists are short in absolute terms and this
+# script is only run occasionally, so it doesn't matter.
+#
+baseNames = list(
+   set(
+      preferredOrder +
+      [os.path.basename(schemaFile).removesuffix(".beer.schema") for schemaFile in glob.glob("../schema/*.beer.schema")]
+   )
+)
+
+orderedBaseNames = sortWithPreference(baseNames, preferredOrder)
+dotBeerSchemaVersion = ""
+for baseName in orderedBaseNames:
+
+   if not baseName.startswith(">"):
+      # It seems silly that we had schemaFile (in the output of glob.glob) and need to recreate it here, but it's not a
+      # huge overhead and feels less clunky than the alternatives.
+      schemaFile = f"../schema/{baseName}.beer.schema"
+      docFile = f"../docs/{baseName}.md"
+      print(f"Parsing {schemaFile} to {docFile}")
+      schema = JsoncParser.parse_file(schemaFile)
+
+      if (baseName == "DotBeer"):
+         dotBeerSchemaVersion = schema.get("Version")
+         footerMarkdown = (
+            f"\n\n---\n\n"
+            "<footer>\n"
+            "Documentation generated from the "
+            f"[DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v{dotBeerSchemaVersion}) "
+            f"on {dateStamp} at {timeStamp}.\n"
+            "</footer>")
+
+         topLevelMd = (
+            f"# DotBeer {dotBeerSchemaVersion}\n\n"
+            "A DotBeer (<span style=\"color:green; font-weight: bold; font-family: monospace;\">.beer</span>) file is a "
+            "JSONC (JSON with comments allowed) document with a `DotBeer` root element.  The schema against which a "
+            "<span style=\"color:green; font-weight: bold; font-family: monospace;\">.beer</span> file should validate is "
+            "split into the following sections (with a corresponding "
+            "<span style=\"color:BlueViolet; font-weight: bold; font-family: monospace;\">.beer.schema</span> file for "
+            "each one):\n\n"
+            "#### Root element\n\n"
+         )
+      topLevelMd += f"  - [{baseName}]({docFile})\n"
+
+      schemaBase = os.path.abspath(schemaFile)
+      jsm_kwargs = {
+         "title": baseName,
+         "dotBeerSchemaVersion": dotBeerSchemaVersion,
+         "footerMarkdown": footerMarkdown,
+         "replace_refs": False,
+         "debug": args.verbose,  # Turning this on sends log messages to stderr
+         "hide_empty_columns": True,
+         "examples_format": "text",
+         "sort_yaml_keys": False,
+      }
+
+      markdown = markdownGenerator.generate(schema, **jsm_kwargs)
+      with open(docFile, "w") as document:
+         document.write(markdown)
+   else:
+      topLevelMd += f"\n#### {baseName.removeprefix(">")}\n\n"
+
+with open("../docs/INDEX.md", "w") as indexFile:
+   indexFile.write(topLevelMd)
+   indexFile.write(
+      "\nWhen reading or writing a <span style=\"color:green; font-weight: bold; font-family: monospace;\">.beer</span>"
+      " file, we recommend you read or write `Recipe` record(s) after all the ingredients, processes and so on that "
+      "the recipes refer to.  This is because, inside the `Recipe` record, there is enough information to eg identify "
+      "each hop added to the recipe, but not all the information to recreate that hop record if it is not already "
+      "present on the system reading the record.\n\n"
+      "The version of the DotBeer schema is stored in the `Version` field in the <span style=\"color:BlueViolet; "
+      "font-weight: bold; font-family: monospace;\">DoteBeer.beer.schema</span> file.  Versions prior to 1.0.0 are "
+      "subject to breaking changes, but from 1.0.0 onwards adhere to the backwards compatibility principle.  This "
+      "principle is that you should always be able to validate an older <span style=\"color:green; font-weight: bold; "
+      "font-family: monospace;\">.beer</span> file against a newer schema (although the reverse is not guaranteed).  "
+      "Eg, if a file were written using the 1.0.0 schema, it should validate and be readable against the 1.1.0 "
+      "schema.\n\n"
+      "If a field is marked `deprecated` in the schema that usually means it should be supported for reading but not "
+      "for writing.  This approach is part of what maintains the backwards compatibility principle."
+   )
+   indexFile.write(footerMarkdown)
 
 print('Done')

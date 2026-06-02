@@ -17,9 +17,6 @@ import sys
 import urllib.parse
 import yaml
 
-from datetime import datetime
-from datetime import timezone
-
 from loguru import logger
 
 #
@@ -281,7 +278,8 @@ def _extract_inline_defs(schema: dict) -> dict:
 def generate(
    schema: dict,
    title: str = "DotBeer",
-   footer: bool = True,
+   dotBeerSchemaVersion: str = "",
+   footerMarkdown: str = "",
    replace_refs: bool = False,
    debug: bool = False,
    hide_empty_columns: bool = False,
@@ -294,7 +292,7 @@ def generate(
    Args:
       schema: The JSON schema to generate markdown from.
       title: The title of the markdown document.
-      footer: Whether to include a footer section in the markdown with the current date and time.
+      footerMarkdown: Markdown (if any) to include as a footer section
       replace_refs: This feature is experimental. Whether to replace JSON references with their resolved values.
       debug: Whether to print debug messages.
       hide_empty_columns: Whether to hide empty columns in the output.
@@ -356,7 +354,8 @@ def generate(
             schema = definition,
             defs = defs,
             ref_key = key,
-            description_fallback = "No description provided for this model.",
+#            description_fallback = "No description provided for this model.",
+            description_fallback = "",
             nested = True,
             examples_format = examples_format,
             sort_yaml_keys = sort_yaml_keys,
@@ -366,15 +365,8 @@ def generate(
             definition, defs, hide_empty_columns=hide_empty_columns
          )
 
-   if footer:
-      timeAndDateNowUtc = datetime.now(timezone.utc)
-      timeAndDateLocal = timeAndDateNowUtc.astimezone()
-      dateStamp = timeAndDateLocal.strftime('%Y-%m-%d')
-      timeStamp = timeAndDateLocal.strftime('%H:%M:%S%z')
-      markdown += (
-         f"\n\n---\n\n"
-         "Documentation generated from the "
-         f"[DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on {dateStamp} at {timeStamp}.")
+   if footerMarkdown:
+      markdown += footerMarkdown
 
    res = markdown.strip(" \n")
    res += "\n"
@@ -409,7 +401,7 @@ def _process_properties_recursively(
       full_path = f"{property_path}.{prop_name}" if property_path else prop_name
 
       prop_type = prop_details.get("type")
-      logger.debug(f"Processing {full_path} of type {prop_type}")
+      logger.debug(f"Processing {full_path} of type {prop_type} with details {prop_details}")
 
       # Process the current property
       property_type, possible_values = _get_property_details(
@@ -650,7 +642,7 @@ def _create_definition_table(schema: dict, defs: dict, hide_empty_columns: bool)
             if allOfRequired:
                required.extend(allOfRequired)
 
-   logger.debug(f"required: {required}")
+   logger.debug(f"properties: {properties}\nrequired: {required}")
 
    sorted_properties = sortProperties(properties, required)
 

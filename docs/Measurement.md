@@ -1,6 +1,6 @@
-# Measurement Types
+# Measurement
 
-Various types of measurement, and ranges thereof.
+'Measurement' is not a type itself, but a subschema holding various types of measurement, and ranges thereof.
 
 In principle, we could have sub-groupings such as "physical quantities" (volume, mass, acidity, etc), "non-physical quantities" (percentage, count, date, etc).  However, this adds complexity to the schema for little gain, because there is nowhere else in the schema where we would rely on such groupings.  So, instead, we keep a flat hierarchy.
 
@@ -17,7 +17,7 @@ For Ranges, note that we do not force the same units for lower and upper bounds.
 
 ## Acidity
 
-No description provided for this model.
+
 
 <strong>Acidity</strong> is a JSON object with the following properties:
 
@@ -28,7 +28,7 @@ No description provided for this model.
 
 ## Bitterness
 
-No description provided for this model.
+
 
 <strong>Bitterness</strong> is a JSON object with the following properties:
 
@@ -39,7 +39,7 @@ No description provided for this model.
 
 ## Carbonation
 
-No description provided for this model.
+
 
 <strong>Carbonation</strong> is a JSON object with the following properties:
 
@@ -54,10 +54,10 @@ Supports both grain color properties, such as Lovibond, and wort color propertie
 
 <strong>Color</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `EBC`<br>&nbsp;∙ `Lovi`<br>&nbsp;∙ `SRM` |
-| value | ✅ | number |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `EBC`<br>&nbsp;∙ `Lovi`<br>&nbsp;∙ `SRM` | `EBC` is European Brewing Convention system of color measurement<br>`Lovi` is Lovibond<br>`SRM` is Standard Reference Method color measurement system |
+| value | ✅ | number |  |
 
 ## Count
 
@@ -78,14 +78,14 @@ To avoid ambiguity, dates are always stored in ISO 8601 format.  The two possibi
 
 ## Density
 
-Sometimes referred to as "gravity" as a shorthand for "specific gravity".  Typically, brewers measure relative density (aka specific gravity) to gauge percent of sugar content (ie plato and brix).
+Sometimes referred to as "gravity" as a shorthand for "specific gravity".  Typically, brewers measure relative density (aka specific gravity) to gauge percent of sugar content (ie Plato and Brix).
 
 <strong>Density</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `sg`<br>&nbsp;∙ `plato`<br>&nbsp;∙ `brix` |
-| value | ✅ | number |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `sg`<br>&nbsp;∙ `plato`<br>&nbsp;∙ `brix` | `sg` is specific gravity<br>`plato` is degrees Plato (°P)<br>`brix` is degrees Brix (°Bx) |
+| value | ✅ | number |  |
 
 ## DiastaticPower
 
@@ -100,7 +100,7 @@ Diastatic power is a measurement of malted grains enzymatic content. A value of 
 
 ## Length
 
-No description provided for this model.
+
 
 <strong>Length</strong> is a JSON object with the following properties:
 
@@ -111,14 +111,14 @@ No description provided for this model.
 
 ## Mass
 
-No description provided for this model.
+
 
 <strong>Mass</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `mg`<br>&nbsp;∙ `g`<br>&nbsp;∙ `kg`<br>&nbsp;∙ `lb`<br>&nbsp;∙ `oz` |
-| value | ✅ | number |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `mg`<br>&nbsp;∙ `g`<br>&nbsp;∙ `kg`<br>&nbsp;∙ `lb`<br>&nbsp;∙ `oz` | `mg` is milligrams<br>`g` is grams<br>`kg` is kilograms<br>`lb` is pounds (imperial and US customary)<br>`oz` is ounces (imperial and US customary) |
+| value | ✅ | number |  |
 
 ## MassFractionOrConcentration
 
@@ -126,14 +126,14 @@ Strictly speaking, mass concentration (eg mg/l) is different from mass fraction 
 
 <strong>MassFractionOrConcentration</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `ppm`<br>&nbsp;∙ `ppb`<br>&nbsp;∙ `mg/l` |
-| value | ✅ | number |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `ppm`<br>&nbsp;∙ `ppb`<br>&nbsp;∙ `mg/l` | `ppm` is parts per million<br>`ppb` is parts per billion<br>`mg/l` is milligrams per liter |
+| value | ✅ | number |  |
 
 ## Percentage
 
-No description provided for this model.
+
 
 <strong>Percentage</strong> is a JSON object with the following properties:
 
@@ -144,14 +144,14 @@ No description provided for this model.
 
 ## Pressure
 
-No description provided for this model.
+
 
 <strong>Pressure</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `kPa`<br>&nbsp;∙ `psi`<br>&nbsp;∙ `bar` |
-| value | ✅ | number |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `kPa`<br>&nbsp;∙ `psi`<br>&nbsp;∙ `bar` | `kPa` is kilopascals<br>`psi` is pounds per square inch<br>`bar` is bar (where 1 bar = 100 kPa) |
+| value | ✅ | number |  |
 
 ## SpecificHeatCapacity
 
@@ -177,14 +177,14 @@ Specific volume is the reciprocal of density, commonly used for mash thickness.
 
 ## Temperature
 
-No description provided for this model.
+
 
 <strong>Temperature</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `C`<br>&nbsp;∙ `F` |
-| value | ✅ | number |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `C`<br>&nbsp;∙ `F` | `C` is degrees Celsius (°C)<br>`F` is decrees Fahrenheit (°F) |
+| value | ✅ | number |  |
 
 ## Time
 
@@ -192,10 +192,10 @@ Note this is NOT dates or times of day but length-of-time or elapsed time, eg du
 
 <strong>Time</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `sec`<br>&nbsp;∙ `min`<br>&nbsp;∙ `hr`<br>&nbsp;∙ `day`<br>&nbsp;∙ `week` |
-| value | ✅ | integer |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `sec`<br>&nbsp;∙ `min`<br>&nbsp;∙ `hr`<br>&nbsp;∙ `day`<br>&nbsp;∙ `week` | `sec` is seconds<br>`min` is minutes<br>`hr` is hours<br>`day` is days<br>`week` is weeks<br> |
+| value | ✅ | integer |  |
 
 ## VersionNumber
 
@@ -216,18 +216,18 @@ Viscosity of fluids
 
 ## Volume
 
-No description provided for this model.
+
 
 <strong>Volume</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `ml`<br>&nbsp;∙ `l`<br>&nbsp;∙ `tsp`<br>&nbsp;∙ `tbsp`<br>&nbsp;∙ `floz`<br>&nbsp;∙ `cup`<br>&nbsp;∙ `pt`<br>&nbsp;∙ `qt`<br>&nbsp;∙ `gal`<br>&nbsp;∙ `bbl`<br>&nbsp;∙ `itsp`<br>&nbsp;∙ `itbsp`<br>&nbsp;∙ `ifloz`<br>&nbsp;∙ `icup`<br>&nbsp;∙ `ipt`<br>&nbsp;∙ `iqt`<br>&nbsp;∙ `igal`<br>&nbsp;∙ `ibbl` |
-| value | ✅ | number |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `ml`<br>&nbsp;∙ `l`<br>&nbsp;∙ `tsp`<br>&nbsp;∙ `tbsp`<br>&nbsp;∙ `floz`<br>&nbsp;∙ `cup`<br>&nbsp;∙ `pt`<br>&nbsp;∙ `qt`<br>&nbsp;∙ `gal`<br>&nbsp;∙ `bbl`<br>&nbsp;∙ `itsp`<br>&nbsp;∙ `itbsp`<br>&nbsp;∙ `ifloz`<br>&nbsp;∙ `icup`<br>&nbsp;∙ `ipt`<br>&nbsp;∙ `iqt`<br>&nbsp;∙ `igal`<br>&nbsp;∙ `ibbl` | `ml` is milliliters (Metric/SI)<br>`l` is liters (Metric/SI)<br>`tsp` is US teaspoons<br>`tbsp` is US tablespoons<br>`floz` is US fluid ounces<br>`cup` is US cups<br>`pt` is US pints (liquid)<br>`qt` is US quarts (liquid)<br>`gal` is US gallons (liquid)<br>`bbl` is US barrels (liquid)<br>`itsp` is Imperial teaspoons<br>`itbsp` is Imperial tablespoons<br>`ifloz` is Imperial fluid ounces<br>`icup` is Imperial cups<br>`ipt` is Imperial pints (liquid)<br>`iqt` is Imperial quarts (liquid)<br>`igal` is Imperial gallons (liquid)<br>`ibbl` is Imperial barrels (liquid) |
+| value | ✅ | number |  |
 
 ## RangeOfBitterness
 
-No description provided for this model.
+
 
 <strong>RangeOfBitterness</strong> is a JSON object with the following properties:
 
@@ -238,7 +238,7 @@ No description provided for this model.
 
 ## RangeOfCarbonation
 
-No description provided for this model.
+
 
 <strong>RangeOfCarbonation</strong> is a JSON object with the following properties:
 
@@ -249,7 +249,7 @@ No description provided for this model.
 
 ## RangeOfTemperature
 
-No description provided for this model.
+
 
 <strong>RangeOfTemperature</strong> is a JSON object with the following properties:
 
@@ -260,7 +260,7 @@ No description provided for this model.
 
 ## RangeOfColor
 
-No description provided for this model.
+
 
 <strong>RangeOfColor</strong> is a JSON object with the following properties:
 
@@ -271,7 +271,7 @@ No description provided for this model.
 
 ## RangeOfDensity
 
-No description provided for this model.
+
 
 <strong>RangeOfDensity</strong> is a JSON object with the following properties:
 
@@ -282,7 +282,7 @@ No description provided for this model.
 
 ## RangeOfPercentage
 
-No description provided for this model.
+
 
 <strong>RangeOfPercentage</strong> is a JSON object with the following properties:
 
@@ -295,4 +295,6 @@ No description provided for this model.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:49:39+0200.
+<footer>
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-02 at 15:20:29+0200.
+</footer>

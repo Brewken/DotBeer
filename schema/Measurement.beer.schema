@@ -15,8 +15,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dotbeer.org/schema/Measurement.beer.schema",
-  "title": "Measurement Types",
-  "description": "Various types of measurement, and ranges thereof.\n\nIn principle, we could have sub-groupings such as \"physical quantities\" (volume, mass, acidity, etc), \"non-physical quantities\" (percentage, count, date, etc).  However, this adds complexity to the schema for little gain, because there is nowhere else in the schema where we would rely on such groupings.  So, instead, we keep a flat hierarchy.\n\nIn several cases, there is only one possible unit (eg acidity, percentage, count), so it would be possible to omit units altogether.  However, in common with BeerJSON, we retain them for a couple of reasons.  Firstly, it makes the serialisation easier to understand for human readers.  Secondly, it makes things more extendable: eg, if we decided at a future date we would like to support \"percentage points\" in addition to \"percentages\", then it's a smaller change to add them.\n\nFor Ranges, note that we do not force the same units for lower and upper bounds.  This is partly because it would complicate the schema for only small gain, and partly because it's conceivable that you want different units on min and max (eg if you had a mass range you might want min in grams and max in kilograms).",
+  "title": "Measurement",
+  "description": "'Measurement' is not a type itself, but a subschema holding various types of measurement, and ranges thereof.\n\nIn principle, we could have sub-groupings such as \"physical quantities\" (volume, mass, acidity, etc), \"non-physical quantities\" (percentage, count, date, etc).  However, this adds complexity to the schema for little gain, because there is nowhere else in the schema where we would rely on such groupings.  So, instead, we keep a flat hierarchy.\n\nIn several cases, there is only one possible unit (eg acidity, percentage, count), so it would be possible to omit units altogether.  However, in common with BeerJSON, we retain them for a couple of reasons.  Firstly, it makes the serialisation easier to understand for human readers.  Secondly, it makes things more extendable: eg, if we decided at a future date we would like to support \"percentage points\" in addition to \"percentages\", then it's a smaller change to add them.\n\nFor Ranges, note that we do not force the same units for lower and upper bounds.  This is partly because it would complicate the schema for only small gain, and partly because it's conceivable that you want different units on min and max (eg if you had a mass range you might want min in grams and max in kilograms).",
   "$defs": {
     "Acidity": {
       "type": "object",
@@ -79,6 +79,7 @@
       "additionalProperties": false,
       "properties": {
         "unit": {
+          "description": "`EBC` is European Brewing Convention system of color measurement<br>`Lovi` is Lovibond<br>`SRM` is Standard Reference Method color measurement system",
           "enum": [
             "EBC",
             "Lovi",
@@ -124,10 +125,11 @@
     },
     "Density": {
       "type": "object",
-      "description": "Sometimes referred to as \"gravity\" as a shorthand for \"specific gravity\".  Typically, brewers measure relative density (aka specific gravity) to gauge percent of sugar content (ie plato and brix).",
+      "description": "Sometimes referred to as \"gravity\" as a shorthand for \"specific gravity\".  Typically, brewers measure relative density (aka specific gravity) to gauge percent of sugar content (ie Plato and Brix).",
       "additionalProperties": false,
       "properties": {
         "unit": {
+          "description": "`sg` is specific gravity<br>`plato` is degrees Plato (°P)<br>`brix` is degrees Brix (°Bx)",
           "enum": [
             "sg",
             "plato",
@@ -190,6 +192,7 @@
       "additionalProperties": false,
       "properties": {
         "unit": {
+          "description": "`mg` is milligrams<br>`g` is grams<br>`kg` is kilograms<br>`lb` is pounds (imperial and US customary)<br>`oz` is ounces (imperial and US customary)",
           "enum": [
             "mg",
             "g",
@@ -213,10 +216,11 @@
       "additionalProperties": false,
       "properties": {
         "unit": {
+          "description": "`ppm` is parts per million<br>`ppb` is parts per billion<br>`mg/l` is milligrams per liter",
           "enum": [
-            "ppm", // Parts per million
-            "ppb", // Parts per billion
-            "mg/l" // Milligrams per liter
+            "ppm",
+            "ppb",
+            "mg/l"
           ]
         },
         "value": {
@@ -251,6 +255,7 @@
       "additionalProperties": false,
       "properties": {
         "unit": {
+          "description": "`kPa` is kilopascals<br>`psi` is pounds per square inch<br>`bar` is bar (where 1 bar = 100 kPa)",
           "enum": [
             "kPa",
             "psi",
@@ -318,6 +323,7 @@
       "additionalProperties": false,
       "properties": {
         "unit": {
+          "description": "`C` is degrees Celsius (°C)<br>`F` is decrees Fahrenheit (°F)",
           "enum": [
             "C",
             "F"
@@ -338,6 +344,7 @@
       "additionalProperties": false,
       "properties": {
         "unit": {
+          "description": "`sec` is seconds<br>`min` is minutes<br>`hr` is hours<br>`day` is days<br>`week` is weeks<br>",
           "enum": [
             "sec",
             "min",
@@ -385,6 +392,7 @@
       "additionalProperties": false,
       "properties": {
         "unit": {
+          "description": "`ml` is milliliters (Metric/SI)<br>`l` is liters (Metric/SI)<br>`tsp` is US teaspoons<br>`tbsp` is US tablespoons<br>`floz` is US fluid ounces<br>`cup` is US cups<br>`pt` is US pints (liquid)<br>`qt` is US quarts (liquid)<br>`gal` is US gallons (liquid)<br>`bbl` is US barrels (liquid)<br>`itsp` is Imperial teaspoons<br>`itbsp` is Imperial tablespoons<br>`ifloz` is Imperial fluid ounces<br>`icup` is Imperial cups<br>`ipt` is Imperial pints (liquid)<br>`iqt` is Imperial quarts (liquid)<br>`igal` is Imperial gallons (liquid)<br>`ibbl` is Imperial barrels (liquid)",
           "enum": [
             // Metric
             "ml",

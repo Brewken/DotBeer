@@ -39,7 +39,7 @@ Provides unique properties to identify individual records of a culture.
 
 ## CultureInventory
 
-No description provided for this model.
+
 
 <strong>CultureInventory</strong> is a JSON object with the following properties:
 
@@ -72,4 +72,6 @@ Note that `killerNeutral` being `true` implies all the other `producingXxxToxin`
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:49:39+0200.
+<footer>
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-02 at 15:20:29+0200.
+</footer>

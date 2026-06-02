@@ -25,7 +25,7 @@
   // Version of this schema.
   // Versions prior to 1.0.0 are subject to breaking changes!
   //
-  "Version": "0.1.0",
+  "Version": "0.2.0",
   //
   "properties": {
     //
@@ -70,11 +70,11 @@
             "$ref": "Fermentable.beer.schema"
           }
         },
-        "other_ingredients": {
+        "misc_ingredients": {
           "type": "array",
-          "description": "Records for adjuncts which do not contribute to the gravity of the beer.",
+          "description": "Records for ingredients that area not hops, fermentables or cultures.  Variously known as \"miscellaneous ingredients\", \"non-fermentable adjuncts\", \"other ingredients\", or \"adjuncts that do not contribute to the gravity of the beer\".",
           "items": {
-            "$ref": "OtherIngredient.beer.schema"
+            "$ref": "MiscIngredient.beer.schema"
           }
         },
         "cultures": {

@@ -4,7 +4,7 @@ stock and so on.  DotBeer files have a <span style="color:green; font-weight: bo
 
 DotBeer draws on the experience of prior open-source brewing formats (BeerXML and BeerJSON) and shares a number of concepts and structures with them.  It is simpler than BeerJSON and more complete than BeerXML.
 
-Detailed documentation is [here](./docs/DotBeer.md).
+Detailed documentation is [here](./docs/INDEX.md).
 
 
 ## Design Principles

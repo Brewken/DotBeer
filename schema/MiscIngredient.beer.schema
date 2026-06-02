@@ -1,5 +1,5 @@
 //======================================================================================================================
-// schema/OtherIngredient.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
+// schema/MiscIngredient.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
 //   • Mark Price <shadowchao99@gmail.com>
 //   • Matt Young <mfsy@yahoo.com>
 //   • Pierre Smits <pierre.smits@somonar.com>
@@ -15,13 +15,13 @@
 //======================================================================================================================
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dotbeer.org/schema/OtherIngredient.beer.schema",
+  "$id": "https://dotbeer.org/schema/MiscIngredient.beer.schema",
   "type": "object",
-  "title": "OtherIngredient",
+  "title": "MiscIngredient",
   "description": "Collects the attributes of an ingredient to store as record information.",
   "allOf": [
     {
-      "$ref": "#/$defs/OtherIngredientBase"
+      "$ref": "#/$defs/MiscIngredientBase"
     },
     {
       "properties": {
@@ -33,15 +33,15 @@
           "type": "string"
         },
         "inventory": {
-          "$ref": "#/$defs/OtherIngredientInventory"
+          "$ref": "#/$defs/MiscIngredientInventory"
         }
       }
     }
   ],
   "$defs": {
-    "OtherIngredientBase": {
+    "MiscIngredientBase": {
       "type": "object",
-      "description": "Ingredients that are not hops, fermentables, yeasts/cultures or water.  Some people would call these \"other ingredients\" \"non-fermentable adjuncts\", but there are also narrower definitions of \"adjunct\", so we do not use that term.",
+      "description": "Miscellaneous ingredients that are not hops, fermentables, yeasts/cultures or water.  Some people would call these \"non-fermentable adjuncts\", but there are also narrower definitions of \"adjunct\", so we do not use that term.  Also often referred to as \"other ingredients\", but we already use \"other\" in a lot of classifications, so we prefer \"miscellaneous\" as abbreviated to \"misc\".",
       "properties": {
         "name": {
           "type": "string"
@@ -52,8 +52,8 @@
         "product_id": {
           "type": "string"
         },
-        "type": {
-          "type": "string",
+        "misc_type": {
+          "description": "",
           "enum": [
             "spice",
             "fining",
@@ -70,7 +70,7 @@
         "type"
       ]
     },
-    "OtherIngredientInventory": {
+    "MiscIngredientInventory": {
       "type": "object",
       "additionalProperties": false,
       "properties": {

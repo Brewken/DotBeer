@@ -11,7 +11,7 @@ Root element of all DotBeer documents.
 | timestamp | ✅ | [Measurement::Date](./Measurement.md#date) | Date and time file was created. |
 | hops |  | array of [Hop](./Hop.md) | Records detailing properties of unique hop varieties. |
 | fermentables |  | array of [Fermentable](./Fermentable.md) | Records for any ingredient that contributes to the gravity of the beer. |
-| other_ingredients |  | array of [OtherIngredient](./OtherIngredient.md) | Records for adjuncts which do not contribute to the gravity of the beer. |
+| misc_ingredients |  | array of [MiscIngredient](./MiscIngredient.md) | Records for ingredients that area not hops, fermentables or cultures.  Variously known as "miscellaneous ingredients", "non-fermentable adjuncts", "other ingredients", or "adjuncts that do not contribute to the gravity of the beer". |
 | cultures |  | array of [Culture](./Culture.md) | Records detailing the wide array of unique cultures. |
 | waters |  | array of [Water](./Water.md) | Records for water profiles used in brewing. |
 | mashes |  | array of [Mash](./Mash.md) | Common mashing procedures. |
@@ -25,4 +25,6 @@ Root element of all DotBeer documents.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) on 2026-05-31 at 18:49:39+0200.
+<footer>
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-02 at 15:20:29+0200.
+</footer>
