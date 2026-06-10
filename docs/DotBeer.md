@@ -1,6 +1,6 @@
 # DotBeer
 
-Root element of all DotBeer documents.
+Root element of all DotBeer documents.  Most of the Primary Types (ie ones that have their own schema file) are referred to here.  Various Component Types (ie smaller types used for composition) are defined in the "$defs" sections of most of the schema files (apart from this one).
 
 <strong>DotBeer</strong> is a JSON object with the following properties:
 
@@ -25,4 +25,4 @@ Root element of all DotBeer documents.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-02 at 15:26:22+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-10 at 09:03:35+0200.

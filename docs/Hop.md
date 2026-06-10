@@ -16,7 +16,7 @@ Full definition of a hop variety.
 
 ---
 
-# Definitions
+# Component Types
 
 ## HopBase
 
@@ -72,4 +72,4 @@ Collects all information of a hop variety pertaining to oil content, polyphenols
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-02 at 15:26:22+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-10 at 09:03:35+0200.

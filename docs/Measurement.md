@@ -8,12 +8,10 @@ In several cases, there is only one possible unit (eg acidity, percentage, count
 
 For Ranges, note that we do not force the same units for lower and upper bounds.  This is partly because it would complicate the schema for only small gain, and partly because it's conceivable that you want different units on min and max (eg if you had a mass range you might want min in grams and max in kilograms).
 
-<strong>Type:</strong> `object(?)`
-
 
 ---
 
-# Definitions
+# Component Types
 
 ## Acidity
 
@@ -295,4 +293,4 @@ Viscosity of fluids
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-02 at 15:26:22+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-10 at 09:03:35+0200.

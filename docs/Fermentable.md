@@ -31,7 +31,7 @@ Collects the attributes of a fermentable ingredient to store as record informati
 
 ---
 
-# Definitions
+# Component Types
 
 ## FermentableBase
 
@@ -67,4 +67,4 @@ FermentableBase provides unique properties to identify individual records of fer
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-02 at 15:26:22+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-10 at 09:03:35+0200.

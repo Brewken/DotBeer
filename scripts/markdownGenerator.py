@@ -146,7 +146,12 @@ def _get_schema_header(
          md += _format_example(example, examples_format, sort_yaml_keys)
          md += "\n\n"
 
-   entity_type = schema.get('type', 'object(?)').strip()
+   entity_type = schema.get('type', '').strip()
+
+   # It is valid for "type" not to be present -- eg in Measurement.beer.schema where we have no primary object, just
+   # subsidiary ones.
+   if not entity_type:
+      return md
 
    if entity_type == "string":
       property_type, possible_values = _get_property_details(
@@ -348,7 +353,16 @@ def generate(
    )
 
    if defs:
-      markdown += "\n---\n\n# Definitions\n\n"
+      #
+      # If we are being particularly literal-minded, we might use the heading "Definitions" for the types defined in the
+      # "$defs" section.  However, this is not hugely descriptive of the distinction between these smaller types and
+      # the top-level primary domain types.  So we prefer "Component Types".
+      #
+      # (I'm using "type" here in preference to what is strictly correct: schema or subschema, per json-schema.org.  I'm
+      # not a fan of overloading the word schema, and type is, I hope, sufficiently clear/neutral that most folks will
+      # understand exactly what is meant.)
+      #
+      markdown += "\n---\n\n# Component Types\n\n"
       for key, definition in defs.items():
          markdown += _get_schema_header(
             schema = definition,

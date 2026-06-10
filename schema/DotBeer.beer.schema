@@ -34,7 +34,7 @@
     //
     "DotBeer": {
       "type": "object",
-      "description": "Root element of all DotBeer documents.",
+      "description": "Root element of all DotBeer documents.  Most of the Primary Types (ie ones that have their own schema file) are referred to here.  Various Component Types (ie smaller types used for composition) are defined in the \"$defs\" sections of most of the schema files (apart from this one).",
       //
       // Allowing additional properties makes it easier to extend the schema in a way that allows old versions of
       // software to read newer versions of DotBeer files.  However, it also makes it harder to validate things.  Eg

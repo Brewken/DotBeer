@@ -53,7 +53,7 @@
           "type": "string"
         },
         "misc_type": {
-          "description": "",
+          "description": "If this is `water agent` then `water_agent_type` should also be set.",
           "enum": [
             "spice",
             "fining",
@@ -63,6 +63,24 @@
             "wood",
             "other"
           ]
+        },
+        "water_agent_type": {
+          "description": "Should only be set if `misc_type` is `water agent`.<br>`calcium chloride` = CaCl₂<br>`calcium carbonate` = CaCO₃<br>`calcium sulfate` = CaSO₄<br>`magnesium sulfate` = MgSO₄<br>`sodium chloride` = NaCl  aka \"regular\" salt<br>`sodium bicarbonate` = NaHCO₃<br>`lactic acid` = CH₃CH(OH)CO₂H (extended formula) = C₃H₆O₃ (regular formula)<br>`phosphoric acid` = H₃PO₄<br>`other` = none of the above",
+          "enum": [
+            "calcium chloride",
+            "calcium carbonate",
+            "calcium sulfate",
+            "magnesium sulfate",
+            "sodium chloride",
+            "sodium bicarbonate",
+            "lactic acid",
+            "phosphoric acid",
+            "other"
+          ]
+        },
+        "water_agent_percent_acid": {
+          "description": "Should only be set if `misc_type` is `water agent`.",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
         }
       },
       "required": [

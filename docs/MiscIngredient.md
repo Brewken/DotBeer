@@ -13,7 +13,7 @@ Collects the attributes of an ingredient to store as record information.
 
 ---
 
-# Definitions
+# Component Types
 
 ## MiscIngredientBase
 
@@ -21,12 +21,14 @@ Miscellaneous ingredients that are not hops, fermentables, yeasts/cultures or wa
 
 <strong>MiscIngredientBase</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| name | ✅ | string |
-| producer |  | string |
-| product_id |  | string |
-| misc_type |  | Enum:<br>&nbsp;∙ `spice`<br>&nbsp;∙ `fining`<br>&nbsp;∙ `water agent`<br>&nbsp;∙ `herb`<br>&nbsp;∙ `flavor`<br>&nbsp;∙ `wood`<br>&nbsp;∙ `other` |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| name | ✅ | string |  |
+| producer |  | string |  |
+| product_id |  | string |  |
+| misc_type |  | Enum:<br>&nbsp;∙ `spice`<br>&nbsp;∙ `fining`<br>&nbsp;∙ `water agent`<br>&nbsp;∙ `herb`<br>&nbsp;∙ `flavor`<br>&nbsp;∙ `wood`<br>&nbsp;∙ `other` | If this is `water agent` then `water_agent_type` should also be set. |
+| water_agent_type |  | Enum:<br>&nbsp;∙ `calcium chloride`<br>&nbsp;∙ `calcium carbonate`<br>&nbsp;∙ `calcium sulfate`<br>&nbsp;∙ `magnesium sulfate`<br>&nbsp;∙ `sodium chloride`<br>&nbsp;∙ `sodium bicarbonate`<br>&nbsp;∙ `lactic acid`<br>&nbsp;∙ `phosphoric acid`<br>&nbsp;∙ `other` | Should only be set if `misc_type` is `water agent`.<br>`calcium chloride` = CaCl₂<br>`calcium carbonate` = CaCO₃<br>`calcium sulfate` = CaSO₄<br>`magnesium sulfate` = MgSO₄<br>`sodium chloride` = NaCl  aka "regular" salt<br>`sodium bicarbonate` = NaHCO₃<br>`lactic acid` = CH₃CH(OH)CO₂H (extended formula) = C₃H₆O₃ (regular formula)<br>`phosphoric acid` = H₃PO₄<br>`other` = none of the above |
+| water_agent_percent_acid |  | [Measurement::Percentage](./Measurement.md#percentage) | Should only be set if `misc_type` is `water agent`. |
 
 ## MiscIngredientInventory
 
@@ -42,4 +44,4 @@ Miscellaneous ingredients that are not hops, fermentables, yeasts/cultures or wa
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-02 at 15:26:22+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-10 at 09:03:35+0200.

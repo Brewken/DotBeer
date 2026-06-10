@@ -1,13 +1,11 @@
 # StepCommon
 
-JSON Schema missing a description, provide it using the `description` key in the root of the JSON document.
-
-<strong>Type:</strong> `object(?)`
+`StepCommon` is not a type itself, but a subschema holding various common parts of `MashStep`, `BoilStep` and `FermentationStep`.
 
 
 ---
 
-# Definitions
+# Component Types
 
 ## StepBase
 
@@ -15,15 +13,15 @@ Common attributes of MashStep, BoilStep and FermentationStep.
 
 <strong>StepBase</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| name | ✅ | string |
-| step_description |  | string |
-| step_time |  | [Measurement::Time](./Measurement.md#time) |
-| start_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) |
-| end_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) |
-| start_pH |  | [Measurement::Acidity](./Measurement.md#acidity) |
-| end_pH |  | [Measurement::Acidity](./Measurement.md#acidity) |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| name | ✅ | string |  |
+| step_description |  | string |  |
+| step_time |  | [Measurement::Time](./Measurement.md#time) |  |
+| start_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | For a MashStep this is also known as the step temperature, and is the target temperature for this step |
+| end_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) |  |
+| start_pH |  | [Measurement::Acidity](./Measurement.md#acidity) |  |
+| end_pH |  | [Measurement::Acidity](./Measurement.md#acidity) |  |
 
 ## StepWithRampTime
 
@@ -50,4 +48,4 @@ Common attributes of BoilStep and FermentationStep but not MashStep.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-02 at 15:26:22+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-10 at 09:03:35+0200.
