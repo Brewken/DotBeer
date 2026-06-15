@@ -120,13 +120,21 @@
         "fermentable_additions"
       ]
     },
-    "water_profile_base": {
+    "water_base": {
       "description": "Optional parameter to specify the starting profile of the brewing water, which may be modified with salts etc to obtain the target profile.",
       "$ref": "Water.beer.schema#/$defs/WaterBase"
     },
-    "water_profile_target": {
+    "water_target": {
       "description": "Optional parameter to specify the desired profile of the brewing water, which may be modified with salts etc from the base (starting) profile.",
       "$ref": "Water.beer.schema#/$defs/WaterBase"
+    },
+    "ro_water_mash": {
+      "description": "Percentage of the mash water that is reverse-osmosis (rather than the same profile as `water_base`).  If this field is not present, a value of 0.0 may be assumed.",
+      "$ref": "Measurement.beer.schema#/$defs/Percentage"
+    },
+    "ro_water_sparge": {
+      "description": "Percentage of the sparge water that is reverse-osmosis (rather than the same profile as `water_base`).  If this field is not present, a value of 0.0 may be assumed.",
+      "$ref": "Measurement.beer.schema#/$defs/Percentage"
     },
     "mash": {
       "description": "This defines the procedure for performing unique mashing processes.",

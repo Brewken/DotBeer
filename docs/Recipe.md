@@ -23,8 +23,10 @@ The information stored in a beer recipe.
 | coauthor |  | string |  |
 | created |  | [Measurement::Date](./Measurement.md#date) |  |
 | style |  | [Style::StyleBase](./Style.md#stylebase) |  |
-| water_profile_base |  | [Water::WaterBase](./Water.md#waterbase) | Optional parameter to specify the starting profile of the brewing water, which may be modified with salts etc to obtain the target profile. |
-| water_profile_target |  | [Water::WaterBase](./Water.md#waterbase) | Optional parameter to specify the desired profile of the brewing water, which may be modified with salts etc from the base (starting) profile. |
+| water_base |  | [Water::WaterBase](./Water.md#waterbase) | Optional parameter to specify the starting profile of the brewing water, which may be modified with salts etc to obtain the target profile. |
+| water_target |  | [Water::WaterBase](./Water.md#waterbase) | Optional parameter to specify the desired profile of the brewing water, which may be modified with salts etc from the base (starting) profile. |
+| ro_water_mash |  | [Measurement::Percentage](./Measurement.md#percentage) | Percentage of the mash water that is reverse-osmosis (rather than the same profile as `water_base`).  If this field is not present, a value of 0.0 may be assumed. |
+| ro_water_sparge |  | [Measurement::Percentage](./Measurement.md#percentage) | Percentage of the sparge water that is reverse-osmosis (rather than the same profile as `water_base`).  If this field is not present, a value of 0.0 may be assumed. |
 | mash |  | [Mash](./Mash.md) | This defines the procedure for performing unique mashing processes. |
 | boil |  | [Boil](./Boil.md) | Defines the procedure for performing a boil. A boil procedure with no steps is the same as a standard single step boil. |
 | fermentation |  | [Fermentation](./Fermentation.md) | FermentationProcedureType defines the procedure for performing fermentation. |
@@ -115,4 +117,4 @@ Collects the attributes of each miscellaneous ingredient for use in a recipe.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-10 at 09:03:35+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-15 at 18:25:35+0200.

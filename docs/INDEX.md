@@ -1,6 +1,6 @@
 # DotBeer 0.2.0
 
-A DotBeer (<span style="color:green; font-weight: bold; font-family: monospace;">.beer</span>) file is a JSONC (JSON with comments allowed) document with a `DotBeer` root element.  A <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> should be validated against the DotBeer schema before being read.  The schema is split into the following sections (with a corresponding <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> file for each one):
+A DotBeer (<span style="color:green; font-weight: bold; font-family: monospace;">.beer</span>) file is a JSONC (JSON with comments allowed) document with a `DotBeer` root element.  A <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file should be validated against the DotBeer schema before being read.  The schema is split into the following sections (with a corresponding <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> file for each one):
 
 #### Root element
 
@@ -42,4 +42,4 @@ If a field is marked `deprecated` in the schema that usually means it should be 
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-10 at 09:03:35+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-15 at 18:25:35+0200.
