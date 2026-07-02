@@ -44,4 +44,4 @@ Miscellaneous ingredients that are not hops, fermentables, yeasts/cultures or wa
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-15 at 18:25:35+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-07-02 at 07:59:16+0200.

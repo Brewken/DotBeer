@@ -24,11 +24,11 @@
       "properties": {
         "original_gravity": {
           "description": "The range of acceptable original gravity for the style.",
-          "$ref": "Measurement.beer.schema#/$defs/RangeOfDensity"
+          "$ref": "Measurement.beer.schema#/$defs/RangeOfGravity"
         },
         "final_gravity": {
           "description": "The range of acceptable final gravity for the style.",
-          "$ref": "Measurement.beer.schema#/$defs/RangeOfDensity"
+          "$ref": "Measurement.beer.schema#/$defs/RangeOfGravity"
         },
         "international_bitterness_units": {
           "description": "The range of bitterness for this style.",

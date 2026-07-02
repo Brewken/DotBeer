@@ -6,8 +6,8 @@ A beer style may be from the BJCP style guide, Australian, UK or local style gui
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
-| original_gravity |  | [Measurement::RangeOfDensity](./Measurement.md#rangeofdensity) | The range of acceptable original gravity for the style. |
-| final_gravity |  | [Measurement::RangeOfDensity](./Measurement.md#rangeofdensity) | The range of acceptable final gravity for the style. |
+| original_gravity |  | [Measurement::RangeOfGravity](./Measurement.md#rangeofgravity) | The range of acceptable original gravity for the style. |
+| final_gravity |  | [Measurement::RangeOfGravity](./Measurement.md#rangeofgravity) | The range of acceptable final gravity for the style. |
 | international_bitterness_units |  | [Measurement::RangeOfBitterness](./Measurement.md#rangeofbitterness) | The range of bitterness for this style. |
 | color |  | [Measurement::RangeOfColor](./Measurement.md#rangeofcolor) | The range of color for this beer style. |
 | carbonation |  | [Measurement::RangeOfCarbonation](./Measurement.md#rangeofcarbonation) | Range of carbonation for this beer style. |
@@ -45,4 +45,4 @@ The descriptive base type for both style guideline records, and recipe style pro
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-15 at 18:25:35+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-07-02 at 07:59:16+0200.

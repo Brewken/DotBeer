@@ -123,9 +123,9 @@
       "description": "To avoid ambiguity, dates are always stored in ISO 8601 format.  The two possibilities here are with and without time of day.",
       "pattern": "\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
     },
-    "Density": {
+    "Gravity": {
       "type": "object",
-      "description": "Sometimes referred to as \"gravity\" as a shorthand for \"specific gravity\".  Typically, brewers measure relative density (aka specific gravity) to gauge percent of sugar content (ie Plato and Brix).",
+      "description": "In brewing, \"gravity\" is a shorthand for \"specific gravity\".  Typically, brewers measure relative gravity (aka specific gravity) to gauge percent of sugar content (ie Plato and Brix).",
       "additionalProperties": false,
       "properties": {
         "unit": {
@@ -294,7 +294,7 @@
     },
     "SpecificVolume": {
       "type": "object",
-      "description": "Specific volume is the reciprocal of density, commonly used for mash thickness.",
+      "description": "Specific volume is the reciprocal of Gravity, commonly used for mash thickness.",
       "additionalProperties": false,
       "properties": {
         "unit": {
@@ -496,15 +496,15 @@
         "maximum"
       ]
     },
-    "RangeOfDensity": {
+    "RangeOfGravity": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "minimum": {
-          "$ref": "#/$defs/Density"
+          "$ref": "#/$defs/Gravity"
         },
         "maximum": {
-          "$ref": "#/$defs/Density"
+          "$ref": "#/$defs/Gravity"
         }
       },
       "required": [

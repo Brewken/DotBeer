@@ -100,7 +100,7 @@
           "type": "array",
           "description": "All the miscellaneous item additions to the recipe",
           "items": {
-            "$ref": "#/$defs/OtherIngredientRecipeAddition"
+            "$ref": "#/$defs/MiscIngredientRecipeAddition"
           }
         },
         "culture_additions": {
@@ -156,11 +156,11 @@
     },
     "original_gravity": {
       "description": "The gravity of wort when transferred to the fermenter.",
-      "$ref": "Measurement.beer.schema#/$defs/Density"
+      "$ref": "Measurement.beer.schema#/$defs/Gravity"
     },
     "final_gravity": {
       "description": "The gravity of beer at the end of fermentation.",
-      "$ref": "Measurement.beer.schema#/$defs/Density"
+      "$ref": "Measurement.beer.schema#/$defs/Gravity"
     },
     "alcohol_by_volume": {
       "$ref": "Measurement.beer.schema#/$defs/Percentage"
@@ -213,6 +213,13 @@
     },
     "calories_per_us_pint": {
       "type": "number"
+    },
+    "brew_logs": {
+      "type": "array",
+      "description": "Records of individual brews of this recipe",
+      "items": {
+        "$ref": "#/$defs/BrewLog"
+      }
     }
   },
   "required": [
@@ -243,7 +250,7 @@
         },
         "specific_gravity": {
           "description": "Used to indicate when an addition is added based on a desired specific gravity.  Eg Add dry hop at when SG is 1.018.",
-          "$ref": "Measurement.beer.schema#/$defs/Density"
+          "$ref": "Measurement.beer.schema#/$defs/Gravity"
         },
         "pH": {
           "description": "Used to indicate when an addition is added based on a desired specific pH.  Eg Add brett when pH is 3.4.",
@@ -367,12 +374,12 @@
         "amount"
       ]
     },
-    "OtherIngredientRecipeAddition": {
+    "MiscIngredientRecipeAddition": {
       "type": "object",
       "description": "Collects the attributes of each miscellaneous ingredient for use in a recipe.",
       "allOf": [
         {
-          "$ref": "OtherIngredient.beer.schema#/$defs/OtherIngredientBase"
+          "$ref": "MiscIngredient.beer.schema#/$defs/MiscIngredientBase"
         },
         {
           "properties": {
@@ -400,6 +407,122 @@
           ]
         }
       ]
+    },
+    "BrewLog": {
+      "type": "object",
+      "description": "Record of a \"brewday\", ie of an individual brew of a recipe",
+      "additionalProperties": false,
+      "properties": {
+        "batch_number": {
+          "description": "The brewer's own unique identifier for this brew.  It can contain numbers and/or letters and/or symbols, so, \"number\" might seem a bit of a misnomer; nonetheless, it is the standard term for such an identifying code.",
+          "type": "string"
+        },
+        "brew_date": {
+          "$ref": "Measurement.beer.schema#/$defs/Date"
+        },
+        "ferment_date": {
+          "$ref": "Measurement.beer.schema#/$defs/Date"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "expected_pre_boil_gravity_sg": {
+          "description": "Expected (planned) pre-boil specific gravity",
+          "$ref": "Measurement.beer.schema#/$defs/Gravity"
+        },
+        "measured_pre_boil_gravity_sg": {
+          "description": "Actual (measured) pre-boil specific gravity",
+          "$ref": "Measurement.beer.schema#/$defs/Gravity"
+        },
+        "expected_pre_boil_volume": {
+          "description" : "Expected (planned) volume of wort to be collected from mash into boil kettle",
+          "$ref": "Measurement.beer.schema#/$defs/Volume"
+        },
+        "measured_pre_boil_volume": {
+          "description" : "Actual (measured) volume of wort collected from mash into boil kettle",
+          "$ref": "Measurement.beer.schema#/$defs/Volume"
+        },
+        "expected_strike_temperature": {
+          "description" : "Expected (planned) strike water temperature (ie water temperature immediately prior to adding grains at mash start)",
+          "$ref": "Measurement.beer.schema#/$defs/Temperature"
+        },
+        "measured_strike_temperature": {
+          "description" : "Actual (measured) strike water temperature (ie water temperature immediately prior to adding grains at mash start)",
+          "$ref": "Measurement.beer.schema#/$defs/Temperature"
+        },
+        "expected_mash_final_temp_c" : {
+          "description": "Expected (planned) final mash temperature (before any mash out)",
+          "$ref": "Measurement.beer.schema#/$defs/Temperature"
+        },
+        "measured_mash_final_temp_c" : {
+          "description": "Actual (measured) final mash temperature (before any mash out)",
+          "$ref": "Measurement.beer.schema#/$defs/Temperature"
+        },
+        "expected_original_gravity" : {
+          "description": "Expected (planned) original (post-boil, pre-fermentation) specific gravity",
+          "$ref": "Measurement.beer.schema#/$defs/Gravity"
+        },
+        "measured_original_gravity" : {
+          "description": "Actual (measured) original (post-boil, pre-fermentation) specific gravity",
+          "$ref": "Measurement.beer.schema#/$defs/Gravity"
+        },
+        "measured_post_boil_volume": {
+          "description" : "Actual (measured) volume of wort in kettle after boil",
+          "$ref": "Measurement.beer.schema#/$defs/Volume"
+        },
+        "expected_volume_into_fermentor": {
+          "description" : "Expected (planned) volume of wort into fermentor",
+          "$ref": "Measurement.beer.schema#/$defs/Volume"
+        },
+        "measured_volume_into_fermentor": {
+          "description" : "Actual (measured) volume of wort into fermentor",
+          "$ref": "Measurement.beer.schema#/$defs/Volume"
+        },
+        "measured_pitch_temperature": {
+          "description" : "Actual (measured) temperature of wort when yeast is pitched",
+          "$ref": "Measurement.beer.schema#/$defs/Temperature"
+        },
+        "expected_final_gravity": {
+          "description" : "Expected (planned) final (post-fermentation) specific gravity",
+          "$ref": "Measurement.beer.schema#/$defs/Gravity"
+        },
+        "measured_final_gravity": {
+          "description" : "Actual (measured) final (post-fermentation) specific gravity",
+          "$ref": "Measurement.beer.schema#/$defs/Gravity"
+        },
+        "measured_final_volume": {
+          "description" : "Actual (measured) final (post-fermentation) volume",
+          "$ref": "Measurement.beer.schema#/$defs/Volume"
+        },
+        "expected_alcohol_by_volume": {
+          "description" : "Expected alcohol by volume based on the recipe OG",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "computed_alcohol_by_volume": {
+          "description" : "Actual alcohol by volume based on \"original\" and \"final\" gravity readings",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "expected_attenuation": {
+          "description" : "Expected attenuation from the recipe",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "computed_attenuation": {
+          "description" : "Actual attenuation based on gravity readings",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "expected_efficiency": {
+          "description" : "Expected brewhouse (ie overall) efficiency from the Recipe, capturing the combined impact of mash conversion, lautering, kettle losses, and transfer",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "computed_efficiency": {
+          "description" : "Actual brewhouse (ie overall) efficiency based on gravity readings",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "computed_pre_boil_efficiency": {
+          "description" : "Actual pre-boil (aka \"into boil kettle\") efficiency, measuring the percentage of total available sugars that made it into the kettle",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        }
+      }
     }
   }
 }

@@ -85,10 +85,10 @@
       "description": "Common attributes of BoilStep and FermentationStep but not MashStep.",
       "properties": {
         "start_gravity": {
-          "$ref": "Measurement.beer.schema#/$defs/Density"
+          "$ref": "Measurement.beer.schema#/$defs/Gravity"
         },
         "end_gravity": {
-          "$ref": "Measurement.beer.schema#/$defs/Density"
+          "$ref": "Measurement.beer.schema#/$defs/Gravity"
         }
       }
     }

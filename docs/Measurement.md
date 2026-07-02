@@ -74,11 +74,11 @@ To avoid ambiguity, dates are always stored in ISO 8601 format.  The two possibi
 
 <strong>Date</strong> is a ``string``  matching regular expression [`\d{4}-\d{2}-\d{2}\|\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}`](https://regex101.com/?regex=%5Cd%7B4%7D-%5Cd%7B2%7D-%5Cd%7B2%7D%7C%5Cd%7B4%7D-%5Cd%7B2%7D-%5Cd%7B2%7DT%5Cd%7B2%7D%3A%5Cd%7B2%7D%3A%5Cd%7B2%7D)
 
-## Density
+## Gravity
 
-Sometimes referred to as "gravity" as a shorthand for "specific gravity".  Typically, brewers measure relative density (aka specific gravity) to gauge percent of sugar content (ie Plato and Brix).
+In brewing, "gravity" is a shorthand for "specific gravity".  Typically, brewers measure relative gravity (aka specific gravity) to gauge percent of sugar content (ie Plato and Brix).
 
-<strong>Density</strong> is a JSON object with the following properties:
+<strong>Gravity</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
@@ -164,7 +164,7 @@ The amount of heat that must be added to one unit of mass of the substance in or
 
 ## SpecificVolume
 
-Specific volume is the reciprocal of density, commonly used for mash thickness.
+Specific volume is the reciprocal of Gravity, commonly used for mash thickness.
 
 <strong>SpecificVolume</strong> is a JSON object with the following properties:
 
@@ -267,16 +267,16 @@ Viscosity of fluids
 | minimum | ✅ | [Color](#color) |
 | maximum | ✅ | [Color](#color) |
 
-## RangeOfDensity
+## RangeOfGravity
 
 
 
-<strong>RangeOfDensity</strong> is a JSON object with the following properties:
+<strong>RangeOfGravity</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type |
 | -------- | --------- | ---- |
-| minimum | ✅ | [Density](#density) |
-| maximum | ✅ | [Density](#density) |
+| minimum | ✅ | [Gravity](#gravity) |
+| maximum | ✅ | [Gravity](#gravity) |
 
 ## RangeOfPercentage
 
@@ -293,4 +293,4 @@ Viscosity of fluids
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-15 at 18:25:35+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-07-02 at 07:59:16+0200.

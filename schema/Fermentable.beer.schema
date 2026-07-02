@@ -84,7 +84,7 @@
           "$ref": "Measurement.beer.schema#/$defs/Percentage"
         },
         "di_pH": {
-          "description": "The pH of the resultant wort for 1 lb of grain mashed in 1 gallon of distilled water. Used in many water chemistry / mash pH prediction software.",
+          "description": "DI pH is the pH of the resultant wort for 40 grams of grain mashed in 100 mL of distilled water (or 1 lb of grain mashed in 1 gallon of distilled water).  Can be used in water chemistry and/or mash pH prediction calculations.<br><br>As explained at https://www.thescrewybrewer.com/2016/12/the-influence-of-grain-di-ph-on-mash-ph.html, \"The term DI pH is derived from the word distilled as in distilled water and pH as in pH value.  You can determine the DI pH value of any grain by finely crushing 40 grams of grain, mixing it in with 100 milliliters of distilled water and then heating the resulting mash to 125°F [52°C] for 20 minutes.  A pH reading taken of the resulting wort when cooled to 77°F [25°C] is the DI pH value of the grain.  Various grain types, and sometimes the same grain type sourced from several maltsters, will have different DI pH values.  Accurately calculating brewing water adjustments to optimize enzyme activity in the mash is largely dependent on knowing the correct DI pH value for each grain.\"",
           "$ref": "Measurement.beer.schema#/$defs/Acidity"
         },
         "viscosity": {
@@ -106,6 +106,10 @@
         "beta_glucan": {
           "description": "Values of 180 or more may suggest a glucan rest and avoiding fly sparging.",
           "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
+        },
+        "lactic_acid_by_weight": {
+          "description": "For aciduated malts (aka acid malts), this is the percentage content by weight of lactic acid (which is usually what provides the acidity).  You might think that maltsters would be keen to give you this figure, but they often prefer to say things such as \"1% of this malt in the grain bill reduces the mash pH by approximately 0.1\", which is less helpful.  According to https://www.brunwater.com/water-knowledge, \"The typical acid content of acid malt can vary from maltster to maltster.  A range of 2 to 3 percent by weight lactic acid to acidulated grain weight is typical.\"",
+          "$ref": "Measurement.beer.schema#/$defs/Percentage"
         }
       }
     }
@@ -167,7 +171,7 @@
         },
         "yield_potential": {
           "description": "The potential yield is the specific gravity that can be achieved with 1.00 pound (455 g) of malt mashed in 1.00 gallon (3.78 L) of water.  Calculated as (extract) potential (SG) = 1 + (DBFG / 100) * 0.04621.",
-          "$ref": "Measurement.beer.schema#/$defs/Density"
+          "$ref": "Measurement.beer.schema#/$defs/Gravity"
         },
         "color": {
           "description": "Maltsters typically measure grain color in degrees Lovibond, but other units are supported here.",

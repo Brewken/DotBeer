@@ -18,7 +18,7 @@ The information stored in a beer recipe.
 | ingredients | ✅ | object | All the recipe's ingredient additions.  Note that these lists are "abbreviated" versions of each ingredient, which saves on repetition when, eg, the same type of hop is added at more then one point.  If you are exporting one or more recipes, you should also export the full versions of their ingredients in the same file. |
 | ingredients.fermentable_additions | ✅ | array of [FermentableRecipeAddition](#fermentablerecipeaddition) | All the fermentable additions to the recipe |
 | ingredients.hop_additions |  | array of [HopRecipeAddition](#hoprecipeaddition) | All the hop additions to the recipe |
-| ingredients.miscellaneous_additions |  | array of [OtherIngredientRecipeAddition](#otheringredientrecipeaddition) | All the miscellaneous item additions to the recipe |
+| ingredients.miscellaneous_additions |  | array of [MiscIngredientRecipeAddition](#miscingredientrecipeaddition) | All the miscellaneous item additions to the recipe |
 | ingredients.culture_additions |  | array of [CultureRecipeAddition](#culturerecipeaddition) | All the yeast and/or other culture additions to the recipe |
 | coauthor |  | string |  |
 | created |  | [Measurement::Date](./Measurement.md#date) |  |
@@ -31,8 +31,8 @@ The information stored in a beer recipe.
 | boil |  | [Boil](./Boil.md) | Defines the procedure for performing a boil. A boil procedure with no steps is the same as a standard single step boil. |
 | fermentation |  | [Fermentation](./Fermentation.md) | FermentationProcedureType defines the procedure for performing fermentation. |
 | notes |  | string |  |
-| original_gravity |  | [Measurement::Density](./Measurement.md#density) | The gravity of wort when transferred to the fermenter. |
-| final_gravity |  | [Measurement::Density](./Measurement.md#density) | The gravity of beer at the end of fermentation. |
+| original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The gravity of wort when transferred to the fermenter. |
+| final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The gravity of beer at the end of fermentation. |
 | alcohol_by_volume |  | [Measurement::Percentage](./Measurement.md#percentage) |  |
 | ibu_estimate |  | [Measurement::Bitterness](./Measurement.md#bitterness) | Estimated bitterness of finished beer. |
 | ibu_estimate_formula |  | Enum:<br>&nbsp;∙ `Tinseth`<br>&nbsp;∙ `Rager`<br>&nbsp;∙ `Noonan`<br>&nbsp;∙ `mIBU` | Used to differentiate which IBU formula is being used in a recipe. If formula is modified in any way, eg to support whirlpool/flameout additions etc etc, please use `Other` for transparency. |
@@ -44,6 +44,7 @@ The information stored in a beer recipe.
 | taste.notes | ✅ | string |  |
 | taste.rating | ✅ | number |  |
 | calories_per_us_pint |  | number |  |
+| brew_logs |  | array of [BrewLog](#brewlog) | Records of individual brews of this recipe |
 
 
 ---
@@ -61,7 +62,7 @@ This object fully describes when, and for how long, a recipe addition should be 
 | time |  | [Measurement::Time](./Measurement.md#time) | What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, for use::add_to_boil, this is time before the end of the step (or of the boil if no step is specified).  For other values of use, this is time after the start of the step (or of the process if no step is specified). |
 | duration |  | [Measurement::Time](./Measurement.md#time) | How long an ingredient addition remains, this was referred to as time in the BeerXML standard. Eg A 40 minute hop boil additions means to boil for 40 minutes, and a 2 day duration for a dry hop means to remove it after 2 days. |
 | continuous |  | boolean | A continuous addition is spread out evenly and added during the entire process step.  Eg 60 minute IPA by dogfish head takes all ofthe hop additions and adds them throughout the entire boil. |
-| specific_gravity |  | [Measurement::Density](./Measurement.md#density) | Used to indicate when an addition is added based on a desired specific gravity.  Eg Add dry hop at when SG is 1.018. |
+| specific_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Used to indicate when an addition is added based on a desired specific gravity.  Eg Add dry hop at when SG is 1.018. |
 | pH |  | [Measurement::Acidity](./Measurement.md#acidity) | Used to indicate when an addition is added based on a desired specific pH.  Eg Add brett when pH is 3.4. |
 | step |  | integer | Used to indicate what step this ingredient timing addition is referencing.  Eg A value of 2 for add_to_fermentation would mean to add during the second fermentation step. |
 | use |  | Enum:<br>&nbsp;∙ `add_to_mash`<br>&nbsp;∙ `add_to_boil`<br>&nbsp;∙ `add_to_fermentation`<br>&nbsp;∙ `add_to_package` | Differentiates the specific process type when this ingredient addition is used. |
@@ -102,19 +103,56 @@ Collects the attributes of each hop ingredient for use in a recipe hop bill.
 | schedule | ✅ | [AdditionSchedule](#additionschedule) |
 | amount | ✅ | [Measurement::Mass](./Measurement.md#mass) or [Measurement::Volume](./Measurement.md#volume) |
 
-## OtherIngredientRecipeAddition
+## MiscIngredientRecipeAddition
 
 Collects the attributes of each miscellaneous ingredient for use in a recipe.
 
-<strong>OtherIngredientRecipeAddition</strong> is a JSON object with all properties from [OtherIngredient::OtherIngredientBase](./OtherIngredient.md#otheringredientbase) as well as these additional ones:
+<strong>MiscIngredientRecipeAddition</strong> is a JSON object with all properties from [MiscIngredient::MiscIngredientBase](./MiscIngredient.md#miscingredientbase) as well as these additional ones:
 
 | Property | Required? | Type |
 | -------- | --------- | ---- |
 | schedule |  | [AdditionSchedule](#additionschedule) |
 | amount |  | [Measurement::Count](./Measurement.md#count) or [Measurement::Mass](./Measurement.md#mass) or [Measurement::Volume](./Measurement.md#volume) |
 
+## BrewLog
+
+Record of a "brewday", ie of an individual brew of a recipe
+
+<strong>BrewLog</strong> is a JSON object with the following properties:
+
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| batch_number |  | string | The brewer's own unique identifier for this brew.  It can contain numbers and/or letters and/or symbols, so, "number" might seem a bit of a misnomer; nonetheless, it is the standard term for such an identifying code. |
+| brew_date |  | [Measurement::Date](./Measurement.md#date) |  |
+| ferment_date |  | [Measurement::Date](./Measurement.md#date) |  |
+| notes |  | string |  |
+| expected_pre_boil_gravity_sg |  | [Measurement::Gravity](./Measurement.md#gravity) | Expected (planned) pre-boil specific gravity |
+| measured_pre_boil_gravity_sg |  | [Measurement::Gravity](./Measurement.md#gravity) | Actual (measured) pre-boil specific gravity |
+| expected_pre_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) | Expected (planned) volume of wort to be collected from mash into boil kettle |
+| measured_pre_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) volume of wort collected from mash into boil kettle |
+| expected_strike_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Expected (planned) strike water temperature (ie water temperature immediately prior to adding grains at mash start) |
+| measured_strike_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Actual (measured) strike water temperature (ie water temperature immediately prior to adding grains at mash start) |
+| expected_mash_final_temp_c |  | [Measurement::Temperature](./Measurement.md#temperature) | Expected (planned) final mash temperature (before any mash out) |
+| measured_mash_final_temp_c |  | [Measurement::Temperature](./Measurement.md#temperature) | Actual (measured) final mash temperature (before any mash out) |
+| expected_original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Expected (planned) original (post-boil, pre-fermentation) specific gravity |
+| measured_original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Actual (measured) original (post-boil, pre-fermentation) specific gravity |
+| measured_post_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) volume of wort in kettle after boil |
+| expected_volume_into_fermentor |  | [Measurement::Volume](./Measurement.md#volume) | Expected (planned) volume of wort into fermentor |
+| measured_volume_into_fermentor |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) volume of wort into fermentor |
+| measured_pitch_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Actual (measured) temperature of wort when yeast is pitched |
+| expected_final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Expected (planned) final (post-fermentation) specific gravity |
+| measured_final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Actual (measured) final (post-fermentation) specific gravity |
+| measured_final_volume |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) final (post-fermentation) volume |
+| expected_alcohol_by_volume |  | [Measurement::Percentage](./Measurement.md#percentage) | Expected alcohol by volume based on the recipe OG |
+| computed_alcohol_by_volume |  | [Measurement::Percentage](./Measurement.md#percentage) | Actual alcohol by volume based on "original" and "final" gravity readings |
+| expected_attenuation |  | [Measurement::Percentage](./Measurement.md#percentage) | Expected attenuation from the recipe |
+| computed_attenuation |  | [Measurement::Percentage](./Measurement.md#percentage) | Actual attenuation based on gravity readings |
+| expected_efficiency |  | [Measurement::Percentage](./Measurement.md#percentage) | Expected brewhouse (ie overall) efficiency from the Recipe, capturing the combined impact of mash conversion, lautering, kettle losses, and transfer |
+| computed_efficiency |  | [Measurement::Percentage](./Measurement.md#percentage) | Actual brewhouse (ie overall) efficiency based on gravity readings |
+| computed_pre_boil_efficiency |  | [Measurement::Percentage](./Measurement.md#percentage) | Actual pre-boil (aka "into boil kettle") efficiency, measuring the percentage of total available sugars that made it into the kettle |
+
 
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-06-15 at 18:25:35+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-07-02 at 07:59:16+0200.
