@@ -72,4 +72,4 @@ Note that `killerNeutral` being `true` implies all the other `producingXxxToxin`
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.2.0) on 2026-07-02 at 07:59:16+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-07-08 at 08:57:35+0200.
