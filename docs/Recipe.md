@@ -132,6 +132,7 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 | expected_alcohol_by_volume | ✅ | [Measurement::Percentage](./Measurement.md#percentage) | Expected alcohol by volume based on the recipe OG |
 | expected_attenuation | ✅ | [Measurement::Percentage](./Measurement.md#percentage) | Expected attenuation from the recipe |
 | expected_efficiency | ✅ | [Measurement::Percentage](./Measurement.md#percentage) | Expected brewhouse (ie overall) efficiency from the Recipe, capturing the combined impact of mash conversion, lautering, kettle losses, and transfer |
+| expected_boil_off | ✅ | [Measurement::Volume](./Measurement.md#volume) | Expected boil-off based on the equipment profile and the length of the boil |
 | ferment_date |  | [Measurement::Date](./Measurement.md#date) | The date fermentation was deemed finished and final gravity readings were taken |
 | notes |  | string |  |
 | measured_pre_boil_gravity_sg |  | [Measurement::Gravity](./Measurement.md#gravity) | Actual (measured) pre-boil specific gravity |
@@ -155,4 +156,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-07-08 at 08:57:35+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-07-08 at 09:10:22+0200.

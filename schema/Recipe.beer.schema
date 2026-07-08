@@ -523,6 +523,10 @@
         "computed_pre_boil_efficiency": {
           "description" : "Actual pre-boil (aka \"into boil kettle\") efficiency, measuring the percentage of total available sugars that made it into the kettle",
           "$ref": "Measurement.beer.schema#/$defs/Percentage"
+        },
+        "expected_boil_off": {
+          "description" : "Expected boil-off based on the equipment profile and the length of the boil",
+          "$ref": "Measurement.beer.schema#/$defs/Volume"
         }
       },
       "required": [
@@ -535,7 +539,8 @@
         "expected_final_gravity",
         "expected_alcohol_by_volume",
         "expected_attenuation",
-        "expected_efficiency"
+        "expected_efficiency",
+        "expected_boil_off"
       ]
     }
   }

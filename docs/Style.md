@@ -45,4 +45,4 @@ The descriptive base type for both style guideline records, and recipe style pro
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-07-08 at 08:57:35+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-07-08 at 09:10:22+0200.
