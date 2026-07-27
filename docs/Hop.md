@@ -27,13 +27,15 @@ Minimal properties to identify individual records of a hop variety.
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
-| alpha_acid | ✅ | [Measurement::Percentage](./Measurement.md#percentage) |  |
+| alpha_acid | ✅ | [Measurement::Percentage](./Measurement.md#percentage) | The actual alpha acid content of the specific year's harvest (and batch) of this type of hop. |
 | producer |  | string |  |
 | product_id |  | string |  |
 | origin |  | string | Country of origin for the hop variety |
-| year |  | string |  |
+| year |  | string | Year of harvest.  (Note that this is intentionally not a number, as, for one thing, years are not generally formatted in the same way as numbers.) |
 | form |  | Enum:<br>&nbsp;∙ `extract`<br>&nbsp;∙ `leaf`<br>&nbsp;∙ `leaf (wet)`<br>&nbsp;∙ `pellet`<br>&nbsp;∙ `powder`<br>&nbsp;∙ `plug` |  |
-| beta_acid |  | [Measurement::Percentage](./Measurement.md#percentage) |  |
+| alpha_acid_range |  | [Measurement::RangeOfPercentage](./Measurement.md#rangeofpercentage) | The typical range of alpha acid for this type of hop. |
+| beta_acid |  | [Measurement::Percentage](./Measurement.md#percentage) | The actual beta acid content of the specific year's harvest (and batch) of this type of hop. |
+| beta_acid_range |  | [Measurement::RangeOfPercentage](./Measurement.md#rangeofpercentage) | The typical range of beta acid for this type of hop. |
 
 ## HopInventory
 
@@ -72,4 +74,4 @@ Collects all information of a hop variety pertaining to oil content, polyphenols
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-07-08 at 09:10:22+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-07-27 at 18:10:02+0200.
