@@ -35,7 +35,7 @@ The information stored in a beer recipe.
 | final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The gravity of beer at the end of fermentation. |
 | alcohol_by_volume |  | [Measurement::Percentage](./Measurement.md#percentage) |  |
 | ibu_estimate |  | [Measurement::Bitterness](./Measurement.md#bitterness) | Estimated bitterness of finished beer. |
-| ibu_estimate_formula |  | Enum:<br>&nbsp;∙ `Tinseth`<br>&nbsp;∙ `Rager`<br>&nbsp;∙ `Noonan`<br>&nbsp;∙ `mIBU` | Used to differentiate which IBU formula is being used in a recipe. If formula is modified in any way, eg to support whirlpool/flameout additions etc etc, please use `Other` for transparency. |
+| ibu_estimate_formula |  | Enum:<br>&nbsp;∙ `Tinseth`<br>&nbsp;∙ `Rager`<br>&nbsp;∙ `Noonan`<br>&nbsp;∙ `mIBU` | Used to differentiate which IBU formula is being used in a recipe. |
 | color_estimate |  | [Measurement::Color](./Measurement.md#color) | The color of the finished beer, using SRM or EBC. |
 | beer_pH |  | [Measurement::Acidity](./Measurement.md#acidity) | The final beer pH at the end of fermentation. |
 | carbonation |  | [Measurement::Carbonation](./Measurement.md#carbonation) | The final carbonation of the beer when packaged or served. |
@@ -156,4 +156,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-07-27 at 18:10:02+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-08-05 at 09:03:16+0200.

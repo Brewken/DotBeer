@@ -170,7 +170,7 @@
       "$ref": "Measurement.beer.schema#/$defs/Bitterness"
     },
     "ibu_estimate_formula": {
-      "description": "Used to differentiate which IBU formula is being used in a recipe. If formula is modified in any way, eg to support whirlpool/flameout additions etc etc, please use `Other` for transparency.",
+      "description": "Used to differentiate which IBU formula is being used in a recipe.",
       "enum": [
         "Tinseth",
         "Rager",
