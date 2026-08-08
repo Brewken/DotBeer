@@ -20,6 +20,7 @@ The information stored in a beer recipe.
 | ingredients.hop_additions |  | array of [HopRecipeAddition](#hoprecipeaddition) | All the hop additions to the recipe |
 | ingredients.miscellaneous_additions |  | array of [MiscIngredientRecipeAddition](#miscingredientrecipeaddition) | All the miscellaneous item additions to the recipe |
 | ingredients.culture_additions |  | array of [CultureRecipeAddition](#culturerecipeaddition) | All the yeast and/or other culture additions to the recipe |
+| folder_path |  | string | The suggested slash-delimited subfolder path in which to store this Recipe object.  NB: any leading slash should be ignored.  Eg, if folder_path is "/hum/bug" (or "hum/bug") then importing the object into folder "/foo/bar" should result in its folder path being "/foo/bar/hum/bug".  If the importing software does not support folders, then it should ignore this field. |
 | coauthor |  | string |  |
 | created |  | [Measurement::Date](./Measurement.md#date) |  |
 | style |  | [Style::StyleBase](./Style.md#stylebase) |  |
@@ -156,4 +157,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-08-05 at 09:03:16+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-08 at 19:08:56+0200.

@@ -6,6 +6,7 @@ Full definition of a water profile.
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
+| folder_path |  | string | The suggested slash-delimited subfolder path in which to store this Water object.  NB: any leading slash should be ignored.  Eg, if folder_path is "/hum/bug" (or "hum/bug") then importing the object into folder "/foo/bar" should result in its folder path being "/foo/bar/hum/bug".  If the importing software does not support folders, then it should ignore this field. |
 | pH |  | [Measurement::Acidity](./Measurement.md#acidity) | Acidity of the water profile |
 | notes |  | string |  |
 
@@ -53,4 +54,4 @@ Provides unique properties to identify individual records of brewing water.  NOT
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.3.0) on 2026-08-05 at 09:03:16+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-08 at 19:08:56+0200.
