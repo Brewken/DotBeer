@@ -25,8 +25,8 @@
     {
       "properties": {
         "folder_path": {
-          "type": "string",
-          "description": "The suggested slash-delimited subfolder path in which to store this Culture object.  NB: any leading slash should be ignored.  Eg, if folder_path is \"/hum/bug\" (or \"hum/bug\") then importing the object into folder \"/foo/bar\" should result in its folder path being \"/foo/bar/hum/bug\".  If the importing software does not support folders, then it should ignore this field."
+          "description": "The suggested slash-delimited subfolder path in which to store this Culture object.",
+          "$ref": "DotBeer.beer.schema#/$defs/FolderPath"
         },
         "temperature_range": {
           "description": "The recommended temperature range of fermentation by the culture producer.",

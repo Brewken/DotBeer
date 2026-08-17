@@ -6,7 +6,7 @@ Collects the attributes of an ingredient to store as record information.
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
-| folder_path |  | string | The suggested slash-delimited subfolder path in which to store this MiscIngredient object.  NB: any leading slash should be ignored.  Eg, if folder_path is "/hum/bug" (or "hum/bug") then importing the object into folder "/foo/bar" should result in its folder path being "/foo/bar/hum/bug".  If the importing software does not support folders, then it should ignore this field. |
+| folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this MiscIngredient object. |
 | use_for |  | string | Used to describe the purpose of the miscellaneous ingredient, e.g. whirlfloc is used for clarity. |
 | notes |  | string |  |
 | inventory |  | [MiscIngredientInventory](#miscingredientinventory) |  |
@@ -45,4 +45,4 @@ Miscellaneous ingredients that are not hops, fermentables, yeasts/cultures or wa
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-08 at 19:08:56+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-17 at 19:53:38+0200.

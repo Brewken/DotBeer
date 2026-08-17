@@ -8,7 +8,7 @@ A fermentation procedure, which can be used by multiple recipes.
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
 | fermentation_steps | ✅ | array of [FermentationStep](#fermentationstep) |  |
-| folder_path |  | string | The suggested slash-delimited subfolder path in which to store this Fermentation object.  NB: any leading slash should be ignored.  Eg, if folder_path is "/hum/bug" (or "hum/bug") then importing the object into folder "/foo/bar" should result in its folder path being "/foo/bar/hum/bug".  If the importing software does not support folders, then it should ignore this field. |
+| folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Fermentation object. |
 | fermentation_description |  | string |  |
 | notes |  | string |  |
 
@@ -32,4 +32,4 @@ Individual step of a fermentation.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-08 at 19:08:56+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-17 at 19:53:38+0200.

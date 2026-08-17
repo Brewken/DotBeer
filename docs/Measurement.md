@@ -195,12 +195,6 @@ Note this is NOT dates or times of day but length-of-time or elapsed time, eg du
 | unit | ✅ | Enum:<br>&nbsp;∙ `sec`<br>&nbsp;∙ `min`<br>&nbsp;∙ `hr`<br>&nbsp;∙ `day`<br>&nbsp;∙ `week` | `sec` is seconds<br>`min` is minutes<br>`hr` is hours<br>`day` is days<br>`week` is weeks<br> |
 | value | ✅ | integer |  |
 
-## VersionNumber
-
-We use semantic versioning, which encodes a version by a three-part version number (Major.Minor.Patch)
-
-<strong>VersionNumber</strong> is a ``string``  matching regular expression [`\d+[.]\d+[.]\d+`](https://regex101.com/?regex=%5Cd%2B%5B.%5D%5Cd%2B%5B.%5D%5Cd%2B)
-
 ## Viscosity
 
 Viscosity of fluids
@@ -293,4 +287,4 @@ Viscosity of fluids
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-08 at 19:08:56+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-17 at 19:53:38+0200.

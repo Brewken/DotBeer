@@ -6,7 +6,7 @@ Root element of all DotBeer documents.  Most of the Primary Types (ie ones that 
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
-| version | ✅ | [Measurement::VersionNumber](./Measurement.md#versionnumber) | DotBeer schema version used to create the file. |
+| version | ✅ | [VersionNumber](#versionnumber) | DotBeer schema version used to create the file. |
 | output_by | ✅ | string | Application that wrote the file -- eg Brewtarget 5.2.1. |
 | timestamp | ✅ | [Measurement::Date](./Measurement.md#date) | Date and time file was created. |
 | hops |  | array of [Hop](./Hop.md) | Records detailing properties of unique hop varieties. |
@@ -22,7 +22,24 @@ Root element of all DotBeer documents.  Most of the Primary Types (ie ones that 
 | recipes |  | array of [Recipe](./Recipe.md) | Records containing a minimal collection of the description of ingredients, procedures and other required parameters necessary to recreate a batch of beer. |
 
 
+---
+
+# Component Types
+
+## FolderPath
+
+A FolderPath is typically used for the suggested slash-delimited subfolder path in which to store an object.  Any leading slash should be ignored.  Eg, if an object's folder path is "/hum/bug" (or "hum/bug") then importing the object into folder "/foo/bar" should result in its folder path being "/foo/bar/hum/bug".  If the importing software does not support folders, then it should ignore folder path fields.
+
+<strong>FolderPath</strong> is a ``string``  matching regular expression [`/?[^/]+(/[^/]+)*`](https://regex101.com/?regex=%2F%3F%5B%5E%2F%5D%2B%28%2F%5B%5E%2F%5D%2B%29%2A)
+
+## VersionNumber
+
+We use semantic versioning, which encodes a version by a three-part version number (Major.Minor.Patch)
+
+<strong>VersionNumber</strong> is a ``string``  matching regular expression [`\d+[.]\d+[.]\d+`](https://regex101.com/?regex=%5Cd%2B%5B.%5D%5Cd%2B%5B.%5D%5Cd%2B)
+
+
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-08 at 19:08:56+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-17 at 19:53:38+0200.

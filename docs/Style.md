@@ -6,7 +6,7 @@ A beer style may be from the BJCP style guide, Australian, UK or local style gui
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
-| folder_path |  | string | The suggested slash-delimited subfolder path in which to store this Style object.  NB: any leading slash should be ignored.  Eg, if folder_path is "/hum/bug" (or "hum/bug") then importing the object into folder "/foo/bar" should result in its folder path being "/foo/bar/hum/bug".  If the importing software does not support folders, then it should ignore this field. |
+| folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Style object. |
 | original_gravity |  | [Measurement::RangeOfGravity](./Measurement.md#rangeofgravity) | The range of acceptable original gravity for the style. |
 | final_gravity |  | [Measurement::RangeOfGravity](./Measurement.md#rangeofgravity) | The range of acceptable final gravity for the style. |
 | international_bitterness_units |  | [Measurement::RangeOfBitterness](./Measurement.md#rangeofbitterness) | The range of bitterness for this style. |
@@ -46,4 +46,4 @@ The descriptive base type for both style guideline records, and recipe style pro
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-08 at 19:08:56+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-17 at 19:53:38+0200.

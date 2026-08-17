@@ -6,7 +6,7 @@ Collects the attributes of a fermentable ingredient to store as record informati
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
-| folder_path |  | string | The suggested slash-delimited subfolder path in which to store this Fermentable object.  NB: any leading slash should be ignored.  Eg, if folder_path is "/hum/bug" (or "hum/bug") then importing the object into folder "/foo/bar" should result in its folder path being "/foo/bar/hum/bug".  If the importing software does not support folders, then it should ignore this field. |
+| folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Fermentable object. |
 | notes |  | string |  |
 | moisture |  | [Measurement::Percentage](./Measurement.md#percentage) | Percentage moisture.  Only appropriate for a "grain" or "other" type |
 | alpha_amylase |  | number | Total amount of alpha-amylase in the malted grain, measured in dextrinizing units.  (Since you ask, one α-amylase dextrinizing unit is defined as the quantity of α-amylase that will dextrinize soluble starch in the presence of an excess of β-amylase at the rate of 1 g/h at 30°C.  Or, at least, that's what it says at https://www.deerland.com/wp-content/uploads/2015/04/EnzymeAssayUnits_Deerland.pdf.)  Anyway, a value of 25-50 is desirable for base malt. |
@@ -69,4 +69,4 @@ FermentableBase provides unique properties to identify individual records of fer
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-08 at 19:08:56+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-17 at 19:53:38+0200.
