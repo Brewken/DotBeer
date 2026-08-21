@@ -12,7 +12,7 @@ Full definition of a hop variety.
 | six_month_alpha_loss |  | [Measurement::Percentage](./Measurement.md#percentage) | Defined as the percentage of hop alpha lost in 6 months of storage. |
 | substitutes |  | string | Alternate hop varieties that can be used in place of this hop variety |
 | oil_content |  | [OilContent](#oilcontent) |  |
-| inventory |  | [HopInventory](#hopinventory) |  |
+| inventory |  | [HopAmount](#hopamount) |  |
 
 
 ---
@@ -38,15 +38,9 @@ Minimal properties to identify individual records of a hop variety.
 | beta_acid |  | [Measurement::Percentage](./Measurement.md#percentage) | The actual beta acid content of the specific year's harvest (and batch) of this type of hop. |
 | beta_acid_range |  | [Measurement::RangeOfPercentage](./Measurement.md#rangeofpercentage) | The typical range of beta acid for this type of hop. |
 
-## HopInventory
+## HopAmount
 
-
-
-<strong>HopInventory</strong> is a JSON object with the following properties:
-
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| amount |  | [Measurement::Mass](./Measurement.md#mass) or [Measurement::Volume](./Measurement.md#volume) |
+The ways in which an amount of a Hop could be measured
 
 ## OilContent
 
@@ -75,4 +69,4 @@ Collects all information of a hop variety pertaining to oil content, polyphenols
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-17 at 19:53:38+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.5.0) on 2026-08-21 at 09:19:16+0200.

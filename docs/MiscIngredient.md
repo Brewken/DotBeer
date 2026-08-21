@@ -9,7 +9,7 @@ Collects the attributes of an ingredient to store as record information.
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this MiscIngredient object. |
 | use_for |  | string | Used to describe the purpose of the miscellaneous ingredient, e.g. whirlfloc is used for clarity. |
 | notes |  | string |  |
-| inventory |  | [MiscIngredientInventory](#miscingredientinventory) |  |
+| inventory |  | [MiscIngredientAmount](#miscingredientamount) |  |
 
 
 ---
@@ -31,18 +31,12 @@ Miscellaneous ingredients that are not hops, fermentables, yeasts/cultures or wa
 | water_agent_type |  | Enum:<br>&nbsp;∙ `calcium chloride`<br>&nbsp;∙ `calcium carbonate`<br>&nbsp;∙ `calcium sulfate`<br>&nbsp;∙ `magnesium sulfate`<br>&nbsp;∙ `sodium chloride`<br>&nbsp;∙ `sodium bicarbonate`<br>&nbsp;∙ `lactic acid`<br>&nbsp;∙ `phosphoric acid`<br>&nbsp;∙ `other` | Should only be set if `misc_type` is `water agent`.<br>`calcium chloride` = CaCl₂<br>`calcium carbonate` = CaCO₃<br>`calcium sulfate` = CaSO₄<br>`magnesium sulfate` = MgSO₄<br>`sodium chloride` = NaCl  aka "regular" salt<br>`sodium bicarbonate` = NaHCO₃<br>`lactic acid` = CH₃CH(OH)CO₂H (extended formula) = C₃H₆O₃ (regular formula)<br>`phosphoric acid` = H₃PO₄<br>`other` = none of the above |
 | water_agent_percent_acid |  | [Measurement::Percentage](./Measurement.md#percentage) | Should only be set if `misc_type` is `water agent`. |
 
-## MiscIngredientInventory
+## MiscIngredientAmount
 
-
-
-<strong>MiscIngredientInventory</strong> is a JSON object with the following properties:
-
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| amount | ✅ | [Measurement::Count](./Measurement.md#count) or [Measurement::Mass](./Measurement.md#mass) or [Measurement::Volume](./Measurement.md#volume) |
+The ways in which an amount of a MiscIngredient could be measured
 
 
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-17 at 19:53:38+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.5.0) on 2026-08-21 at 09:19:16+0200.

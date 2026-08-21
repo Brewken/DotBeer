@@ -11,9 +11,6 @@ The information stored in a beer recipe.
 | author | ✅ | string |  |
 | batch_size | ✅ | [Measurement::Volume](./Measurement.md#volume) | The volume into the fermenter. |
 | efficiency | ✅ | object | Stores each efficiency component. |
-| efficiency.conversion |  | [Measurement::Percentage](./Measurement.md#percentage) | The percentage of sugar from the grain yield that is extracted and converted during the mash. |
-| efficiency.lauter |  | [Measurement::Percentage](./Measurement.md#percentage) | The percentage of sugar that makes it from the mash tun to the kettle. |
-| efficiency.mash |  | [Measurement::Percentage](./Measurement.md#percentage) | The percentage of sugar that makes it from the grain to the kettle. |
 | efficiency.brewhouse | ✅ | [Measurement::Percentage](./Measurement.md#percentage) | The percentage of sugar that makes it from the grain to the fermenter. |
 | ingredients | ✅ | object | All the recipe's ingredient additions.  Note that these lists are "abbreviated" versions of each ingredient, which saves on repetition when, eg, the same type of hop is added at more then one point.  If you are exporting one or more recipes, you should also export the full versions of their ingredients in the same file. |
 | ingredients.fermentable_additions | ✅ | array of [FermentableRecipeAddition](#fermentablerecipeaddition) | All the fermentable additions to the recipe |
@@ -62,7 +59,6 @@ This object fully describes when, and for how long, a recipe addition should be 
 | -------- | --------- | ---- | ----------- |
 | time |  | [Measurement::Time](./Measurement.md#time) | What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, for use::add_to_boil, this is time before the end of the step (or of the boil if no step is specified).  For other values of use, this is time after the start of the step (or of the process if no step is specified). |
 | duration |  | [Measurement::Time](./Measurement.md#time) | How long an ingredient addition remains, this was referred to as time in the BeerXML standard. Eg A 40 minute hop boil additions means to boil for 40 minutes, and a 2 day duration for a dry hop means to remove it after 2 days. |
-| continuous |  | boolean | A continuous addition is spread out evenly and added during the entire process step.  Eg 60 minute IPA by dogfish head takes all ofthe hop additions and adds them throughout the entire boil. |
 | specific_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Used to indicate when an addition is added based on a desired specific gravity.  Eg Add dry hop at when SG is 1.018. |
 | pH |  | [Measurement::Acidity](./Measurement.md#acidity) | Used to indicate when an addition is added based on a desired specific pH.  Eg Add brett when pH is 3.4. |
 | step |  | integer | Used to indicate what step this ingredient timing addition is referencing.  Eg A value of 2 for add_to_fermentation would mean to add during the second fermentation step. |
@@ -80,7 +76,7 @@ Collects the attributes of each culture ingredient for use in a recipe.
 | times_cultured |  | integer |  |
 | schedule |  | [AdditionSchedule](#additionschedule) |  |
 | cell_count_billions |  | integer |  |
-| amount |  | [Measurement::Count](./Measurement.md#count) or [Measurement::Mass](./Measurement.md#mass) or [Measurement::Volume](./Measurement.md#volume) |  |
+| amount |  | [Culture::CultureAmount](./Culture.md#cultureamount) |  |
 
 ## FermentableRecipeAddition
 
@@ -90,7 +86,7 @@ Collects the attributes of each fermentable ingredient for use in a recipe ferme
 
 | Property | Required? | Type |
 | -------- | --------- | ---- |
-| amount | ✅ | [Measurement::Mass](./Measurement.md#mass) or [Measurement::Volume](./Measurement.md#volume) |
+| amount | ✅ | [Fermentable::FermentableAmount](./Fermentable.md#fermentableamount) |
 | schedule |  | [AdditionSchedule](#additionschedule) |
 
 ## HopRecipeAddition
@@ -102,7 +98,7 @@ Collects the attributes of each hop ingredient for use in a recipe hop bill.
 | Property | Required? | Type |
 | -------- | --------- | ---- |
 | schedule | ✅ | [AdditionSchedule](#additionschedule) |
-| amount | ✅ | [Measurement::Mass](./Measurement.md#mass) or [Measurement::Volume](./Measurement.md#volume) |
+| amount | ✅ | [Hop::HopAmount](./Hop.md#hopamount) |
 
 ## MiscIngredientRecipeAddition
 
@@ -113,7 +109,7 @@ Collects the attributes of each miscellaneous ingredient for use in a recipe.
 | Property | Required? | Type |
 | -------- | --------- | ---- |
 | schedule |  | [AdditionSchedule](#additionschedule) |
-| amount |  | [Measurement::Count](./Measurement.md#count) or [Measurement::Mass](./Measurement.md#mass) or [Measurement::Volume](./Measurement.md#volume) |
+| amount |  | [MiscIngredient::MiscIngredientAmount](./MiscIngredient.md#miscingredientamount) |
 
 ## BrewLog
 
@@ -157,4 +153,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-17 at 19:53:38+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.5.0) on 2026-08-21 at 09:19:16+0200.

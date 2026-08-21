@@ -16,7 +16,7 @@ Collects the attributes of a microbial culture such as a yeast.
 | max_reuse |  | integer | Maximum number of times to reuse a culture before a new lab source is recommended. |
 | pof |  | boolean | A POF+ culture is capable of producing phenols, which is a common distinctive property of saison, and brett yeasts. |
 | glucoamylase |  | boolean | A glucoamylase positive culture is capable of producing glucoamylase, the enzyme produced through expression of the diastatic gene, which allows yeast to attenuate dextrins and starches leading to a very low FG. This is positive in some saison/brett yeasts as well as the new gulo hybrid by Omega yeast labs. |
-| inventory |  | [CultureInventory](#cultureinventory) |  |
+| inventory |  | [CultureAmount](#cultureamount) |  |
 | killer |  | [KillerProperties](#killerproperties) |  |
 
 
@@ -38,18 +38,9 @@ Provides unique properties to identify individual records of a culture.
 | producer |  | string |
 | product_id |  | string |
 
-## CultureInventory
+## CultureAmount
 
-
-
-<strong>CultureInventory</strong> is a JSON object with the following properties:
-
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| liquid |  | [Measurement::Volume](./Measurement.md#volume) |
-| dry |  | [Measurement::Mass](./Measurement.md#mass) |
-| slant |  | [Measurement::Volume](./Measurement.md#volume) |
-| culture |  | [Measurement::Volume](./Measurement.md#volume) |
+The ways in which an amount of a Culture could be measured
 
 ## KillerProperties
 
@@ -73,4 +64,4 @@ Note that `killerNeutral` being `true` implies all the other `producingXxxToxin`
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.4.0) on 2026-08-17 at 19:53:38+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.5.0) on 2026-08-21 at 09:19:16+0200.
