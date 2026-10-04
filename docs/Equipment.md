@@ -8,6 +8,7 @@ Groups together all the vessels in a set of brewing equipment.  Note that, in so
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
 | kettle | ✅ | [BoilKettle](#boilkettle) | Boil Kettle |
+| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this set of equipment. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Equipment object. |
 | hlt |  | [HotSideVessel](#hotsidevessel) | Hot Liquor Tank |
 | mash_tun |  | [MashTun](#mashtun) | Mash Tun |
@@ -72,4 +73,4 @@ A hot-side vessel used for the boil.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.5.0) on 2026-08-21 at 09:19:16+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-04 at 09:57:34+0200.

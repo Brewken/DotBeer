@@ -2,12 +2,23 @@
 
 Full definition of a hop variety.
 
-<strong>Hop</strong> is a JSON object with all properties from [HopBase](#hopbase) as well as these additional ones:
+<strong>Hop</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
+| name | ✅ | string |  |
+| alpha_acid | ✅ | [Measurement::Percentage](./Measurement.md#percentage) | The actual alpha acid content of the specific year's harvest (and batch) of this type of hop. |
+| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this hop. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Hop object. |
-| type |  | Enum:<br>&nbsp;∙ `aroma`<br>&nbsp;∙ `bittering`<br>&nbsp;∙ `flavor`<br>&nbsp;∙ `aroma/bittering`<br>&nbsp;∙ `bittering/flavor`<br>&nbsp;∙ `aroma/flavor`<br>&nbsp;∙ `aroma/bittering/flavor` |  |
+| producer |  | string |  |
+| product_id |  | string |  |
+| origin |  | string | Country of origin for the hop variety |
+| year |  | string | Year of harvest.  (Note that this is intentionally not a number, as, for one thing, years are not generally formatted in the same way as numbers.) |
+| form |  | Enum:<br>&nbsp;∙ `extract`<br>&nbsp;∙ `leaf`<br>&nbsp;∙ `leaf (wet)`<br>&nbsp;∙ `pellet`<br>&nbsp;∙ `powder`<br>&nbsp;∙ `plug` |  |
+| alpha_acid_range |  | [Measurement::RangeOfPercentage](./Measurement.md#rangeofpercentage) | The typical range of alpha acid for this type of hop. |
+| beta_acid |  | [Measurement::Percentage](./Measurement.md#percentage) | The actual beta acid content of the specific year's harvest (and batch) of this type of hop. |
+| beta_acid_range |  | [Measurement::RangeOfPercentage](./Measurement.md#rangeofpercentage) | The typical range of beta acid for this type of hop. |
+| hop_type |  | Enum:<br>&nbsp;∙ `aroma`<br>&nbsp;∙ `bittering`<br>&nbsp;∙ `flavor`<br>&nbsp;∙ `aroma/bittering`<br>&nbsp;∙ `bittering/flavor`<br>&nbsp;∙ `aroma/flavor`<br>&nbsp;∙ `aroma/bittering/flavor` |  |
 | notes |  | string |  |
 | six_month_alpha_loss |  | [Measurement::Percentage](./Measurement.md#percentage) | Defined as the percentage of hop alpha lost in 6 months of storage. |
 | substitutes |  | string | Alternate hop varieties that can be used in place of this hop variety |
@@ -18,25 +29,6 @@ Full definition of a hop variety.
 ---
 
 # Component Types
-
-## HopBase
-
-Minimal properties to identify individual records of a hop variety.
-
-<strong>HopBase</strong> is a JSON object with the following properties:
-
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| name | ✅ | string |  |
-| alpha_acid | ✅ | [Measurement::Percentage](./Measurement.md#percentage) | The actual alpha acid content of the specific year's harvest (and batch) of this type of hop. |
-| producer |  | string |  |
-| product_id |  | string |  |
-| origin |  | string | Country of origin for the hop variety |
-| year |  | string | Year of harvest.  (Note that this is intentionally not a number, as, for one thing, years are not generally formatted in the same way as numbers.) |
-| form |  | Enum:<br>&nbsp;∙ `extract`<br>&nbsp;∙ `leaf`<br>&nbsp;∙ `leaf (wet)`<br>&nbsp;∙ `pellet`<br>&nbsp;∙ `powder`<br>&nbsp;∙ `plug` |  |
-| alpha_acid_range |  | [Measurement::RangeOfPercentage](./Measurement.md#rangeofpercentage) | The typical range of alpha acid for this type of hop. |
-| beta_acid |  | [Measurement::Percentage](./Measurement.md#percentage) | The actual beta acid content of the specific year's harvest (and batch) of this type of hop. |
-| beta_acid_range |  | [Measurement::RangeOfPercentage](./Measurement.md#rangeofpercentage) | The typical range of beta acid for this type of hop. |
 
 ## HopAmount
 
@@ -69,4 +61,4 @@ Collects all information of a hop variety pertaining to oil content, polyphenols
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.5.0) on 2026-08-21 at 09:19:16+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-04 at 09:57:34+0200.

@@ -2,11 +2,17 @@
 
 Collects the attributes of a microbial culture such as a yeast.
 
-<strong>Culture</strong> is a JSON object with all properties from [CultureBase](#culturebase) as well as these additional ones:
+<strong>Culture</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
+| name | ✅ | string |  |
+| culture_type | ✅ | Enum:<br>&nbsp;∙ `ale`<br>&nbsp;∙ `bacteria`<br>&nbsp;∙ `brett`<br>&nbsp;∙ `champagne`<br>&nbsp;∙ `kveik`<br>&nbsp;∙ `lacto`<br>&nbsp;∙ `lager`<br>&nbsp;∙ `malolactic`<br>&nbsp;∙ `mixed-culture`<br>&nbsp;∙ `other`<br>&nbsp;∙ `pedio`<br>&nbsp;∙ `spontaneous`<br>&nbsp;∙ `wine` |  |
+| form | ✅ | Enum:<br>&nbsp;∙ `liquid`<br>&nbsp;∙ `dry`<br>&nbsp;∙ `slant`<br>&nbsp;∙ `culture`<br>&nbsp;∙ `dregs` |  |
+| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this Culture object. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Culture object. |
+| producer |  | string |  |
+| product_id |  | string |  |
 | temperature_range |  | [Measurement::RangeOfTemperature](./Measurement.md#rangeoftemperature) | The recommended temperature range of fermentation by the culture producer. |
 | alcohol_tolerance |  | [Measurement::Percentage](./Measurement.md#percentage) | The recommended limit of abv by the culture producer before attenuation stops. |
 | flocculation |  | Enum:<br>&nbsp;∙ `very low`<br>&nbsp;∙ `low`<br>&nbsp;∙ `medium low`<br>&nbsp;∙ `medium`<br>&nbsp;∙ `medium high`<br>&nbsp;∙ `high`<br>&nbsp;∙ `very high` | Floculation refers to the ability of yeast to aggregate to form large flocs which drop out of suspension. |
@@ -23,20 +29,6 @@ Collects the attributes of a microbial culture such as a yeast.
 ---
 
 # Component Types
-
-## CultureBase
-
-Provides unique properties to identify individual records of a culture.
-
-<strong>CultureBase</strong> is a JSON object with the following properties:
-
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| name | ✅ | string |
-| culture_type | ✅ | Enum:<br>&nbsp;∙ `ale`<br>&nbsp;∙ `bacteria`<br>&nbsp;∙ `brett`<br>&nbsp;∙ `champagne`<br>&nbsp;∙ `kveik`<br>&nbsp;∙ `lacto`<br>&nbsp;∙ `lager`<br>&nbsp;∙ `malolactic`<br>&nbsp;∙ `mixed-culture`<br>&nbsp;∙ `other`<br>&nbsp;∙ `pedio`<br>&nbsp;∙ `spontaneous`<br>&nbsp;∙ `wine` |
-| form | ✅ | Enum:<br>&nbsp;∙ `liquid`<br>&nbsp;∙ `dry`<br>&nbsp;∙ `slant`<br>&nbsp;∙ `culture`<br>&nbsp;∙ `dregs` |
-| producer |  | string |
-| product_id |  | string |
 
 ## CultureAmount
 
@@ -64,4 +56,4 @@ Note that `killerNeutral` being `true` implies all the other `producingXxxToxin`
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.5.0) on 2026-08-21 at 09:19:16+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-04 at 09:57:34+0200.

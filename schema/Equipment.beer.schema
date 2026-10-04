@@ -15,10 +15,13 @@
   "$id": "https://dotbeer.org/schema/Equipment.beer.schema",
   "type": "object",
   "description": "Groups together all the vessels in a set of brewing equipment.  Note that, in some set-ups, one vessel serves multiple purposes -- eg mash tun and kettle may be the same physical vessel -- but there are nonetheless individual entries here for each \"purpose\".",
-  "additionalProperties": false,
   "properties": {
     "name": {
       "type": "string"
+    },
+    "local_id" : {
+      "description": "The \"local ID\" that allows other objects in this file (eg recipes) to refer to this set of equipment.",
+      "$ref": "DotBeer.beer.schema#/$defs/LocalId"
     },
     "folder_path": {
       "description": "The suggested slash-delimited subfolder path in which to store this Equipment object.",
@@ -57,6 +60,7 @@
     "name",
     "kettle"
   ],
+  "unevaluatedProperties": false,
   "$defs": {
     "Vessel": {
       "type": "object",
@@ -79,7 +83,8 @@
       "required": [
         "maximum_volume",
         "loss"
-      ]
+      ],
+      "unevaluatedProperties": false
     },
     "HotSideVessel": {
       "type": "object",
@@ -100,7 +105,8 @@
             }
           }
         }
-      ]
+      ],
+      "unevaluatedProperties": false
     },
     "MashTun": {
       "type": "object",
@@ -117,7 +123,8 @@
             }
           }
         }
-      ]
+      ],
+      "unevaluatedProperties": false
     },
     "BoilKettle": {
       "type": "object",
@@ -146,7 +153,8 @@
             }
           }
         }
-      ]
+      ],
+      "unevaluatedProperties": false
     }
   }
 }

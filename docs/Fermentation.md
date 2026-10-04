@@ -8,6 +8,7 @@ A fermentation procedure, which can be used by multiple recipes.
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
 | fermentation_steps | ✅ | array of [FermentationStep](#fermentationstep) |  |
+| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this fermentation. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Fermentation object. |
 | fermentation_description |  | string |  |
 | notes |  | string |  |
@@ -32,4 +33,4 @@ Individual step of a fermentation.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.5.0) on 2026-08-21 at 09:19:16+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-04 at 09:57:34+0200.

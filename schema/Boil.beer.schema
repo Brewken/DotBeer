@@ -15,10 +15,13 @@
   "$id": "https://dotbeer.org/schema/Boil.beer.schema",
   "type": "object",
   "description": "A boil procedure, which can be used by multiple recipes.  A boil procedure with no steps is the same as a standard single step boil.",
-  "additionalProperties": false,
   "properties": {
     "name": {
       "type": "string"
+    },
+    "local_id" : {
+      "description": "The \"local ID\" that allows other objects in this file (eg recipes) to refer to this boil.",
+      "$ref": "DotBeer.beer.schema#/$defs/LocalId"
     },
     "folder_path": {
       "description": "The suggested slash-delimited subfolder path in which to store this Boil object.",
@@ -46,6 +49,7 @@
   "required": [
     "boil_time"
   ],
+  "unevaluatedProperties": false,
   "$defs": {
     "BoilStep": {
       "type": "object",
@@ -73,10 +77,10 @@
           }
         }
       ],
-      "unevaluatedProperties": false, // NB: Best to use this rather than additionalProperties when composing with allOf
       "required": [
         "name"
-      ]
+      ],
+      "unevaluatedProperties": false
     }
   }
 }

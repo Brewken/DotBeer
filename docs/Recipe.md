@@ -15,19 +15,20 @@ The information stored in a beer recipe.
 | ingredients | ✅ | object | All the recipe's ingredient additions.  Note that these lists are "abbreviated" versions of each ingredient, which saves on repetition when, eg, the same type of hop is added at more then one point.  If you are exporting one or more recipes, you should also export the full versions of their ingredients in the same file. |
 | ingredients.fermentable_additions | ✅ | array of [FermentableRecipeAddition](#fermentablerecipeaddition) | All the fermentable additions to the recipe |
 | ingredients.hop_additions |  | array of [HopRecipeAddition](#hoprecipeaddition) | All the hop additions to the recipe |
-| ingredients.miscellaneous_additions |  | array of [MiscIngredientRecipeAddition](#miscingredientrecipeaddition) | All the miscellaneous item additions to the recipe |
+| ingredients.misc_additions |  | array of [MiscRecipeAddition](#miscrecipeaddition) | All the miscellaneous item additions to the recipe |
 | ingredients.culture_additions |  | array of [CultureRecipeAddition](#culturerecipeaddition) | All the yeast and/or other culture additions to the recipe |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Recipe object. |
 | coauthor |  | string |  |
 | created |  | [Measurement::Date](./Measurement.md#date) |  |
-| style |  | [Style::StyleBase](./Style.md#stylebase) |  |
-| water_base |  | [Water::WaterBase](./Water.md#waterbase) | Optional parameter to specify the starting profile of the brewing water, which may be modified with salts etc to obtain the target profile. |
-| water_target |  | [Water::WaterBase](./Water.md#waterbase) | Optional parameter to specify the desired profile of the brewing water, which may be modified with salts etc from the base (starting) profile. |
+| style_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the style of this recipe.  (Obviously the style in question must be in the "styles" section of the same dotBeer file.) |
+| equipment_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the equipment for this recipe.  (Obviously the equipment in question must be in the "equipments" section of the same dotBeer file.) |
+| water_base_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Optional parameter to specify the Local ID of the starting profile of the brewing water, which may be modified with salts etc to obtain the target profile. |
+| water_target_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Optional parameter to specify the Local ID of the desired profile of the brewing water, which may be modified with salts etc from the base (starting) profile. |
 | ro_water_mash |  | [Measurement::Percentage](./Measurement.md#percentage) | Percentage of the mash water that is reverse-osmosis (rather than the same profile as `water_base`).  If this field is not present, a value of 0.0 may be assumed. |
 | ro_water_sparge |  | [Measurement::Percentage](./Measurement.md#percentage) | Percentage of the sparge water that is reverse-osmosis (rather than the same profile as `water_base`).  If this field is not present, a value of 0.0 may be assumed. |
-| mash |  | [Mash](./Mash.md) | This defines the procedure for performing unique mashing processes. |
-| boil |  | [Boil](./Boil.md) | Defines the procedure for performing a boil. A boil procedure with no steps is the same as a standard single step boil. |
-| fermentation |  | [Fermentation](./Fermentation.md) | FermentationProcedureType defines the procedure for performing fermentation. |
+| mash_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the mash procedure used in this recipe.  (Obviously the mash in question must be in the "mashes" section of the same dotBeer file.) |
+| boil_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the boil procedure used in this recipe.  (Obviously the boil in question must be in the "boils" section of the same dotBeer file.) |
+| fermentation_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the fermentation procedure used in this recipe.  (Obviously the fermentation in question must be in the "fermentations" section of the same dotBeer file.) |
 | notes |  | string |  |
 | original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The gravity of wort when transferred to the fermenter. |
 | final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The gravity of beer at the end of fermentation. |
@@ -68,48 +69,52 @@ This object fully describes when, and for how long, a recipe addition should be 
 
 Collects the attributes of each culture ingredient for use in a recipe.
 
-<strong>CultureRecipeAddition</strong> is a JSON object with all properties from [Culture::CultureBase](./Culture.md#culturebase) as well as these additional ones:
+<strong>CultureRecipeAddition</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
+| culture_id | ✅ | [DotBeer::LocalId](./DotBeer.md#localid) | The Local ID of the culture in this addition.  (Obviously the culture in question must be in the "cultures" section of the same dotBeer file.) |
+| amount | ✅ | [Culture::CultureAmount](./Culture.md#cultureamount) |  |
 | attenuation |  | [Measurement::Percentage](./Measurement.md#percentage) | The expected, or measured apparent attenuation for a given culture in a given recipe. In comparison to attenuation range, this is a single value. |
 | times_cultured |  | integer |  |
 | schedule |  | [AdditionSchedule](#additionschedule) |  |
 | cell_count_billions |  | integer |  |
-| amount |  | [Culture::CultureAmount](./Culture.md#cultureamount) |  |
 
 ## FermentableRecipeAddition
 
 Collects the attributes of each fermentable ingredient for use in a recipe fermentable bill.
 
-<strong>FermentableRecipeAddition</strong> is a JSON object with all properties from [Fermentable::FermentableBase](./Fermentable.md#fermentablebase) as well as these additional ones:
+<strong>FermentableRecipeAddition</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| amount | ✅ | [Fermentable::FermentableAmount](./Fermentable.md#fermentableamount) |
-| schedule |  | [AdditionSchedule](#additionschedule) |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| fermentable_id | ✅ | [DotBeer::LocalId](./DotBeer.md#localid) | The Local ID of the fermentable in this addition.  (Obviously the fermentable in question must be in the "fermentables" section of the same dotBeer file.) |
+| schedule | ✅ | [AdditionSchedule](#additionschedule) |  |
+| amount | ✅ | [Fermentable::FermentableAmount](./Fermentable.md#fermentableamount) |  |
 
 ## HopRecipeAddition
 
 Collects the attributes of each hop ingredient for use in a recipe hop bill.
 
-<strong>HopRecipeAddition</strong> is a JSON object with all properties from [Hop::HopBase](./Hop.md#hopbase) as well as these additional ones:
+<strong>HopRecipeAddition</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| schedule | ✅ | [AdditionSchedule](#additionschedule) |
-| amount | ✅ | [Hop::HopAmount](./Hop.md#hopamount) |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| hop_id | ✅ | [DotBeer::LocalId](./DotBeer.md#localid) | The Local ID of the hop in this addition.  (Obviously the hop in question must be in the "hops" section of the same dotBeer file.) |
+| schedule | ✅ | [AdditionSchedule](#additionschedule) |  |
+| amount | ✅ | [Hop::HopAmount](./Hop.md#hopamount) |  |
 
-## MiscIngredientRecipeAddition
+## MiscRecipeAddition
 
 Collects the attributes of each miscellaneous ingredient for use in a recipe.
 
-<strong>MiscIngredientRecipeAddition</strong> is a JSON object with all properties from [MiscIngredient::MiscIngredientBase](./MiscIngredient.md#miscingredientbase) as well as these additional ones:
+<strong>MiscRecipeAddition</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| schedule |  | [AdditionSchedule](#additionschedule) |
-| amount |  | [MiscIngredient::MiscIngredientAmount](./MiscIngredient.md#miscingredientamount) |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| misc_id | ✅ | [DotBeer::LocalId](./DotBeer.md#localid) | The Local ID of the misc in this addition.  (Obviously the misc in question must be in the "miscs" section of the same dotBeer file.) |
+| schedule | ✅ | [AdditionSchedule](#additionschedule) |  |
+| amount | ✅ | [Misc::MiscAmount](./Misc.md#miscamount) |  |
 
 ## BrewLog
 
@@ -153,4 +158,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.5.0) on 2026-08-21 at 09:19:16+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-04 at 09:57:34+0200.

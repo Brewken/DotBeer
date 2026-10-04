@@ -25,7 +25,7 @@
   // Version of this schema.
   // Versions prior to 1.0.0 are subject to breaking changes!
   //
-  "Version": "0.5.0",
+  "Version": "0.7.0",
   //
   "properties": {
     //
@@ -35,13 +35,6 @@
     "DotBeer": {
       "type": "object",
       "description": "Root element of all DotBeer documents.  Most of the Primary Types (ie ones that have their own schema file) are referred to here.  Various Component Types (ie smaller types used for composition) are defined in the \"$defs\" sections of most of the schema files (apart from this one).",
-      //
-      // Allowing additional properties makes it easier to extend the schema in a way that allows old versions of
-      // software to read newer versions of DotBeer files.  However, it also makes it harder to validate things.  Eg
-      // if a program accidentally wrote optional parameter "foobar" with key "barfoo", it wouldn't be picked up by
-      // schema validation if additional properties are allowed.
-      //
-      "additionalProperties": false,
       "properties": {
         "version": {
           "description": "DotBeer schema version used to create the file.",
@@ -70,11 +63,11 @@
             "$ref": "Fermentable.beer.schema"
           }
         },
-        "misc_ingredients": {
+        "miscs": {
           "type": "array",
           "description": "Records for ingredients that area not hops, fermentables or cultures.  Variously known as \"miscellaneous ingredients\", \"non-fermentable adjuncts\", \"other ingredients\", or \"adjuncts that do not contribute to the gravity of the beer\".",
           "items": {
-            "$ref": "MiscIngredient.beer.schema"
+            "$ref": "Misc.beer.schema"
           }
         },
         "cultures": {
@@ -150,21 +143,60 @@
         "version",
         "output_by",
         "timestamp"
-      ]
+      ],
+      //
+      // Allowing additional properties would make it easier to extend the schema in a way that allows old versions of
+      // software to read newer versions of DotBeer files.  However, it would also make it harder to validate things.
+      // Eg if a program accidentally wrote optional parameter "foobar" with key "barfoo", it wouldn't be picked up by
+      // schema validation if additional properties are allowed.  So, in general, we forbid unspecified properties.
+      // Here, and elsewhere, `"unevaluatedProperties": false` is the newer, and more robust, way to do this (replacing
+      // `"additionalProperties": false`).
+      //
+      // NOTE that we cannot use `"unevaluatedProperties": false` inside a "base" schema -- ie one that we will combine
+      // with others using `allOf`.  Eg, suppose we have the following "top-level" schema (ie one that will not itself
+      // be combined with others using `allOf`:
+      //
+      //    "allOf": [
+      //      {
+      //        "$ref": "#/$defs/Foo"
+      //      },
+      //      {
+      //        "$ref": "#/$defs/Bar"
+      //      },
+      //      ...
+      //    ]
+      //
+      // We are fine to have `"unevaluatedProperties": false` after the allOf, but we can't have it inside the Foo or
+      // Bar schemas.  If we do, evaluation against Foo will fail because of the presence of Bar's properties, and
+      // evaluation against Bar will fail because of the presence of Foo's properties.
+      //
+      "unevaluatedProperties": false,
+      "additionalProperties": false
     }
   },
   "required": [
     "DotBeer"
   ],
+  "additionalProperties": false,
+  "unevaluatedProperties": false,
   "$defs": {
     //
-    // Version Numbers and Folders don't really belong in Measurement.  But it seems overkill to create dedicated schema
-    // file(s) for them.  So, they live here.
+    // There are a couple of things that don't really belong in Measurement.  At the moment, at least, it seems overkill
+    // to create dedicated schema file(s) for them.  So, they live here.
     //
     "FolderPath": {
       "type": "string",
       "description": "A FolderPath is typically used for the suggested slash-delimited subfolder path in which to store an object.  Any leading slash should be ignored.  Eg, if an object's folder path is \"/hum/bug\" (or \"hum/bug\") then importing the object into folder \"/foo/bar\" should result in its folder path being \"/foo/bar/hum/bug\".  If the importing software does not support folders, then it should ignore folder path fields.",
-      "pattern": "/?[^/]+(/[^/]+)*"
+      //
+      // The regular expression here is a bit convoluted so that it allows leading slashes but not trailing ones (other
+      // then the trivial case of "/").
+      //
+      "pattern": "^[/]?([^/]+([/][^/]+)*)?$"
+    },
+    "LocalId": {
+      "type": "string",
+      "description": "A string that, within a dotBeer file, uniquely identifies something (eg hop, fermentable, style, mash) that is used in a recipe in that same file.  Thus, for example, if each hop in the file defines its own local ID, then, for the hop additions in any recipe in the same file, it suffices to use the relevant local ID to identify the hop being added.\n\nNo two items in a single file should have the same local ID, even if they are of different types.  (This is to make reading files simpler, as a single look-up map can be used for all different types.)  The string has no meaning in any wider scope: it is a cross-reference rather than a true attribute.  Local IDs simplify the structure of dotBeer and help reduce repetition within the files.\n\nThe JSON Schema cannot validate that local IDs are correct - merely that they adhere to a particular format.  Implementing programs should therefore validate that (a) all defined local IDs in a file are unique in that file, (b) all referred-to local IDs are defined elsewhere in the file, and (c) any referred-to local ID is for an object of the relevant type (eg the local ID for the style of a recipe must be that of a style).",
+      "pattern": "[A-Za-z0-9_]+"
     },
     "VersionNumber": {
       "type": "string",

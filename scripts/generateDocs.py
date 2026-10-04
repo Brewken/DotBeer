@@ -128,7 +128,7 @@ timeStamp = timeAndDateLocal.strftime('%H:%M:%S%z')
 preferredOrder = [
    "DotBeer",
    ">Ingredients",
-   "Fermentable", "Hop", "MiscIngredient", "Culture",
+   "Fermentable", "Hop", "Misc", "Culture",
    #"WaterAdjustment",
    ">Processes",
    "Mash", "Boil", "Fermentation", "StepCommon",

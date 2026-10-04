@@ -2,11 +2,23 @@
 
 Collects the attributes of a fermentable ingredient to store as record information.
 
-<strong>Fermentable</strong> is a JSON object with all properties from [FermentableBase](#fermentablebase) as well as these additional ones:
+<strong>Fermentable</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
+| name | ✅ | string |  |
+| type | ✅ | Enum:<br>&nbsp;∙ `dry extract`<br>&nbsp;∙ `extract`<br>&nbsp;∙ `grain`<br>&nbsp;∙ `sugar`<br>&nbsp;∙ `fruit`<br>&nbsp;∙ `juice`<br>&nbsp;∙ `honey`<br>&nbsp;∙ `other` |  |
+| color | ✅ | [Measurement::Color](./Measurement.md#color) | Maltsters typically measure grain color in degrees Lovibond, but other units are supported here. |
+| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this fermentable. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Fermentable object. |
+| origin |  | string | Country or place of origin |
+| producer |  | string |  |
+| product_id |  | string |  |
+| grain_group |  | Enum:<br>&nbsp;∙ `base`<br>&nbsp;∙ `caramel`<br>&nbsp;∙ `flaked`<br>&nbsp;∙ `roasted`<br>&nbsp;∙ `specialty`<br>&nbsp;∙ `smoked`<br>&nbsp;∙ `adjunct` | This should only be set when `type` is `grain`. |
+| yield_fine_grind |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Yield Dry Basis Fine Grind (DBFG) - aka percentage yield, compared to sucrose, of a fine grind. |
+| yield_coarse_grind |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Yield Dry Basis Coarse Grind (DBCG) - aka percentage yield, compared to sucrose, of a coarse grind. |
+| yield_fine_coarse_difference |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Fine Grind/Coarse Grind Difference (FG/CG) - aka the difference in yield between coarsely milled and finely milled grain.  A FG/CG difference of 0.5–1.0 percentage points is well suited to a single step infusion, while a value greater than 1.5 percentage points indicates that a protein rest or step mash may be advisable.<br />Note that `fine_coarse_difference` should be the same as `fine_grind` minus `coarse_grind`. |
+| yield_potential |  | [Measurement::Gravity](./Measurement.md#gravity) | The potential yield is the specific gravity that can be achieved with 1.00 pound (455 g) of malt mashed in 1.00 gallon (3.78 L) of water.  Calculated as (extract) potential (SG) = 1 + (DBFG / 100) * 0.04621. |
 | notes |  | string |  |
 | moisture |  | [Measurement::Percentage](./Measurement.md#percentage) | Percentage moisture.  Only appropriate for a "grain" or "other" type |
 | alpha_amylase |  | number | Total amount of alpha-amylase in the malted grain, measured in dextrinizing units.  (Since you ask, one α-amylase dextrinizing unit is defined as the quantity of α-amylase that will dextrinize soluble starch in the presence of an excess of β-amylase at the rate of 1 g/h at 30°C.  Or, at least, that's what it says at https://www.deerland.com/wp-content/uploads/2015/04/EnzymeAssayUnits_Deerland.pdf.)  Anyway, a value of 25-50 is desirable for base malt. |
@@ -35,26 +47,6 @@ Collects the attributes of a fermentable ingredient to store as record informati
 
 # Component Types
 
-## FermentableBase
-
-FermentableBase provides unique properties to identify individual records of fermentable ingredients.
-
-<strong>FermentableBase</strong> is a JSON object with the following properties:
-
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| name | ✅ | string |  |
-| type | ✅ | Enum:<br>&nbsp;∙ `dry extract`<br>&nbsp;∙ `extract`<br>&nbsp;∙ `grain`<br>&nbsp;∙ `sugar`<br>&nbsp;∙ `fruit`<br>&nbsp;∙ `juice`<br>&nbsp;∙ `honey`<br>&nbsp;∙ `other` |  |
-| color | ✅ | [Measurement::Color](./Measurement.md#color) | Maltsters typically measure grain color in degrees Lovibond, but other units are supported here. |
-| origin |  | string | Country or place of origin |
-| producer |  | string |  |
-| product_id |  | string |  |
-| grain_group |  | Enum:<br>&nbsp;∙ `base`<br>&nbsp;∙ `caramel`<br>&nbsp;∙ `flaked`<br>&nbsp;∙ `roasted`<br>&nbsp;∙ `specialty`<br>&nbsp;∙ `smoked`<br>&nbsp;∙ `adjunct` | This should only be set when `type` is `grain`. |
-| yield_fine_grind |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Yield Dry Basis Fine Grind (DBFG) - aka percentage yield, compared to sucrose, of a fine grind. |
-| yield_coarse_grind |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Yield Dry Basis Coarse Grind (DBCG) - aka percentage yield, compared to sucrose, of a coarse grind. |
-| yield_fine_coarse_difference |  | [Measurement::Percentage](./Measurement.md#percentage) | Extract Fine Grind/Coarse Grind Difference (FG/CG) - aka the difference in yield between coarsely milled and finely milled grain.  A FG/CG difference of 0.5–1.0 percentage points is well suited to a single step infusion, while a value greater than 1.5 percentage points indicates that a protein rest or step mash may be advisable.<br />Note that `fine_coarse_difference` should be the same as `fine_grind` minus `coarse_grind`. |
-| yield_potential |  | [Measurement::Gravity](./Measurement.md#gravity) | The potential yield is the specific gravity that can be achieved with 1.00 pound (455 g) of malt mashed in 1.00 gallon (3.78 L) of water.  Calculated as (extract) potential (SG) = 1 + (DBFG / 100) * 0.04621. |
-
 ## FermentableAmount
 
 The ways in which an amount of a Fermentable could be measured
@@ -63,4 +55,4 @@ The ways in which an amount of a Fermentable could be measured
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.5.0) on 2026-08-21 at 09:19:16+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-04 at 09:57:34+0200.
