@@ -30,9 +30,9 @@ An individual vessel (eg mash tun, boil kettle) that forms part of brewing equip
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
+| max_volume | ✅ | [Measurement::Volume](./Measurement.md#volume) | Maximum usable capacity of the vessel. |
 | loss | ✅ | [Measurement::Volume](./Measurement.md#volume) |  |
 | vessel_type |  | string |  |
-| max_volume |  | [Measurement::Volume](./Measurement.md#volume) | Maximum usable capacity of the vessel. |
 | notes |  | string |  |
 
 ## HotSideVessel
@@ -73,4 +73,4 @@ A hot-side vessel used for the boil.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-04 at 09:57:34+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-05 at 18:58:00+0200.
