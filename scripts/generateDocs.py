@@ -214,10 +214,9 @@ with open("../docs/INDEX.md", "w") as indexFile:
    indexFile.write(topLevelMd)
    indexFile.write(
       "\nWhen reading or writing a <span style=\"color:green; font-weight: bold; font-family: monospace;\">.beer</span>"
-      " file, we recommend you read or write `Recipe` record(s) after all the ingredients, processes and so on that "
-      "the recipes refer to.  This is because, inside the `Recipe` record, there is enough information to eg identify "
-      "each hop added to the recipe, but not all the information to recreate that hop record if it is not already "
-      "present on the system reading the record.\n\n"
+      " file, you need read or write `Recipe` record(s) after all the ingredients, processes and so on that the "
+      "recipes refer to.  This is because each `Recipe` record cross-refers to ingredient additions, mash profile, "
+      "style, etc in the same file. This avoids the duplication required in BeerXML and BeerJSON files.\n\n"
       "The version of the DotBeer schema is stored in the `Version` field in the <span style=\"color:BlueViolet; "
       "font-weight: bold; font-family: monospace;\">DotBeer.beer.schema</span> file.  Versions prior to 1.0.0 are "
       "subject to breaking changes, but from 1.0.0 onwards adhere to the backwards compatibility principle.  This "

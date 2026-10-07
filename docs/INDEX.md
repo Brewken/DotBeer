@@ -34,7 +34,7 @@ A DotBeer (<span style="color:green; font-weight: bold; font-family: monospace;"
 
   - [Measurement](../docs/Measurement.md)
 
-When reading or writing a <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file, we recommend you read or write `Recipe` record(s) after all the ingredients, processes and so on that the recipes refer to.  This is because, inside the `Recipe` record, there is enough information to eg identify each hop added to the recipe, but not all the information to recreate that hop record if it is not already present on the system reading the record.
+When reading or writing a <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file, you need read or write `Recipe` record(s) after all the ingredients, processes and so on that the recipes refer to.  This is because each `Recipe` record cross-refers to ingredient additions, mash profile, style, etc in the same file. This avoids the duplication required in BeerXML and BeerJSON files.
 
 The version of the DotBeer schema is stored in the `Version` field in the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">DotBeer.beer.schema</span> file.  Versions prior to 1.0.0 are subject to breaking changes, but from 1.0.0 onwards adhere to the backwards compatibility principle.  This principle is that you should always be able to validate an older <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file against a newer schema (although the reverse is not guaranteed).  Eg, if a file were written using the 1.0.0 schema, it should validate and be readable against the 1.1.0 schema.
 
@@ -42,4 +42,4 @@ If a field is marked `deprecated` in the schema that usually means it should be 
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (vNone) on 2026-10-07 at 21:03:19+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (vNone) on 2026-10-07 at 21:10:48+0200.
