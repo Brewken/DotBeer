@@ -25,7 +25,12 @@
   // Version of this schema.
   // Versions prior to 1.0.0 are subject to breaking changes!
   //
-  "Version": "0.7.0",
+  // Since this is an annotation (and not a standard JSON Schema keyword), we use the "x-" prefix, per
+  // https://json-schema.org/blog/posts/custom-annotations-will-continue
+  //
+  // TODO: We ought to put this in the $id field
+  //
+  "x-version": "0.8.0",
   //
   "properties": {
     //
@@ -65,7 +70,7 @@
         },
         "miscs": {
           "type": "array",
-          "description": "Records for ingredients that area not hops, fermentables or cultures.  Variously known as \"miscellaneous ingredients\", \"non-fermentable adjuncts\", \"other ingredients\", or \"adjuncts that do not contribute to the gravity of the beer\".",
+          "description": "Records for ingredients that are not hops, fermentables or cultures.  Variously known as \"miscellaneous ingredients\", \"non-fermentable adjuncts\", \"other ingredients\", or \"adjuncts that do not contribute to the gravity of the beer\".",
           "items": {
             "$ref": "Misc.beer.schema"
           }
@@ -170,14 +175,12 @@
       // Bar schemas.  If we do, evaluation against Foo will fail because of the presence of Bar's properties, and
       // evaluation against Bar will fail because of the presence of Foo's properties.
       //
-      "unevaluatedProperties": false,
-      "additionalProperties": false
+      "unevaluatedProperties": false
     }
   },
   "required": [
     "DotBeer"
   ],
-  "additionalProperties": false,
   "unevaluatedProperties": false,
   "$defs": {
     //
@@ -196,12 +199,12 @@
     "LocalId": {
       "type": "string",
       "description": "A string that, within a dotBeer file, uniquely identifies something (eg hop, fermentable, style, mash) that is used in a recipe in that same file.  Thus, for example, if each hop in the file defines its own local ID, then, for the hop additions in any recipe in the same file, it suffices to use the relevant local ID to identify the hop being added.\n\nNo two items in a single file should have the same local ID, even if they are of different types.  (This is to make reading files simpler, as a single look-up map can be used for all different types.)  The string has no meaning in any wider scope: it is a cross-reference rather than a true attribute.  Local IDs simplify the structure of dotBeer and help reduce repetition within the files.\n\nThe JSON Schema cannot validate that local IDs are correct - merely that they adhere to a particular format.  Implementing programs should therefore validate that (a) all defined local IDs in a file are unique in that file, (b) all referred-to local IDs are defined elsewhere in the file, and (c) any referred-to local ID is for an object of the relevant type (eg the local ID for the style of a recipe must be that of a style).",
-      "pattern": "[A-Za-z0-9_]+"
+      "pattern": "^[A-Za-z0-9_]+$"
     },
     "VersionNumber": {
       "type": "string",
       "description": "We use semantic versioning, which encodes a version by a three-part version number (Major.Minor.Patch)",
-      "pattern": "\\d+[.]\\d+[.]\\d+"
+      "pattern": "^\\d+[.]\\d+[.]\\d+$"
     }
   }
 }

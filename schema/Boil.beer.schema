@@ -47,6 +47,7 @@
     }
   },
   "required": [
+    "name",
     "boil_time"
   ],
   "unevaluatedProperties": false,

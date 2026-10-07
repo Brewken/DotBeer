@@ -15,11 +15,10 @@
 //======================================================================================================================
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dotbeer.org/schema/Misc.beer.schema",
-  "type": "object",
   // I have oscillated between `Misc` and `MiscIngredient` for this.  The latter is "better" in terms of being more
   // descriptive, but both brevity and consistency with Brewtarget/Brewken push us towards the former.
-  "title": "Misc",
+  "$id": "https://dotbeer.org/schema/Misc.beer.schema",
+  "type": "object",
   "description": "Miscellaneous ingredients that are not hops, fermentables, yeasts/cultures or water.  Some people would call these \"non-fermentable adjuncts\", but there are also narrower definitions of \"adjunct\", so we do not use that term.  Also often referred to as \"other ingredients\", but we already use \"other\" in a lot of classifications, so we prefer \"miscellaneous\" as abbreviated to \"misc\".",
   "properties": {
     "name": {
@@ -52,7 +51,7 @@
       ]
     },
     "water_agent_type": {
-      "description": "Should only be set if `misc_type` is `water agent`.<br>`calcium chloride` = CaCl₂<br>`calcium carbonate` = CaCO₃<br>`calcium sulfate` = CaSO₄<br>`magnesium sulfate` = MgSO₄<br>`sodium chloride` = NaCl  aka \"regular\" salt<br>`sodium bicarbonate` = NaHCO₃<br>`lactic acid` = CH₃CH(OH)CO₂H (extended formula) = C₃H₆O₃ (regular formula)<br>`phosphoric acid` = H₃PO₄<br>`other` = none of the above",
+      "description": "Must be set if and only if `misc_type` is `water agent`.<br>`calcium chloride` = CaCl₂<br>`calcium carbonate` = CaCO₃<br>`calcium sulfate` = CaSO₄<br>`magnesium sulfate` = MgSO₄<br>`sodium chloride` = NaCl  aka \"regular\" salt<br>`sodium bicarbonate` = NaHCO₃<br>`lactic acid` = CH₃CH(OH)CO₂H (extended formula) = C₃H₆O₃ (regular formula)<br>`phosphoric acid` = H₃PO₄<br>`other` = none of the above",
       "enum": [
         "calcium chloride",
         "calcium carbonate",
@@ -67,7 +66,7 @@
     },
     "water_agent_percent_acid": {
       "description": "Should only be set if `misc_type` is `water agent`.",
-      "$ref": "Measurement.beer.schema#/$defs/Percentage"
+      "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "use_for": {
       "description": "Used to describe the purpose of the miscellaneous ingredient, e.g. whirlfloc is used for clarity.",
@@ -84,6 +83,30 @@
     "name",
     "misc_type"
   ],
+  //
+  // See https://json-schema.org/understanding-json-schema/reference/conditionals#dependentSchemas for how the
+  // "dependentSchemas" keyword works.  Essentially, it allows us to enforce that `water_agent_type` and
+  // `water_agent_percent_acid` only be set if `misc_type` is `water agent`.
+  //
+  "dependentSchemas": {
+    "water_agent_type":         { "properties": { "misc_type": { "const": "water agent" } } },
+    "water_agent_percent_acid": { "properties": { "misc_type": { "const": "water agent" } } }
+  },
+  //
+  // For `water_agent_type`, we have a stronger requirement, that it _must_ be set if `misc_type` is "water agent".
+  // This if/then enforces that.
+  //
+  "if": {
+    //
+    // Strictly, we don't need "required" here as `misc_type` is already required above.  However, it's idiomatic to use
+    // it, as `properties` only checks keys that are present.
+    //
+    "properties": { "misc_type": { "const": "water agent" } },
+    "required": ["misc_type"]
+  },
+  "then": {
+    "required": ["water_agent_type"]
+  },
   "unevaluatedProperties": false,
   "$defs": {
     "MiscAmount" : {

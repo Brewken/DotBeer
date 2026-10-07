@@ -27,7 +27,10 @@
           ]
         },
         "value": {
-          "type": "number"
+          "description": "The minimum and maximum pH values here come from the table on https://fr.wikipedia.org/wiki/Potentiel_hydrog%C3%A8ne.  In practice, a smaller range would probably suffice.",
+          "type": "number",
+          "minimum": -1.1,
+          "maximum": 15.0
         }
       },
       "required": [
@@ -45,7 +48,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -64,7 +68,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -86,7 +91,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -109,7 +115,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -121,7 +128,7 @@
     "Date": {
       "type": "string",
       "description": "To avoid ambiguity, dates are always stored in ISO 8601 format.  The two possibilities here are with and without time of day.",
-      "pattern": "\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})?)?$"
     },
     "Gravity": {
       "type": "object",
@@ -136,7 +143,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -156,7 +164,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -178,7 +187,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -201,14 +211,15 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
         "unit",
         "value"
-      ] //,
-//      "unevaluatedProperties": false
+      ],
+      "unevaluatedProperties": false
     },
     "MassFractionOrConcentration": {
       "type": "object",
@@ -223,7 +234,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -232,8 +244,9 @@
       ],
       "unevaluatedProperties": false
     },
-    "Percentage": {
+    "PercentageNoMax": {
       "type": "object",
+      "description": "PercentageNoMax, aka, \"no max percentage\" is a percentage that can be more than 100% (but cannot be less than 0%)",
       "properties": {
         "unit": {
           "enum": [
@@ -241,7 +254,29 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ],
+      "unevaluatedProperties": false
+    },
+    "PercentageSimple": {
+      "type": "object",
+      "description": "PercentageSimple, aka, \"simple percentage\" is a percentage where the value is no less than 0% and no greater than 100%",
+      "properties": {
+        "unit": {
+          "enum": [
+            "%"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
         }
       },
       "required": [
@@ -262,7 +297,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -283,7 +319,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -309,7 +346,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -322,14 +360,15 @@
       "type": "object",
       "properties": {
         "unit": {
-          "description": "`C` is degrees Celsius (°C)<br>`F` is decrees Fahrenheit (°F)",
+          "description": "`C` is degrees Celsius (°C)<br>`F` is degrees Fahrenheit (°F)",
           "enum": [
             "C",
             "F"
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -353,7 +392,12 @@
           ]
         },
         "value": {
-          "type": "integer"
+          //
+          // In contrast to BeerJSON, which requires an integer, we allow decimals here.  This allows writers to output
+          // 3.5 minutes instead of having to convert to seconds to have an integer.
+          //
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -373,7 +417,8 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
@@ -412,14 +457,15 @@
           ]
         },
         "value": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": [
         "unit",
         "value"
-      ]//,
-//      "unevaluatedProperties": false
+      ],
+      "unevaluatedProperties": false
     },
     //
     // Ranges
@@ -507,14 +553,14 @@
       ],
       "unevaluatedProperties": false
     },
-    "RangeOfPercentage": {
+    "RangeOfPercentageSimple": {
       "type": "object",
       "properties": {
         "minimum": {
-          "$ref": "#/$defs/Percentage"
+          "$ref": "#/$defs/PercentageSimple"
         },
         "maximum": {
-          "$ref": "#/$defs/Percentage"
+          "$ref": "#/$defs/PercentageSimple"
         }
       },
       "required": [

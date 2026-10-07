@@ -13,7 +13,7 @@ Groups together all the vessels in a set of brewing equipment.  Note that, in so
 | hlt |  | [HotSideVessel](#hotsidevessel) | Hot Liquor Tank |
 | mash_tun |  | [MashTun](#mashtun) | Mash Tun |
 | lauter_tun |  | [HotSideVessel](#hotsidevessel) | Lauter Tun |
-| fermenter |  | [Vessel](#vessel) | Fermentation Vessel |
+| fermentor |  | [Vessel](#vessel) | Fermentation Vessel |
 | aging_vessel |  | [Vessel](#vessel) | Aging Vessel |
 | packaging_vessel |  | [Vessel](#vessel) | Packaging Vessel |
 
@@ -66,11 +66,11 @@ A hot-side vessel used for the boil.
 | -------- | --------- | ---- | ----------- |
 | boil_rate_per_hour |  | [Measurement::Volume](./Measurement.md#volume) | The volume boiled off during 1 hour, measured before and after at room temperature. |
 | drain_rate_per_minute |  | [Measurement::Volume](./Measurement.md#volume) | The volume that leaves the kettle, especially important for non-immersion chillers that cool the wort as it leaves the kettle. |
-| internalDiameter |  | [Measurement::Length](./Measurement.md#length) | With openingDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula |
-| openingDiameter |  | [Measurement::Length](./Measurement.md#length) | With internalDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula |
+| internal_diameter |  | [Measurement::Length](./Measurement.md#length) | With opening_diameter, allows calculation of IBU by Paul-John Hosom's mIBU formula |
+| opening_diameter |  | [Measurement::Length](./Measurement.md#length) | With internal_diameter, allows calculation of IBU by Paul-John Hosom's mIBU formula |
 
 
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-05 at 18:58:00+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (vNone) on 2026-10-07 at 21:03:19+0200.

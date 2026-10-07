@@ -11,7 +11,7 @@ A beer style may be from the BJCP style guide, Australian, UK or local style gui
 | style_guide | ✅ | string | The name of the style guide that this particular style or category belongs to. For example “BJCP” might denote the BJCP style guide, and “AHA” would be used for the AHA style guide. |
 | style_type | ✅ | Enum:<br>&nbsp;∙ `beer`<br>&nbsp;∙ `cider`<br>&nbsp;∙ `kombucha`<br>&nbsp;∙ `mead`<br>&nbsp;∙ `other`<br>&nbsp;∙ `soda`<br>&nbsp;∙ `wine` | Defines the type of beverage associated with this category. |
 | category_number |  | integer | Number or identifier associated with this style category. For example in the BJCP style guide, the “American Lager” category has a category number of “1”. |
-| style_letter |  |  matching regular expression [`[A-Z ]`](https://regex101.com/?regex=%5BA-Z+%5D) | The specific subcategory letter associated with this particular style. For example in the BJCP style guide, an American Standard Lager would be style letter “A” under the main category.  Letters should be upper case. |
+| style_letter |  |  matching regular expression [`[A-Z]`](https://regex101.com/?regex=%5BA-Z%5D) | The specific subcategory letter associated with this particular style. For example in the BJCP style guide, an American Standard Lager would be style letter “A” under the main category.  Letters should be upper case. |
 | local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this style. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Style object. |
 | original_gravity |  | [Measurement::RangeOfGravity](./Measurement.md#rangeofgravity) | The range of acceptable original gravity for the style. |
@@ -19,7 +19,7 @@ A beer style may be from the BJCP style guide, Australian, UK or local style gui
 | international_bitterness_units |  | [Measurement::RangeOfBitterness](./Measurement.md#rangeofbitterness) | The range of bitterness for this style. |
 | color |  | [Measurement::RangeOfColor](./Measurement.md#rangeofcolor) | The range of color for this beer style. |
 | carbonation |  | [Measurement::RangeOfCarbonation](./Measurement.md#rangeofcarbonation) | Range of carbonation for this beer style. |
-| alcohol_by_volume |  | [Measurement::RangeOfPercentage](./Measurement.md#rangeofpercentage) | The range of alcohol by volume for this beer style. |
+| alcohol_by_volume |  | [Measurement::RangeOfPercentageSimple](./Measurement.md#rangeofpercentagesimple) | The range of alcohol by volume for this beer style. |
 | notes |  | string | Description of the style, history |
 | aroma |  | string | Aroma profile for this style. |
 | appearance |  | string |  |
@@ -33,4 +33,4 @@ A beer style may be from the BJCP style guide, Australian, UK or local style gui
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-05 at 18:58:00+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (vNone) on 2026-10-07 at 21:03:19+0200.

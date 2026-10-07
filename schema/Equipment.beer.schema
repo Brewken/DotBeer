@@ -53,7 +53,9 @@
       "$ref": "#/$defs/BoilKettle",
       "unevaluatedProperties": false
     },
-    "fermenter": {
+    // BeerJSON uses "fermenter" here, which is an error.  (A fermentor is the vessel where fermentation happens, while
+    // a fermenter is the organism (such as yeast) that performs the fermentation.)
+    "fermentor": {
       "description": "Fermentation Vessel",
       "$ref": "#/$defs/Vessel",
       "unevaluatedProperties": false
@@ -156,12 +158,12 @@
               "description": "The volume that leaves the kettle, especially important for non-immersion chillers that cool the wort as it leaves the kettle.",
               "$ref": "Measurement.beer.schema#/$defs/Volume"
             },
-            "internalDiameter": {
-              "description": "With openingDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula",
+            "internal_diameter": {
+              "description": "With opening_diameter, allows calculation of IBU by Paul-John Hosom's mIBU formula",
               "$ref": "Measurement.beer.schema#/$defs/Length"
             },
-            "openingDiameter": {
-              "description": "With internalDiameter, allows calculation of IBU by Paul-John Hosom's mIBU formula",
+            "opening_diameter": {
+              "description": "With internal_diameter, allows calculation of IBU by Paul-John Hosom's mIBU formula",
               "$ref": "Measurement.beer.schema#/$defs/Length"
             }
           }

@@ -101,6 +101,7 @@
     }
   },
   "required": [
+    "name",
     "bicarbonate",
     "calcium",
     "chloride",

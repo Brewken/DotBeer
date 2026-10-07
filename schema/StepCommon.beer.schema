@@ -24,8 +24,8 @@
     //  ‡ step_time            step_time           step_time           |   StepBase
     //  ‡ start_temperature    start_temperature   start_temperature   |   StepBase
     //    end_temperature      end_temperature     end_temperature     |   StepBase
-    //    start_ph             start_ph            start_ph            |   StepBase
-    //    end_ph               end_ph              end_ph              |   StepBase
+    //    start_pH             start_pH            start_pH            |   StepBase
+    //    end_pH               end_pH              end_pH              |   StepBase
     //                         start_gravity       start_gravity       |   StepWithGravity
     //                         end_gravity         end_gravity         |   StepWithGravity
     //                                                                 |

@@ -11,7 +11,7 @@ Root element of all DotBeer documents.  Most of the Primary Types (ie ones that 
 | timestamp | ✅ | [Measurement::Date](./Measurement.md#date) | Date and time file was created. |
 | hops |  | array of [Hop](./Hop.md) | Records detailing properties of unique hop varieties. |
 | fermentables |  | array of [Fermentable](./Fermentable.md) | Records for any ingredient that contributes to the gravity of the beer. |
-| miscs |  | array of [Misc](./Misc.md) | Records for ingredients that area not hops, fermentables or cultures.  Variously known as "miscellaneous ingredients", "non-fermentable adjuncts", "other ingredients", or "adjuncts that do not contribute to the gravity of the beer". |
+| miscs |  | array of [Misc](./Misc.md) | Records for ingredients that are not hops, fermentables or cultures.  Variously known as "miscellaneous ingredients", "non-fermentable adjuncts", "other ingredients", or "adjuncts that do not contribute to the gravity of the beer". |
 | cultures |  | array of [Culture](./Culture.md) | Records detailing the wide array of unique cultures. |
 | waters |  | array of [Water](./Water.md) | Records for water profiles used in brewing. |
 | mashes |  | array of [Mash](./Mash.md) | Common mashing procedures. |
@@ -40,16 +40,16 @@ No two items in a single file should have the same local ID, even if they are of
 
 The JSON Schema cannot validate that local IDs are correct - merely that they adhere to a particular format.  Implementing programs should therefore validate that (a) all defined local IDs in a file are unique in that file, (b) all referred-to local IDs are defined elsewhere in the file, and (c) any referred-to local ID is for an object of the relevant type (eg the local ID for the style of a recipe must be that of a style).
 
-<strong>LocalId</strong> is a ``string``  matching regular expression [`[A-Za-z0-9_]+`](https://regex101.com/?regex=%5BA-Za-z0-9_%5D%2B)
+<strong>LocalId</strong> is a ``string``  matching regular expression [`^[A-Za-z0-9_]+$`](https://regex101.com/?regex=%5E%5BA-Za-z0-9_%5D%2B%24)
 
 ## VersionNumber
 
 We use semantic versioning, which encodes a version by a three-part version number (Major.Minor.Patch)
 
-<strong>VersionNumber</strong> is a ``string``  matching regular expression [`\d+[.]\d+[.]\d+`](https://regex101.com/?regex=%5Cd%2B%5B.%5D%5Cd%2B%5B.%5D%5Cd%2B)
+<strong>VersionNumber</strong> is a ``string``  matching regular expression [`^\d+[.]\d+[.]\d+$`](https://regex101.com/?regex=%5E%5Cd%2B%5B.%5D%5Cd%2B%5B.%5D%5Cd%2B%24)
 
 
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-05 at 18:58:00+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (vNone) on 2026-10-07 at 21:03:19+0200.

@@ -17,7 +17,6 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dotbeer.org/schema/Hop.beer.schema",
   "type": "object",
-  "title": "Hop",
   "description": "Full definition of a hop variety.",
   "properties": {
     "name": {
@@ -57,19 +56,19 @@
     },
     "alpha_acid": {
       "description": "The actual alpha acid content of the specific year's harvest (and batch) of this type of hop.",
-      "$ref": "Measurement.beer.schema#/$defs/Percentage"
+      "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "alpha_acid_range": {
       "description": "The typical range of alpha acid for this type of hop.",
-      "$ref": "Measurement.beer.schema#/$defs/RangeOfPercentage"
+      "$ref": "Measurement.beer.schema#/$defs/RangeOfPercentageSimple"
     },
     "beta_acid": {
       "description": "The actual beta acid content of the specific year's harvest (and batch) of this type of hop.",
-      "$ref": "Measurement.beer.schema#/$defs/Percentage"
+      "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "beta_acid_range": {
       "description": "The typical range of beta acid for this type of hop.",
-      "$ref": "Measurement.beer.schema#/$defs/RangeOfPercentage"
+      "$ref": "Measurement.beer.schema#/$defs/RangeOfPercentageSimple"
     },
     // Although it would be OK simply to call this field "type", we prefer to avoid using a JSON schema keyword as a
     // property name.
@@ -88,8 +87,19 @@
       "type": "string"
     },
     "six_month_alpha_loss": {
-      "description": " Defined as the percentage of hop alpha lost in 6 months of storage.",
-      "$ref": "Measurement.beer.schema#/$defs/Percentage"
+      //
+      // BeerXML calls this HSI for "Hop Stability Index" -- see eg
+      // https://hopdoctor.co.uk/2024/12/02/understanding-the-hop-stability-index-key-for-smaller-scale-brewers/.
+      //
+      // However, we changed the name (a) because "Hop Stability Index" does not appear to be a massively widely
+      // used term and (b) to avoid confusion with Hop Storage Index, which is derived from ultraviolet absorbance
+      // measured with a spectrophotometer (HSI = absorption at 275 nm divided by absorption at 325 nm, or
+      // A275/A325).
+      //
+      // In BeerJSON, this is called `percent_lost`.
+      //
+      "description": "The percentage of hop alpha lost in 6 months of storage.\n\nNote that this is percentage and not percentage points.  So, eg, if a hop starts out with 4.0% `alpha_acid` and has 25% `six_month_alpha_loss`, then we would expect its alpha acid to be 3.0% after six months in storage.",
+      "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "substitutes": {
       "type": "string",
@@ -128,43 +138,43 @@
           "type": "number"
         },
         "humulene": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "caryophyllene": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "cohumulone": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "myrcene": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "farnesene": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "geraniol": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "b_pinene": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "linalool": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "limonene": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "nerol": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "pinene": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "polyphenols": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         },
         "xanthohumol": {
-          "$ref": "Measurement.beer.schema#/$defs/Percentage"
+          "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         }
       },
       "unevaluatedProperties": false

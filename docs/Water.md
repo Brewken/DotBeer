@@ -6,13 +6,13 @@ Full definition of a brewing water profile.  NOTE that water is handled differen
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
+| name | ✅ | string |  |
 | bicarbonate | ✅ | [Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration) | Bicarbonate (HCO₃⁻) content of the water profile |
 | calcium | ✅ | [Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration) | Calcium (Ca²⁺) content of the water profile.  Calcium is by far the most influential mineral in the brewing process.  It is instrumental to many yeast, enzyme, and protein reactions, both in the mash and in the boil.  Yeast flocculation is improved by calcium; most yeast strains require at least 50 mg/L Ca²⁺ ions for good flocculation.  Calcium reacts with phosphates, forming precipitates that involve the release of hydrogen ions, in turn lowering the pH of the mash. |
 | chloride | ✅ | [Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration) | Chloride (Cl⁻) content of the water profile.  Common in most water supplies, chloride ions contribute to the mellow, palate-full character of a beer. |
 | magnesium | ✅ | [Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration) | Magnesium (Mg²⁺) content of the water profile.  Magnesium ions react similarly to calcium ions and malt phytins, but since magnesium salts are much more soluble, the effect on wort pH is not as great.  Magnesium is most important for its benefit to yeast metabolism during fermentation. |
 | sodium | ✅ | [Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration) | Sodium (Na⁺) content of the water profile.  Although it has no chemical effect, sodium contributes to the perceived flavor of beer.  Levels from 75 to 150 mg/L give a round smoothness and accentuate sweetness, which is most pleasant when paired with chloride ions than when associated with sulfate ions.  In the presence of sulfate, sodium creates an unpleasant harshness, so the rule of thumb is that the more sulfate in the water, the less sodium there should be (and vice versa). |
 | sulfate | ✅ | [Measurement::MassFractionOrConcentration](./Measurement.md#massfractionorconcentration) | Sulfate (SO₄²⁻) content of the water profile.  Sulfates positively affect protein and starch degradation, which favors mash filtration and trub sedimentation.  However, if levels are too high, it can cause poor hop utilization (bitterness will not easily be extracted).  In moderation, sulfates can lend a dry, crisp palate to the finished beer.  If used in excess, the finished beer will have a harsh, salty, and laxative character. |
-| name |  | string |  |
 | local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this Water object. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Water object. |
 | pH |  | [Measurement::Acidity](./Measurement.md#acidity) | Acidity of the water profile |
@@ -32,4 +32,4 @@ Full definition of a brewing water profile.  NOTE that water is handled differen
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.7.0) on 2026-10-05 at 18:58:00+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (vNone) on 2026-10-07 at 21:03:19+0200.

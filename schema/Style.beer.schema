@@ -30,11 +30,13 @@
       "type": "integer"
     },
     "style_letter": {
+      // In contrast with BeerJSON, we do not allow the style letter to be a space.  If no style letter is set, this
+      // field should simply be omitted.
       "description": "The specific subcategory letter associated with this particular style. For example in the BJCP style guide, an American Standard Lager would be style letter “A” under the main category.  Letters should be upper case.",
       "type": "string",
       "maxLength": 1,
       "minLength": 1,
-      "pattern": "[A-Z ]"
+      "pattern": "[A-Z]"
     },
     "style_guide": {
       "description": "The name of the style guide that this particular style or category belongs to. For example “BJCP” might denote the BJCP style guide, and “AHA” would be used for the AHA style guide.",
@@ -82,7 +84,7 @@
     },
     "alcohol_by_volume": {
       "description": "The range of alcohol by volume for this beer style.",
-      "$ref": "Measurement.beer.schema#/$defs/RangeOfPercentage"
+      "$ref": "Measurement.beer.schema#/$defs/RangeOfPercentageSimple"
     },
     "notes": {
       "description": "Description of the style, history",
