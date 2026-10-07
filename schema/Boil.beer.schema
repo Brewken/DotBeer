@@ -12,7 +12,7 @@
 //======================================================================================================================
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dotbeer.org/schema/Boil.beer.schema",
+  "$id": "https://dotbeer.org/schema/0.8.0/Boil.beer.schema",
   "type": "object",
   "description": "A boil procedure, which can be used by multiple recipes.  A boil procedure with no steps is the same as a standard single step boil.",
   "properties": {

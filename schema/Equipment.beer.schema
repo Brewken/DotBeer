@@ -12,7 +12,7 @@
 //======================================================================================================================
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dotbeer.org/schema/Equipment.beer.schema",
+  "$id": "https://dotbeer.org/schema/0.8.0/Equipment.beer.schema",
   "type": "object",
   "description": "Groups together all the vessels in a set of brewing equipment.  Note that, in some set-ups, one vessel serves multiple purposes -- eg mash tun and kettle may be the same physical vessel -- but there are nonetheless individual entries here for each \"purpose\".",
   "properties": {

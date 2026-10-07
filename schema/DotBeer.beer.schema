@@ -17,21 +17,14 @@
   //     (because they are classifiers) but "hops" and "fermentables" are plural (because they are lists of things).
   //
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dotbeer.org/schema/DotBeer.beer.schema",
+  //
+  // This is not a "real" URL.  The "directory" above the filename is the version of the dotBeer schema.
+  // Versions prior to 1.0.0 are subject to breaking changes!
+  //
+  "$id": "https://dotbeer.org/schema/0.8.0/DotBeer.beer.schema",
   "type": "object",
   "title": "DotBeer File Format",
   "description": "A free and open serialisation format for beer recipes, ingredients and related data",
-  //
-  // Version of this schema.
-  // Versions prior to 1.0.0 are subject to breaking changes!
-  //
-  // Since this is an annotation (and not a standard JSON Schema keyword), we use the "x-" prefix, per
-  // https://json-schema.org/blog/posts/custom-annotations-will-continue
-  //
-  // TODO: We ought to put this in the $id field
-  //
-  "x-version": "0.8.0",
-  //
   "properties": {
     //
     // Having a root element such as this is not strictly necessary, but it is useful to provide context, showing that

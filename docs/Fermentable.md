@@ -55,4 +55,4 @@ The ways in which an amount of a Fermentable could be measured
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (vNone) on 2026-10-07 at 21:10:48+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-07 at 21:37:28+0200.
