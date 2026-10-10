@@ -213,6 +213,13 @@
     "calories_per_us_pint": {
       "type": "number"
     },
+    "instructions": {
+      "type": "array",
+      "description": "Records of individual instructions for this recipe",
+      "items": {
+        "$ref": "#/$defs/Instruction"
+      }
+    },
     "brew_logs": {
       "type": "array",
       "description": "Records of individual brews of this recipe",
@@ -371,6 +378,29 @@
         "misc_id",
         "schedule",
         "amount"
+      ],
+      "unevaluatedProperties": false
+    },
+    "Instruction": {
+      "type": "object",
+      "description": "Descriptive instruction for what to do at a particular point in a recipe.",
+      "properties": {
+        "name": {
+          "description": "This is the title of the instruction, eg \"Step 2: Heat water\".",
+          "type": "string"
+        },
+        "directions": {
+          "description": "Detail of what to do at this step, eg \"Bring 11.5 L of water to 68.0°C for upcoming infusions\".",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Where the instruction involves adding something to the boil or holding the mash at a particular temperature, this field tells you how long that should be for.  Eg, if the instruction is \"Add 11.5 L water at 68.0 °C to mash to bring it to 68.0 °C. Hold for 60 min.\" then this field would be 60.0.",
+          "$ref": "Measurement.beer.schema#/$defs/Time"
+        }
+      },
+      "required": [
+        "name",
+        "directions"
       ],
       "unevaluatedProperties": false
     },

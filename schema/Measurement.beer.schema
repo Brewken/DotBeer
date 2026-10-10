@@ -92,7 +92,10 @@
         },
         "value": {
           "type": "number",
-          "minimum": 0
+          //
+          // 0° Lovibond (colorless) = -0.76 SRM = -1.496 EBC
+          //
+          "minimum": -1.5
         }
       },
       "required": [

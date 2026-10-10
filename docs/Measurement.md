@@ -55,7 +55,7 @@ Supports both grain color properties, such as Lovibond, and wort color propertie
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | unit | ✅ | Enum:<br>&nbsp;∙ `EBC`<br>&nbsp;∙ `Lovi`<br>&nbsp;∙ `SRM` | `EBC` is European Brewing Convention system of color measurement<br>`Lovi` is Lovibond<br>`SRM` is Standard Reference Method color measurement system |
-| value | ✅ | `0 <= x ` |  |
+| value | ✅ | `-1.5 <= x ` |  |
 
 ## Count
 
@@ -298,4 +298,4 @@ Viscosity of fluids
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-07 at 21:37:28+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-10 at 19:23:45+0200.

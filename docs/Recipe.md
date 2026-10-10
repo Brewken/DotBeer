@@ -43,6 +43,7 @@ The information stored in a beer recipe.
 | taste.notes | ✅ | string |  |
 | taste.rating | ✅ | number |  |
 | calories_per_us_pint |  | number |  |
+| instructions |  | array of [Instruction](#instruction) | Records of individual instructions for this recipe |
 | brew_logs |  | array of [BrewLog](#brewlog) | Records of individual brews of this recipe |
 
 
@@ -116,6 +117,18 @@ Collects the attributes of each miscellaneous ingredient for use in a recipe.
 | schedule | ✅ | [AdditionSchedule](#additionschedule) |  |
 | amount | ✅ | [Misc::MiscAmount](./Misc.md#miscamount) |  |
 
+## Instruction
+
+Descriptive instruction for what to do at a particular point in a recipe.
+
+<strong>Instruction</strong> is a JSON object with the following properties:
+
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| name | ✅ | string | This is the title of the instruction, eg "Step 2: Heat water". |
+| directions | ✅ | string | Detail of what to do at this step, eg "Bring 11.5 L of water to 68.0°C for upcoming infusions". |
+| duration |  | [Measurement::Time](./Measurement.md#time) | Where the instruction involves adding something to the boil or holding the mash at a particular temperature, this field tells you how long that should be for.  Eg, if the instruction is "Add 11.5 L water at 68.0 °C to mash to bring it to 68.0 °C. Hold for 60 min." then this field would be 60.0. |
+
 ## BrewLog
 
 Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> • Fields beginning with "expected_" are values taken from the Recipe (either directly or by calculation)<br> • Fields beginning with "measured_" are supplied by the brewer for this batch -- eg measured OG and FG<br> • Fields beginning with "computed_" are derived from values supplied by the brewer -- eg ABV calculated from measured OG and FG<br>Strictly speaking, "expected_" and "computed_" fields are not needed because they can be derived from other information.  However, we include them because (a) a recipe might have been modified after a brewday and (b) some calculations (eg alcohol by volume) might be done differently by different programs.
@@ -158,4 +171,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-07 at 21:37:28+0200.
+Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-10 at 19:23:45+0200.
