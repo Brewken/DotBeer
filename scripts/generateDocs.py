@@ -130,7 +130,6 @@ preferredOrder = [
    "DotBeer",
    ">Ingredients",
    "Fermentable", "Hop", "Misc", "Culture",
-   #"WaterAdjustment",
    ">Processes",
    "Mash", "Boil", "Fermentation", "StepCommon",
    ">Other freestanding elements used in a recipe",
@@ -182,13 +181,13 @@ for baseName in orderedBaseNames:
             #
             f"\n\n---\n\n"
             "Documentation generated from the "
-            f"[DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v{dotBeerSchemaVersion}) "
+            f"[dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v{dotBeerSchemaVersion}) "
             f"on {dateStamp} at {timeStamp}."
          )
 
          topLevelMd = (
-            f"# DotBeer {dotBeerSchemaVersion}\n\n"
-            "A DotBeer (<span style=\"color:green; font-weight: bold; font-family: monospace;\">.beer</span>) file is a "
+            f"# dotBeer {dotBeerSchemaVersion}\n\n"
+            "A dotBeer (<span style=\"color:green; font-weight: bold; font-family: monospace;\">.beer</span>) file is a "
             "JSONC (JSON with comments allowed) document with a `DotBeer` root element.  A <span style=\"color:green; "
             "font-weight: bold; font-family: monospace;\">.beer</span> file should be validated against the DotBeer "
             "schema before being read.  The schema is split into the following sections (with a corresponding <span "

@@ -1,4 +1,4 @@
-# DotBeer — a file format for brewers
+# dotBeer — a file format for brewers
 An open file format for storing and exchanging brewing data about recipes, ingredients, styles, equipment, brew days,
 stock and so on.  DotBeer files have a <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> extension, hence the name.
 
@@ -45,7 +45,7 @@ Detailed documentation is [here](./docs/INDEX.md).
   come to light until later.  It also made it harder for early adopters to implement the format because there was no
   tool to generate sample files.
 
-  Because DotBeer is the native file format of the open source [Brewtarget](https://www.brewtarget.beer), it is
+  Because dotBeer is the native file format of the open source [Brewtarget](https://www.brewtarget.beer), it is
   field-tested.  Developers of other brewing software can use Brewtarget to generate sample files, and can examine its
   source code to see how things are implemented.
 
@@ -74,7 +74,7 @@ Detailed documentation is [here](./docs/INDEX.md).
 * **Open Licensing**
 
   DotBeer is licensed under the Mozilla Public License, version 2.0 (MPL-2.0).  This means it can be used in both free and
-  commercial software.  (Only modifications to the DotBeer files themselves need to remain MPL licensed.)
+  commercial software.  (Only modifications to the dotBeer files themselves need to remain MPL licensed.)
 
 ## Technical
 DotBeer files have the <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file extension.
@@ -87,4 +87,4 @@ Detailed documentation is generated in the `docs` directory from the schema file
 
 
 ## Contributing
-If you have an issue or question related to DotBeer, please don't hesitate to [create an issue](https://github.com/Brewken/DotBeer/issues) or start or continue a [discussion](https://github.com/Brewken/DotBeer/discussions).
+If you have an issue or question related to dotBeer, please don't hesitate to [create an issue](https://github.com/Brewken/DotBeer/issues) or start or continue a [discussion](https://github.com/Brewken/DotBeer/discussions).
