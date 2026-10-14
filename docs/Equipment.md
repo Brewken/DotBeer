@@ -54,7 +54,7 @@ A hot-side vessel used for the mash.
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
-| grain_absorption_rate |  | [Measurement::SpecificVolume](./Measurement.md#specificvolume) | The apparent volume absorbed by grain, typical values are 0.125 gal/lb (1.04 L/kg) for a mash tun, 0.08 gal/lb (0.66 L/kg) for BIAB. |
+| grain_absorption_rate |  | [Measurement::VolumePerMass](./Measurement.md#volumepermass) | The apparent volume absorbed by grain, typical values are 0.125 gal/lb (1.04 L/kg) for a mash tun, 0.08 gal/lb (0.66 L/kg) for BIAB. |
 
 ## BoilKettle
 
@@ -73,4 +73,4 @@ A hot-side vessel used for the boil.
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 18:42:24+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 21:26:21+0200.

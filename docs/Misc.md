@@ -31,4 +31,4 @@ The ways in which an amount of a Misc could be measured
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 18:42:24+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 21:26:21+0200.

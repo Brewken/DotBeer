@@ -28,11 +28,11 @@ A mash step is an internal record used within a mash profile to denote a separat
 | -------- | --------- | ---- | ----------- |
 | step_type | ✅ | Enum:<br>&nbsp;∙ `infusion`<br>&nbsp;∙ `temperature`<br>&nbsp;∙ `decoction`<br>&nbsp;∙ `souring mash`<br>&nbsp;∙ `souring wort`<br>&nbsp;∙ `drain mash tun`<br>&nbsp;∙ `sparge` | Infusion denotes adding hot water, temperature denotes heating with an outside heat source, and decoction denotes drawing off some mash for boiling. |
 | amount |  | [Measurement::Volume](./Measurement.md#volume) | For a infusion step, this is the volume of water to infuse in this step.  For a decoction step, this is the calculated volume of mash to decoction. |
-| water_grain_ratio |  | [Measurement::SpecificVolume](./Measurement.md#specificvolume) | Also known as the mash thickness. eg 1.75 qt/lb or 3.65 L/kg. |
+| water_grain_ratio |  | [Measurement::VolumePerMass](./Measurement.md#volumepermass) | Also known as the mash thickness. eg 1.75 qt/lb or 3.65 L/kg. |
 | infuse_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Temperature of the water for an infusion step -- typically calculated based on the current step, grain, and other settings.  Applicable only for an infusion step. |
 
 
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 18:42:24+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 21:26:21+0200.
