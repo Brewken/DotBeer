@@ -7,13 +7,12 @@ A boil procedure, which can be used by multiple recipes.  A boil procedure with 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
-| boil_time | ✅ | [Measurement::Time](./Measurement.md#time) |  |
+| boil_steps | ✅ | array of [BoilStep](#boilstep) |  |
 | local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this boil. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Boil object. |
 | boil_description |  | string |  |
 | notes |  | string |  |
 | pre_boil_size |  | [Measurement::Volume](./Measurement.md#volume) |  |
-| boil_steps |  | array of [BoilStep](#boilstep) |  |
 
 
 ---
@@ -34,4 +33,4 @@ Individual step of a boil, including preboil steps, non-boiling pasteurization s
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-10 at 19:23:45+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 18:42:24+0200.

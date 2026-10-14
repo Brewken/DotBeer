@@ -8,7 +8,8 @@ Root element of all DotBeer documents.  Most of the Primary Types (ie ones that 
 | -------- | --------- | ---- | ----------- |
 | version | ✅ | [VersionNumber](#versionnumber) | DotBeer schema version used to create the file. |
 | output_by | ✅ | string | Application that wrote the file -- eg Brewtarget 5.2.1. |
-| timestamp | ✅ | [Measurement::Date](./Measurement.md#date) | Date and time file was created. |
+| timestamp | ✅ | [Measurement::DateTime](./Measurement.md#datetime) | Date and time file was created. |
+| $schema |  | string | It is not required or expected to include this field in a dotBeer file.  However, some tools such as VS Code make use of it for syntax highlighting and autocorrect, so we allow it to be set.  If it is present, the most sensible value for it to have is "https://json-schema.org/draft/2020-12/schema" (ie the same as the dotBeer schema files). |
 | hops |  | array of [Hop](./Hop.md) | Records detailing properties of unique hop varieties. |
 | fermentables |  | array of [Fermentable](./Fermentable.md) | Records for any ingredient that contributes to the gravity of the beer. |
 | miscs |  | array of [Misc](./Misc.md) | Records for ingredients that are not hops, fermentables or cultures.  Variously known as "miscellaneous ingredients", "non-fermentable adjuncts", "other ingredients", or "adjuncts that do not contribute to the gravity of the beer". |
@@ -40,16 +41,18 @@ No two items in a single file should have the same local ID, even if they are of
 
 The JSON Schema cannot validate that local IDs are correct - merely that they adhere to a particular format.  Implementing programs should therefore validate that (a) all defined local IDs in a file are unique in that file, (b) all referred-to local IDs are defined elsewhere in the file, and (c) any referred-to local ID is for an object of the relevant type (eg the local ID for the style of a recipe must be that of a style).
 
+NOTE: If you are merging two or more dotBeer files, you will first need to ensure that there are no Local ID clashes in them.
+
 <strong>LocalId</strong> is a ``string``  matching regular expression [`^[A-Za-z0-9_]+$`](https://regex101.com/?regex=%5E%5BA-Za-z0-9_%5D%2B%24)
 
 ## VersionNumber
 
 We use semantic versioning, which encodes a version by a three-part version number (Major.Minor.Patch)
 
-<strong>VersionNumber</strong> is a ``string``  matching regular expression [`^\d+[.]\d+[.]\d+$`](https://regex101.com/?regex=%5E%5Cd%2B%5B.%5D%5Cd%2B%5B.%5D%5Cd%2B%24)
+<strong>VersionNumber</strong> is a ``string``  matching regular expression [`^[0-9]+[.][0-9]+[.][0-9]+$`](https://regex101.com/?regex=%5E%5B0-9%5D%2B%5B.%5D%5B0-9%5D%2B%5B.%5D%5B0-9%5D%2B%24)
 
 
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-10 at 19:23:45+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 18:42:24+0200.

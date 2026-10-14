@@ -9,7 +9,7 @@ The information stored in a beer recipe.
 | name | ✅ | string |  |
 | recipe_type | ✅ | Enum:<br>&nbsp;∙ `cider`<br>&nbsp;∙ `kombucha`<br>&nbsp;∙ `soda`<br>&nbsp;∙ `other`<br>&nbsp;∙ `mead`<br>&nbsp;∙ `wine`<br>&nbsp;∙ `extract`<br>&nbsp;∙ `partial mash`<br>&nbsp;∙ `all grain` |  |
 | author | ✅ | string |  |
-| batch_size | ✅ | [Measurement::Volume](./Measurement.md#volume) | The volume into the fermenter. |
+| batch_size | ✅ | [Measurement::Volume](./Measurement.md#volume) | The volume into the fermentation vessel. |
 | efficiency | ✅ | object | Stores each efficiency component. |
 | efficiency.brewhouse | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The percentage of sugar that makes it from the grain to the fermenter. |
 | ingredients | ✅ | object | All the recipe's ingredient additions.  Note that these lists are cross-references (via "local IDs") to ingredient definitions that must appear in the same file.  This saves on repetition when, eg, the same type of hop is added at more than one point.  If you are exporting one or more recipes, you must also export the full versions of their ingredients in the same file. |
@@ -24,8 +24,8 @@ The information stored in a beer recipe.
 | equipment_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the equipment for this recipe.  (Obviously the equipment in question must be in the "equipments" section of the same dotBeer file.) |
 | water_base_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Optional parameter to specify the Local ID of the starting profile of the brewing water, which may be modified with salts etc to obtain the target profile. |
 | water_target_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Optional parameter to specify the Local ID of the desired profile of the brewing water, which may be modified with salts etc from the base (starting) profile. |
-| ro_water_mash |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Percentage of the mash water that is reverse-osmosis (rather than the same profile as `water_base`).  If this field is not present, a value of 0.0 may be assumed. |
-| ro_water_sparge |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Percentage of the sparge water that is reverse-osmosis (rather than the same profile as `water_base`).  If this field is not present, a value of 0.0 may be assumed. |
+| ro_water_mash |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Percentage of the mash water that is reverse-osmosis (rather than the same profile as `water_base_id`).  If this field is not present, a value of 0.0 may be assumed. |
+| ro_water_sparge |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Percentage of the sparge water that is reverse-osmosis (rather than the same profile as `water_base_id`).  If this field is not present, a value of 0.0 may be assumed. |
 | mash_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the mash procedure used in this recipe.  (Obviously the mash in question must be in the "mashes" section of the same dotBeer file.) |
 | boil_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the boil procedure used in this recipe.  (Obviously the boil in question must be in the "boils" section of the same dotBeer file.) |
 | fermentation_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the fermentation procedure used in this recipe.  (Obviously the fermentation in question must be in the "fermentations" section of the same dotBeer file.) |
@@ -41,8 +41,8 @@ The information stored in a beer recipe.
 | apparent_attenuation |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The total apparent attenuation of the finished beer after fermentation. |
 | taste |  | object | Subjective tasting notes, and rating. |
 | taste.notes | ✅ | string |  |
-| taste.rating | ✅ | number |  |
-| calories_per_us_pint |  | number |  |
+| taste.rating | ✅ | `0.0 <= x <= 50.0` | Number between zero and 50 denoting the taste rating – corresponds to the 50 point BJCP rating system. |
+| energy_content |  | [Measurement::EnergyPerVolume](./Measurement.md#energypervolume) | Estimate of the energy content of this beer (as used on nutritional labelling).  Typically calculated. |
 | instructions |  | array of [Instruction](#instruction) | Records of individual instructions for this recipe |
 | brew_logs |  | array of [BrewLog](#brewlog) | Records of individual brews of this recipe |
 
@@ -60,10 +60,10 @@ This object fully describes when, and for how long, a recipe addition should be 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | stage | ✅ | Enum:<br>&nbsp;∙ `add_to_mash`<br>&nbsp;∙ `add_to_boil`<br>&nbsp;∙ `add_to_fermentation`<br>&nbsp;∙ `add_to_package` | Differentiates the specific process type when this ingredient addition is used. |
-| time |  | [Measurement::Time](./Measurement.md#time) | What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, for use::add_to_boil, this is time before the end of the step (or of the boil if no step is specified).  For other values of use, this is time after the start of the step (or of the process if no step is specified). |
+| time |  | [Measurement::Time](./Measurement.md#time) | What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, for `stage::add_to_boil`, this is time before the end of the step (or of the boil if no step is specified).  For other values of use, this is time after the start of the step (or of the process if no step is specified). |
 | duration |  | [Measurement::Time](./Measurement.md#time) | How long an ingredient addition remains, this was referred to as time in the BeerXML standard. Eg A 40 minute hop boil additions means to boil for 40 minutes, and a 2 day duration for a dry hop means to remove it after 2 days. |
-| specific_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Used to indicate when an addition is added based on a desired specific gravity.  Eg Add dry hop at when SG is 1.018. |
-| pH |  | [Measurement::Acidity](./Measurement.md#acidity) | Used to indicate when an addition is added based on a desired specific pH.  Eg Add brett when pH is 3.4. |
+| specific_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Used (as an alternatie to `time`) to indicate when an addition is added based on a desired specific gravity.  Eg Add dry hop at when SG is 1.018. |
+| pH |  | [Measurement::Acidity](./Measurement.md#acidity) | Used (as an alternatie to `time`) to indicate when an addition is added based on a desired specific pH.  Eg Add brett when pH is 3.4. |
 | step |  | `1 <= x ` | Used to indicate what step this ingredient timing addition is referencing.  Steps are numbered from 1.  Eg A value of 2 for add_to_fermentation would mean to add during the second fermentation step. |
 
 ## CultureRecipeAddition
@@ -127,7 +127,7 @@ Descriptive instruction for what to do at a particular point in a recipe.
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string | This is the title of the instruction, eg "Step 2: Heat water". |
 | directions | ✅ | string | Detail of what to do at this step, eg "Bring 11.5 L of water to 68.0°C for upcoming infusions". |
-| duration |  | [Measurement::Time](./Measurement.md#time) | Where the instruction involves adding something to the boil or holding the mash at a particular temperature, this field tells you how long that should be for.  Eg, if the instruction is "Add 11.5 L water at 68.0 °C to mash to bring it to 68.0 °C. Hold for 60 min." then this field would be 60.0. |
+| duration |  | [Measurement::Time](./Measurement.md#time) | Where the instruction involves adding something to the boil or holding the mash at a particular temperature, this field tells you how long that should be for.  Eg, if the instruction is "Add 11.5 L water at 68.0 °C to mash to bring it to 68.0 °C. Hold for 50 min." then this field would be `{"unit":"min","value":50}`. |
 
 ## BrewLog
 
@@ -139,8 +139,10 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 | -------- | --------- | ---- | ----------- |
 | batch_number | ✅ | string | The brewer's own unique identifier for this brew.  It can contain numbers and/or letters and/or symbols, so, "number" might seem a bit of a misnomer; nonetheless, it is the standard term for such an identifying code. |
 | brew_date | ✅ | [Measurement::Date](./Measurement.md#date) | The date of the "brewday" |
+| expected_pre_boil_gravity | ✅ | [Measurement::Gravity](./Measurement.md#gravity) | Expected (planned) pre-boil specific gravity |
+| expected_mash_final_temperature | ✅ | [Measurement::Temperature](./Measurement.md#temperature) | Expected (planned) final mash temperature (before any mash out) |
 | expected_original_gravity | ✅ | [Measurement::Gravity](./Measurement.md#gravity) | Expected (planned) original (post-boil, pre-fermentation) specific gravity |
-| expected_volume_into_fermentor | ✅ | [Measurement::Volume](./Measurement.md#volume) | Expected (planned) volume of wort into fermentor |
+| expected_volume_into_fv | ✅ | [Measurement::Volume](./Measurement.md#volume) | Expected (planned) volume of wort into fermentation vessel |
 | expected_final_gravity | ✅ | [Measurement::Gravity](./Measurement.md#gravity) | Expected (planned) final (post-fermentation) specific gravity |
 | expected_alcohol_by_volume | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Expected alcohol by volume based on the recipe OG |
 | expected_attenuation | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Expected attenuation from the recipe |
@@ -148,17 +150,15 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 | expected_boil_off | ✅ | [Measurement::Volume](./Measurement.md#volume) | Expected boil-off based on the equipment profile and the length of the boil |
 | ferment_date |  | [Measurement::Date](./Measurement.md#date) | The date fermentation was deemed finished and final gravity readings were taken |
 | notes |  | string |  |
-| expected_pre_boil_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Expected (planned) pre-boil specific gravity |
 | measured_pre_boil_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Actual (measured) pre-boil specific gravity |
 | expected_pre_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) | Expected (planned) volume of wort to be collected from mash into boil kettle |
 | measured_pre_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) volume of wort collected from mash into boil kettle |
 | expected_strike_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Expected (planned) strike water temperature (ie water temperature immediately prior to adding grains at mash start) |
 | measured_strike_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Actual (measured) strike water temperature (ie water temperature immediately prior to adding grains at mash start) |
-| expected_mash_final_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Expected (planned) final mash temperature (before any mash out) |
 | measured_mash_final_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Actual (measured) final mash temperature (before any mash out) |
 | measured_original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Actual (measured) original (post-boil, pre-fermentation) specific gravity |
 | measured_post_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) volume of wort in kettle after boil |
-| measured_volume_into_fermentor |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) volume of wort into fermentor |
+| measured_volume_into_fermentation_vessel |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) volume of wort into fermentation vessel |
 | measured_pitch_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Actual (measured) temperature of wort when yeast is pitched |
 | measured_final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Actual (measured) final (post-fermentation) specific gravity |
 | measured_final_volume |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) final (post-fermentation) volume |
@@ -171,4 +171,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-10 at 19:23:45+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 18:42:24+0200.

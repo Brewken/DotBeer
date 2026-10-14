@@ -40,7 +40,7 @@ Killer yeast properties (also known as zymocide) are common among wine yeasts.  
 
 See https://www.milkthefunk.com/wiki/Saccharomyces#Killer_Wine_Yeast for more on "killer" yeasts and "killer neutral" yeasts.  Some folks call these killer yeast properties "zymocide", but AFAICT "killer" is still the more widely used term, at least in relation to brewing.
 
-Note that `neutral` being `true` implies all the other `producingXxxToxin` properties are `false`, because "neutral strains do not produce toxins, nor are they killed by them".
+Note that `neutral` being `true` implies all the other `producing_xxx_toxin` properties are `false`, because "neutral strains do not produce toxins, nor are they killed by them".
 
 <strong>KillerProperties</strong> is a JSON object with the following properties:
 
@@ -60,4 +60,4 @@ Note that `neutral` being `true` implies all the other `producingXxxToxin` prope
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-10 at 19:23:45+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 18:42:24+0200.

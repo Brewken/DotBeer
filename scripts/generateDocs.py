@@ -14,7 +14,7 @@
 # This script generates Markdown documentation from our .beer.schema files.  The generated Markdown files are checked in
 # to GitHub to make them easily available to those interested in the project.
 #
-# For the moment, at least, we assume it is not necessary to directly generate documetation in other formats, because,
+# For the moment, at least, we assume it is not necessary to directly generate documentation in other formats, because,
 # eg, HTML documentation can be automatically generated from Markdown.  This, eg, is done by Jekyll in GitHub pages.
 # NOTE that, as you might expect, GitHub pages has some level of caching.  So, when you publish an update to the
 # documentation, the changes show up straight away in https://github.com/Brewken/DotBeer/tree/main/docs, but only after
@@ -216,7 +216,7 @@ for baseName in orderedBaseNames:
       with open(docFile, "w") as document:
          document.write(markdown)
    else:
-      topLevelMd += f"\n#### {baseName.removeprefix(">")}\n\n"
+      topLevelMd += f"\n#### {baseName.removeprefix('>')}\n\n"
 
 with open("../docs/INDEX.md", "w") as indexFile:
    indexFile.write(topLevelMd)

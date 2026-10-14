@@ -59,31 +59,52 @@ Supports both grain color properties, such as Lovibond, and wort color propertie
 
 ## Count
 
-Used where unitless amounts are required, such as 1 apple, or 1 yeast packet.  Note that this _is_ allowed to be fractional because you might want to add 1½ cinnamon sticks or 2.5 packets of yeast.
+Used where unitless amounts are required, such as 1 apple, or 1 yeast packet.  Note that this _is_ allowed to be fractional because you might want to add 1½ cinnamon sticks or 2.5 packets of yeast.  Note too, that this only used in cases where things might be measured in multiple ways.  Eg a Misc can be measured by Volume, Mass or Count (depending on what it is).  In other places that use a count, eg CultureRecipeAddition.times_cultured, we just use a non-negative integer.
 
 <strong>Count</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type |
 | -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `1`<br>&nbsp;∙ `unit`<br>&nbsp;∙ `each`<br>&nbsp;∙ `dimensionless`<br>&nbsp;∙ `pkg` |
+| unit | ✅ | Enum:<br>&nbsp;∙ `count` |
 | value | ✅ | `0 <= x ` |
 
 ## Date
 
-To avoid ambiguity, dates are always stored in ISO 8601 format.  The two possibilities here are with and without time of day.
+A calendar date in ISO 8601 / RFC 3339 format, ie YYYY-MM-DD.
 
-<strong>Date</strong> is a ``string``  matching regular expression [`^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d+)?(Z\|[+-]\d{2}:\d{2})?)?$`](https://regex101.com/?regex=%5E%5Cd%7B4%7D-%5Cd%7B2%7D-%5Cd%7B2%7D%28T%5Cd%7B2%7D%3A%5Cd%7B2%7D%3A%5Cd%7B2%7D%28%5C.%5Cd%2B%29%3F%28Z%7C%5B%2B-%5D%5Cd%7B2%7D%3A%5Cd%7B2%7D%29%3F%29%3F%24)
+<strong>Date</strong> is a ``string``  matching regular expression [`^[0-9]{4}-(0[1-9]\|1[0-2])-(0[1-9]\|[12][0-9]\|3[01])$`](https://regex101.com/?regex=%5E%5B0-9%5D%7B4%7D-%280%5B1-9%5D%7C1%5B0-2%5D%29-%280%5B1-9%5D%7C%5B12%5D%5B0-9%5D%7C3%5B01%5D%29%24)
+
+## DateTime
+
+A date and time of day in ISO 8601 / RFC 3339 format, ie YYYY-MM-DDThh:mm:ss, optionally with fractional seconds, and always with a timezone: either `Z` for UTC or an offset such as `+02:00`.  Eg 2026-10-14T09:08:00+02:00.
+
+<strong>DateTime</strong> is a ``string``  matching regular expression [`^[0-9]{4}-(0[1-9]\|1[0-2])-(0[1-9]\|[12][0-9]\|3[01])T([01][0-9]\|2[0-3]):[0-5][0-9]:([0-5][0-9]\|60)([.][0-9]+)?(Z\|[+-]([01][0-9]\|2[0-3]):[0-5][0-9])$`](https://regex101.com/?regex=%5E%5B0-9%5D%7B4%7D-%280%5B1-9%5D%7C1%5B0-2%5D%29-%280%5B1-9%5D%7C%5B12%5D%5B0-9%5D%7C3%5B01%5D%29T%28%5B01%5D%5B0-9%5D%7C2%5B0-3%5D%29%3A%5B0-5%5D%5B0-9%5D%3A%28%5B0-5%5D%5B0-9%5D%7C60%29%28%5B.%5D%5B0-9%5D%2B%29%3F%28Z%7C%5B%2B-%5D%28%5B01%5D%5B0-9%5D%7C2%5B0-3%5D%29%3A%5B0-5%5D%5B0-9%5D%29%24)
+
+## EnergyPerVolume
+
+Energy per volume is used in nutritional labelling.<br>`kcal/L` is kilocalories per liter<br>`kcal/50cl` is kilocalories per 50 centiliters<br>`kcal/33cl` is kilocalories per 33 centiliters<br>`kcal/25cl` is kilocalories per 25 centiliters<br>`kcal/100ml` is kilocalories per 100 milliliters*<br>`kcal/pt` is kilocalories per US pint (16 US fluid ounces)<br>`kcal/12floz` is kilocalories per 12 US fluid ounces<br>`kcal/ipt` is kilocalories per imperial pint<br>`kJ/100ml` is kilojoules per 100 milliliters*<br>Those marked * are EU standards for nutritional labelling.
+
+<strong>EnergyPerVolume</strong> is a JSON object with the following properties:
+
+| Property | Required? | Type |
+| -------- | --------- | ---- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `kcal/L`<br>&nbsp;∙ `kcal/50cl`<br>&nbsp;∙ `kcal/33cl`<br>&nbsp;∙ `kcal/25cl`<br>&nbsp;∙ `kcal/100ml`<br>&nbsp;∙ `kcal/pt`<br>&nbsp;∙ `kcal/12floz`<br>&nbsp;∙ `kcal/ipt`<br>&nbsp;∙ `kJ/100ml` |
+| value | ✅ | `0 <= x ` |
 
 ## Gravity
 
 In brewing, "gravity" is a shorthand for "specific gravity".  Typically, brewers measure relative gravity (aka specific gravity) to gauge percent of sugar content (ie Plato and Brix).
 
+We assume that brewers don't need "specific gravity" below 0.900 SG (-30°P/°Bx) or above 2.000 SG (212.9°P/°Bx)
+
 <strong>Gravity</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `sg`<br>&nbsp;∙ `plato`<br>&nbsp;∙ `brix` | `sg` is specific gravity<br>`plato` is degrees Plato (°P)<br>`brix` is degrees Brix (°Bx) |
-| value | ✅ | `0 <= x ` |  |
+| Property | Required? | Type | Conditional? | Description |
+| -------- | --------- | ---- | ------------ | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `sg`<br>&nbsp;∙ `plato`<br>&nbsp;∙ `brix` |  | `sg` is specific gravity<br>`plato` is degrees Plato (°P)<br>`brix` is degrees Brix (°Bx) |
+| value | ✅ | number |  |  |
+| value |  | None | **If** unit = sg |  |
+| value |  | None | **If NOT** unit = sg |  |
 
 ## DiastaticPower
 
@@ -164,24 +185,13 @@ PercentageSimple, aka, "simple percentage" is a percentage where the value is no
 
 ## SpecificHeatCapacity
 
-The amount of heat that must be added to one unit of mass of the substance in order to cause an increase of one unit in temperature.
+The amount of heat that must be added to one unit of mass of the substance in order to cause an increase of one unit in temperature.<br>`c/g·C` is calories per Celsius per gram (and also kilocalories per degree Celsius per kilogram)<br>`J/kg·K` is joules per Kelvin per kilogram<br>`BTU/lb·F` is BTU per Fahrenheit per pound<br>Although SI units are "joules per kelvin per kilogram" (which is the same as "joules per degree Celsius per kilogram"), historically a measurement involving calories instead of joules was used in chemistry, nutrition and brewing.  There are two types of calorie: the "small calorie" (or "gram-calorie", "cal") = 4.184 J; and the "grand calorie" (aka "kilocalorie", "kcal" or "Cal") = 1000 small calories = 4184 J.  However, the specific heat measurement using "cal" ("calories per degree Celsius per gram") is the same as that for "Cal" ("kilocalories per degree Celsius per kilogram"): 1 cal / (°C × g) = 1 Cal / (°C × kg) = 4184 J / (°K × kg) = the specific heat capacity of liquid water.  Note too that, because a British Thermal Unit (BTU) is defined as "the amount of heat required to raise the temperature of one pound of water by one degree Fahrenheit", we have 1 BTU/lb·F = 1 c/g·C.
 
 <strong>SpecificHeatCapacity</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type |
 | -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `Cal/(g C)`<br>&nbsp;∙ `J/(kg K)`<br>&nbsp;∙ `BTU/(lb F)` |
-| value | ✅ | `0 <= x ` |
-
-## SpecificVolume
-
-Specific volume is the reciprocal of Gravity, commonly used for mash thickness.
-
-<strong>SpecificVolume</strong> is a JSON object with the following properties:
-
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `qt/lb`<br>&nbsp;∙ `gal/lb`<br>&nbsp;∙ `gal/oz`<br>&nbsp;∙ `l/g`<br>&nbsp;∙ `l/kg`<br>&nbsp;∙ `floz/oz`<br>&nbsp;∙ `m^3/kg`<br>&nbsp;∙ `ft^3/lb` |
+| unit | ✅ | Enum:<br>&nbsp;∙ `c/g·C`<br>&nbsp;∙ `J/kg·K`<br>&nbsp;∙ `BTU/lb·F` |
 | value | ✅ | `0 <= x ` |
 
 ## Temperature
@@ -190,10 +200,12 @@ Specific volume is the reciprocal of Gravity, commonly used for mash thickness.
 
 <strong>Temperature</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `C`<br>&nbsp;∙ `F` | `C` is degrees Celsius (°C)<br>`F` is degrees Fahrenheit (°F) |
-| value | ✅ | `0 <= x ` |  |
+| Property | Required? | Type | Conditional? | Description |
+| -------- | --------- | ---- | ------------ | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `C`<br>&nbsp;∙ `F` |  | `C` is degrees Celsius (°C)<br>`F` is degrees Fahrenheit (°F).  We assume that brewers never need temperatures below -30°C (-22°F) or above 150°C (302°F). |
+| value | ✅ | number |  |  |
+| value |  | None | **If** unit = C |  |
+| value |  | None | **If NOT** unit = C |  |
 
 ## Time
 
@@ -227,6 +239,17 @@ Viscosity of fluids
 | -------- | --------- | ---- | ----------- |
 | unit | ✅ | Enum:<br>&nbsp;∙ `ml`<br>&nbsp;∙ `l`<br>&nbsp;∙ `tsp`<br>&nbsp;∙ `tbsp`<br>&nbsp;∙ `floz`<br>&nbsp;∙ `cup`<br>&nbsp;∙ `pt`<br>&nbsp;∙ `qt`<br>&nbsp;∙ `gal`<br>&nbsp;∙ `bbl`<br>&nbsp;∙ `itsp`<br>&nbsp;∙ `itbsp`<br>&nbsp;∙ `ifloz`<br>&nbsp;∙ `icup`<br>&nbsp;∙ `ipt`<br>&nbsp;∙ `iqt`<br>&nbsp;∙ `igal`<br>&nbsp;∙ `ibbl` | `ml` is milliliters (Metric/SI)<br>`l` is liters (Metric/SI)<br>`tsp` is US teaspoons<br>`tbsp` is US tablespoons<br>`floz` is US fluid ounces<br>`cup` is US cups<br>`pt` is US pints (liquid)<br>`qt` is US quarts (liquid)<br>`gal` is US gallons (liquid)<br>`bbl` is US barrels (liquid)<br>`itsp` is Imperial teaspoons<br>`itbsp` is Imperial tablespoons<br>`ifloz` is Imperial fluid ounces<br>`icup` is Imperial cups<br>`ipt` is Imperial pints (liquid)<br>`iqt` is Imperial quarts (liquid)<br>`igal` is Imperial gallons (liquid)<br>`ibbl` is Imperial barrels (liquid) |
 | value | ✅ | `0 <= x ` |  |
+
+## VolumePerMass
+
+For a single substance, volume-per-mass is the substance's "specific volume" (see https://en.wikipedia.org/wiki/Specific_volume), which is the reciprocal of its density.  However, in brewing, volume-per-mass is mostly used for ratios between two different things -- eg mash thickness (volume of water per mass of grain) or grain absorption rate (volume of water absorbed per mass of grain).  In such cases, it would be inaccurate to refer to "specific volume".
+
+<strong>VolumePerMass</strong> is a JSON object with the following properties:
+
+| Property | Required? | Type |
+| -------- | --------- | ---- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `qt/lb`<br>&nbsp;∙ `gal/lb`<br>&nbsp;∙ `gal/oz`<br>&nbsp;∙ `l/g`<br>&nbsp;∙ `l/kg`<br>&nbsp;∙ `floz/oz`<br>&nbsp;∙ `m^3/kg`<br>&nbsp;∙ `ft^3/lb` |
+| value | ✅ | `0 <= x ` |
 
 ## RangeOfBitterness
 
@@ -298,4 +321,4 @@ Viscosity of fluids
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-10 at 19:23:45+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 18:42:24+0200.

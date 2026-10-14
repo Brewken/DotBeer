@@ -7,8 +7,22 @@ from typing import Union
 
 class JsoncParser:
 
-    # regex = re.compile(r"//.*?\n|/\*.*?\*/", re.MULTILINE | re.DOTALL)
-    regex = re.compile(r"(\".*?\"|\'.*?\')|(/\*.*?\*/|//[^\r\n]*$)", re.MULTILINE | re.DOTALL)
+    #
+    # *** Modification to upstream code ***
+    # We replace the following line:
+    #    regex = re.compile(r"(\".*?\"|\'.*?\')|(/\*.*?\*/|//[^\r\n]*$)", re.MULTILINE | re.DOTALL)
+    # as it doesn’t understand \" inside strings
+    #
+    # Group 1 matches a complete JSON string literal, correctly skipping over escaped characters (eg \" or \\) so that a
+    # `//` or `/*` inside a string is never mistaken for the start of a comment.  Group 2 matches a comment.  Because
+    # re.sub scans left to right, whichever of the two starts first wins, which is exactly what we want.
+    #
+    # NB: JSON does not have single-quoted strings, so, unlike the upstream version, we do not try to match them.
+    #
+    # This is raised upstream as https://github.com/NickolaiBeloguzov/jsonc-parser/issues/12
+    #
+    regex = re.compile(r'("(?:\\.|[^"\\])*")|(/\*.*?\*/|//[^\r\n]*$)', re.MULTILINE | re.DOTALL)
+
     newline_replace_regex = re.compile("\n{2,}", re.MULTILINE)
 
     def parse_str(_string: str) -> dict:
@@ -41,6 +55,59 @@ class JsoncParser:
         except Exception as e:
             raise ParserError("{} file cannot be parsed (message: {})".format(_string, str(e)))
 
+#    @staticmethod
+#    def parse_file(filepath: Union[str, os.PathLike]) -> dict:
+#        """
+#        Parse .jsonc file and deserialize its content into Python dictionary,
+#        ignoring any comments.
+#
+#        Parameters: `filepath: str | os.PathLike` - path to file
+#
+#        This function will raise a `FunctionParameterError` exception if `filepath` parameter
+#        has an incorrect type or is empty.
+#        This function will raise a `FileError` exception if file format is unsupported.
+#        This function will raise a `ParserError` exception if file cannot be parsed.
+#        This function will raise any additional exceptions if occurred.
+#        """
+#
+#        def __re_sub(match):
+#            if match.group(2) is not None:
+#                return ""
+#            else:
+#                return match.group(1)
+#
+#        # verify that provided path is a valid path-like object
+#        try:
+#            filepath = os.fspath(filepath)
+#        except TypeError:
+#            raise FunctionParameterError(
+#                "filepath parameter must be path-like; got {} instead".format(type(path).__name__)
+#            )
+#
+#        if not filepath:
+#            raise FunctionParameterError("path is empty.")
+#
+#        if not os.path.exists(filepath) or not os.path.isfile(filepath):
+#            raise FileError("{} does not exist or is not a file".format(filepath))
+#
+#        #
+#        # 2026-05-25 MY: Commented out the following two lines so that we can read in .beer.schema files.  Raised an
+#        #                enhancement request to the original library
+#        #                (https://github.com/NickolaiBeloguzov/jsonc-parser/issues/9).
+#        #
+##        if filepath.split(".")[-1] not in ["json", "jsonc"]:
+##            raise FileError("file {} has an unsupported extension.".format(filepath))
+#
+#        json_file = open(filepath, "r")
+#        data_raw = json_file.read()
+#        json_file.close()
+#
+#        try:
+#            data = JsoncParser.regex.sub(__re_sub, data_raw)
+#            return json.loads(JsoncParser.regex.sub(__re_sub, data))
+#        except Exception as e:
+#            raise ParserError("{} file cannot be parsed (message: {})".format(filepath, str(e)))
+
     @staticmethod
     def parse_file(filepath: Union[str, os.PathLike]) -> dict:
         """
@@ -51,7 +118,7 @@ class JsoncParser:
 
         This function will raise a `FunctionParameterError` exception if `filepath` parameter
         has an incorrect type or is empty.
-        This function will raise a `FileError` exception if file format is unsupported.
+        This function will raise a `FileError` exception if the file does not exist.
         This function will raise a `ParserError` exception if file cannot be parsed.
         This function will raise any additional exceptions if occurred.
         """
@@ -66,14 +133,18 @@ class JsoncParser:
         try:
             filepath = os.fspath(filepath)
         except TypeError:
+            #
+            # 2026-10-14 MY: Upstream has `type(path)` here, which raises NameError (there is no `path` variable).  If
+            #                os.fspath() throws, filepath has not been reassigned, so it still holds what we were given.
+            #
             raise FunctionParameterError(
-                "filepath parameter must be path-like; got {} instead".format(type(path).__name__)
+                "filepath parameter must be path-like; got {} instead".format(type(filepath).__name__)
             )
 
         if not filepath:
             raise FunctionParameterError("path is empty.")
 
-        if not os.path.exists(filepath) or not os.path.isfile(filepath):
+        if not os.path.isfile(filepath):
             raise FileError("{} does not exist or is not a file".format(filepath))
 
         #
@@ -81,18 +152,23 @@ class JsoncParser:
         #                enhancement request to the original library
         #                (https://github.com/NickolaiBeloguzov/jsonc-parser/issues/9).
         #
-#        if filepath.split(".")[-1] not in ["json", "jsonc"]:
-#            raise FileError("file {} has an unsupported extension.".format(filepath))
+        #        if filepath.split(".")[-1] not in ["json", "jsonc"]:
+        #            raise FileError("file {} has an unsupported extension.".format(filepath))
 
-        json_file = open(filepath, "r")
-        data_raw = json_file.read()
-        json_file.close()
+        #
+        # 2026-10-14 MY: Explicitly read as UTF-8.  Otherwise Python uses the locale's encoding, which is not UTF-8 on,
+        #                eg, Windows, and our schema files contain non-ASCII characters (•, °, ₂, etc).
+        #
+        with open(filepath, "r", encoding="utf-8") as json_file:
+            data_raw = json_file.read()
 
         try:
-            data = JsoncParser.regex.sub(__re_sub, data_raw)
-            return json.loads(JsoncParser.regex.sub(__re_sub, data))
+            #
+            # 2026-10-14 MY: Upstream applies the regex substitution twice, which is redundant -- once is enough.
+            #
+            return json.loads(JsoncParser.regex.sub(__re_sub, data_raw))
         except Exception as e:
-            raise ParserError("{} file cannot be parsed (message: {})".format(filepath, str(e)))
+            raise ParserError("{} file cannot be parsed (message: {})".format(filepath, str(e))) from e
 
     @staticmethod
     def convert_to_json(filepath: Union[str, os.PathLike], remove_file: bool = False) -> None:
@@ -114,7 +190,7 @@ class JsoncParser:
             filepath = os.fspath(filepath)
         except TypeError:
             raise FunctionParameterError(
-                "filepath parameter must be path-like; got {} instead".format(type(path).__name__)
+                "filepath parameter must be path-like; got {} instead".format(type(filepath).__name__)
             )
 
         if not filepath:

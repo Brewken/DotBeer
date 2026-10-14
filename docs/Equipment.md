@@ -13,7 +13,7 @@ Groups together all the vessels in a set of brewing equipment.  Note that, in so
 | hlt |  | [HotSideVessel](#hotsidevessel) | Hot Liquor Tank |
 | mash_tun |  | [MashTun](#mashtun) | Mash Tun |
 | lauter_tun |  | [HotSideVessel](#hotsidevessel) | Lauter Tun |
-| fermentor |  | [Vessel](#vessel) | Fermentation Vessel |
+| fermentation_vessel |  | [Vessel](#vessel) | Fermentation Vessel |
 | aging_vessel |  | [Vessel](#vessel) | Aging Vessel |
 | packaging_vessel |  | [Vessel](#vessel) | Packaging Vessel |
 
@@ -54,7 +54,7 @@ A hot-side vessel used for the mash.
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
-| grain_absorption_rate |  | [Measurement::SpecificVolume](./Measurement.md#specificvolume) | The apparent volume absorbed by grain, typical values are 0.125 qt/lb (1.04 L/kg) for a mash tun, 0.08 gal/lb (0.66 L/kg) for BIAB. |
+| grain_absorption_rate |  | [Measurement::SpecificVolume](./Measurement.md#specificvolume) | The apparent volume absorbed by grain, typical values are 0.125 gal/lb (1.04 L/kg) for a mash tun, 0.08 gal/lb (0.66 L/kg) for BIAB. |
 
 ## BoilKettle
 
@@ -73,4 +73,4 @@ A hot-side vessel used for the boil.
 
 ---
 
-Documentation generated from the [DotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.8.0) on 2026-10-10 at 19:23:45+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 18:42:24+0200.

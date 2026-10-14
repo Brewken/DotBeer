@@ -14,7 +14,7 @@
 //======================================================================================================================
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dotbeer.org/schema/0.8.0/Recipe.beer.schema",
+  "$id": "https://dotbeer.org/schema/0.9.0/Recipe.beer.schema",
   "type": "object",
   "description": "The information stored in a beer recipe.",
   "properties": {
@@ -49,7 +49,7 @@
       "$ref": "Measurement.beer.schema#/$defs/Date"
     },
     "batch_size": {
-      "description": "The volume into the fermenter.",
+      "description": "The volume into the fermentation vessel.",
       "$ref": "Measurement.beer.schema#/$defs/Volume"
     },
     "efficiency": {
@@ -128,11 +128,11 @@
       "$ref": "DotBeer.beer.schema#/$defs/LocalId"
     },
     "ro_water_mash": {
-      "description": "Percentage of the mash water that is reverse-osmosis (rather than the same profile as `water_base`).  If this field is not present, a value of 0.0 may be assumed.",
+      "description": "Percentage of the mash water that is reverse-osmosis (rather than the same profile as `water_base_id`).  If this field is not present, a value of 0.0 may be assumed.",
       "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "ro_water_sparge": {
-      "description": "Percentage of the sparge water that is reverse-osmosis (rather than the same profile as `water_base`).  If this field is not present, a value of 0.0 may be assumed.",
+      "description": "Percentage of the sparge water that is reverse-osmosis (rather than the same profile as `water_base_id`).  If this field is not present, a value of 0.0 may be assumed.",
       "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "mash_id": {
@@ -201,7 +201,35 @@
           "type": "string"
         },
         "rating": {
-          "type": "number"
+          //
+          // The 0-50 range follows BeerXML.  In BeerJSON, there is no constraint, but I don't know whether that is
+          // oversight or deliberate.
+          //
+          // The BJCP Beer Scoresheet divides the evaluation into five major areas, each scored on whole points:
+          //    - Aroma: 12 points
+          //    - Appearance: 3 points
+          //    - Flavor: 20 points
+          //    - Mouthfeel: 5 points
+          //    - Overall Impression: 10 points
+          // That adds up to a maximum possible score of 50 points.
+          //
+          // The scoresheet breaks the results into these general ranges:
+          //    - Outstanding: 45 to 50 – World-class example of style
+          //    - Excellent: 38 to 44 – Exemplifies style well and requires only minor fine-tuning
+          //    - Very Good: 30 to 37 – Generally within style parameters with some minor flaws
+          //    - Good: 21 to 29 – Misses the mark on style and/or has minor flaws
+          //    - Fair: 14 to 20 – Off flavors, aromas or major style deficiencies
+          //    - Problematic: 0 to 13 – Major off flavors and aromas dominate
+          //
+          // NB: The type here is deliberately `number` not `integer`.  Although an individual BJCP judge’s score is a
+          //     whole number, the score a brewer actually gets back is not necessarily an integer as some competitions
+          //     report the average of two or three judges’ scores.  Equally, a brewer who tastes a batch several times
+          //     might also want to record an average.
+          //
+          "description": "Number between zero and 50 denoting the taste rating – corresponds to the 50 point BJCP rating system.",
+          "type": "number",
+          "minimum":  0.0,
+          "maximum": 50.0
         }
       },
       "required": [
@@ -210,8 +238,11 @@
       ],
       "unevaluatedProperties": false
     },
-    "calories_per_us_pint": {
-      "type": "number"
+    "energy_content": {
+      // TBD: There is, in principle at least, more than one way to do this estimate.  But I don't know in practice
+      //      how many different approaches are used.
+      "description": "Estimate of the energy content of this beer (as used on nutritional labelling).  Typically calculated.",
+      "$ref": "Measurement.beer.schema#/$defs/EnergyPerVolume"
     },
     "instructions": {
       "type": "array",
@@ -243,7 +274,14 @@
       "description": "This object fully describes when, and for how long, a recipe addition should be made, with options for basis on time, gravity, or pH at any process step.",
       "properties": {
         "time": {
-          "description": "What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, for use::add_to_boil, this is time before the end of the step (or of the boil if no step is specified).  For other values of use, this is time after the start of the step (or of the process if no step is specified).",
+          "description": "What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, for `stage::add_to_boil`, this is time before the end of the step (or of the boil if no step is specified).  For other values of use, this is time after the start of the step (or of the process if no step is specified).",
+          //
+          // We have chosen to follow BeerJSON here rather than reinvent the wheel, not least because it keeps things
+          // simpler in Brewtarget and Brewken.  An alternative approach would have been to have positive values
+          // represent "time after start of the step" and negative ones represent "time before end of step", probably
+          // necessitating [unset] meaning "at the start of the step" and 0.0 meaning "at the end".  This would arguably
+          // be cleaner if we were starting from scratch, but it doesn't otherwise buy us anything.
+          //
           "$ref": "Measurement.beer.schema#/$defs/Time"
         },
         "duration": {
@@ -252,11 +290,11 @@
         },
         // BeerJSON has "continuous" here, but we don't support this in Brewken or Brewtarget
         "specific_gravity": {
-          "description": "Used to indicate when an addition is added based on a desired specific gravity.  Eg Add dry hop at when SG is 1.018.",
+          "description": "Used (as an alternatie to `time`) to indicate when an addition is added based on a desired specific gravity.  Eg Add dry hop at when SG is 1.018.",
           "$ref": "Measurement.beer.schema#/$defs/Gravity"
         },
         "pH": {
-          "description": "Used to indicate when an addition is added based on a desired specific pH.  Eg Add brett when pH is 3.4.",
+          "description": "Used (as an alternatie to `time`) to indicate when an addition is added based on a desired specific pH.  Eg Add brett when pH is 3.4.",
           "$ref": "Measurement.beer.schema#/$defs/Acidity"
         },
         "step": {
@@ -279,6 +317,18 @@
       "required": [
         "stage"
       ],
+      //
+      // `time`, `specific_gravity` and `pH` are alternative ways of saying when the addition is made, so at most one of
+      // them may be set.  (It's fine to set none of them -- eg to add something at the start of a step.)  We express
+      // this as "not (any two of them are present)".
+      //
+      "not": {
+        "anyOf": [
+          { "required": ["time"            , "specific_gravity"] },
+          { "required": ["time"            , "pH"              ] },
+          { "required": ["specific_gravity", "pH"              ] }
+        ]
+      },
       "unevaluatedProperties": false
     },
     "CultureRecipeAddition": {
@@ -394,7 +444,7 @@
           "type": "string"
         },
         "duration": {
-          "description": "Where the instruction involves adding something to the boil or holding the mash at a particular temperature, this field tells you how long that should be for.  Eg, if the instruction is \"Add 11.5 L water at 68.0 °C to mash to bring it to 68.0 °C. Hold for 60 min.\" then this field would be 60.0.",
+          "description": "Where the instruction involves adding something to the boil or holding the mash at a particular temperature, this field tells you how long that should be for.  Eg, if the instruction is \"Add 11.5 L water at 68.0 °C to mash to bring it to 68.0 °C. Hold for 50 min.\" then this field would be `{\"unit\":\"min\",\"value\":50}`.",
           "$ref": "Measurement.beer.schema#/$defs/Time"
         }
       },
@@ -467,12 +517,12 @@
           "description" : "Actual (measured) volume of wort in kettle after boil",
           "$ref": "Measurement.beer.schema#/$defs/Volume"
         },
-        "expected_volume_into_fermentor": {
-          "description" : "Expected (planned) volume of wort into fermentor",
+        "expected_volume_into_fv": {
+          "description" : "Expected (planned) volume of wort into fermentation vessel",
           "$ref": "Measurement.beer.schema#/$defs/Volume"
         },
-        "measured_volume_into_fermentor": {
-          "description" : "Actual (measured) volume of wort into fermentor",
+        "measured_volume_into_fermentation_vessel": {
+          "description" : "Actual (measured) volume of wort into fermentation vessel",
           "$ref": "Measurement.beer.schema#/$defs/Volume"
         },
         "measured_pitch_temperature": {
@@ -527,10 +577,10 @@
       "required": [
         "batch_number",
         "brew_date",
-        "expected_pre_boil_gravity_sg",
-        "expected_mash_final_temp_c",
+        "expected_pre_boil_gravity",
+        "expected_mash_final_temperature",
         "expected_original_gravity",
-        "expected_volume_into_fermentor",
+        "expected_volume_into_fv",
         "expected_final_gravity",
         "expected_alcohol_by_volume",
         "expected_attenuation",
