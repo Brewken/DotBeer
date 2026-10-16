@@ -19,7 +19,7 @@ The information stored in a beer recipe.
 | ingredients.culture_additions |  | array of [CultureRecipeAddition](#culturerecipeaddition) | All the yeast and/or other culture additions to the recipe |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Recipe object. |
 | coauthor |  | string |  |
-| created |  | [Measurement::Date](./Measurement.md#date) |  |
+| created |  | [Measurement::DateOrDateTimeLocal](./Measurement.md#dateordatetimelocal) |  |
 | style_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the style of this recipe.  (Obviously the style in question must be in the "styles" section of the same dotBeer file.) |
 | equipment_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the equipment for this recipe.  (Obviously the equipment in question must be in the "equipments" section of the same dotBeer file.) |
 | water_base_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Optional parameter to specify the Local ID of the starting profile of the brewing water, which may be modified with salts etc to obtain the target profile. |
@@ -171,4 +171,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 21:26:21+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-16 at 09:05:53+0200.

@@ -46,7 +46,11 @@
       "type": "string"
     },
     "created": {
-      "$ref": "Measurement.beer.schema#/$defs/Date"
+      //
+      // At the moment, in Brewtarget/Brewken, we only store this as a date, but it's conceivable we might want to
+      // allow it to include a timestamp in future.
+      //
+      "$ref": "Measurement.beer.schema#/$defs/DateOrDateTimeLocal"
     },
     "batch_size": {
       "description": "The volume into the fermentation vessel.",
@@ -464,10 +468,12 @@
         },
         "brew_date": {
           "description": "The date of the \"brewday\"",
+          // Don't see any need to include time here
           "$ref": "Measurement.beer.schema#/$defs/Date"
         },
         "ferment_date": {
           "description": "The date fermentation was deemed finished and final gravity readings were taken",
+          // Don't see any need to include time here
           "$ref": "Measurement.beer.schema#/$defs/Date"
         },
         "notes": {

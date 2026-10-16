@@ -74,11 +74,11 @@ A calendar date in ISO 8601 / RFC 3339 format, ie YYYY-MM-DD.
 
 <strong>Date</strong> is a ``string``  matching regular expression [`^[0-9]{4}-(0[1-9]\|1[0-2])-(0[1-9]\|[12][0-9]\|3[01])$`](https://regex101.com/?regex=%5E%5B0-9%5D%7B4%7D-%280%5B1-9%5D%7C1%5B0-2%5D%29-%280%5B1-9%5D%7C%5B12%5D%5B0-9%5D%7C3%5B01%5D%29%24)
 
-## DateTime
+## DateOrDateTimeLocal
 
 A date and time of day in ISO 8601 / RFC 3339 format, ie YYYY-MM-DDThh:mm:ss, optionally with fractional seconds, and always with a timezone: either `Z` for UTC or an offset such as `+02:00`.  Eg 2026-10-14T09:08:00+02:00.
 
-<strong>DateTime</strong> is a ``string``  matching regular expression [`^[0-9]{4}-(0[1-9]\|1[0-2])-(0[1-9]\|[12][0-9]\|3[01])T([01][0-9]\|2[0-3]):[0-5][0-9]:([0-5][0-9]\|60)([.][0-9]+)?(Z\|[+-]([01][0-9]\|2[0-3]):[0-5][0-9])$`](https://regex101.com/?regex=%5E%5B0-9%5D%7B4%7D-%280%5B1-9%5D%7C1%5B0-2%5D%29-%280%5B1-9%5D%7C%5B12%5D%5B0-9%5D%7C3%5B01%5D%29T%28%5B01%5D%5B0-9%5D%7C2%5B0-3%5D%29%3A%5B0-5%5D%5B0-9%5D%3A%28%5B0-5%5D%5B0-9%5D%7C60%29%28%5B.%5D%5B0-9%5D%2B%29%3F%28Z%7C%5B%2B-%5D%28%5B01%5D%5B0-9%5D%7C2%5B0-3%5D%29%3A%5B0-5%5D%5B0-9%5D%29%24)
+<strong>DateOrDateTimeLocal</strong> is a ``string``  matching regular expression [`^[0-9]{4}-(0[1-9]\|1[0-2])-(0[1-9]\|[12][0-9]\|3[01])T([01][0-9]\|2[0-3]):[0-5][0-9]:([0-5][0-9]\|60)([.][0-9]+)?(Z\|[+-]([01][0-9]\|2[0-3]):[0-5][0-9])$`](https://regex101.com/?regex=%5E%5B0-9%5D%7B4%7D-%280%5B1-9%5D%7C1%5B0-2%5D%29-%280%5B1-9%5D%7C%5B12%5D%5B0-9%5D%7C3%5B01%5D%29T%28%5B01%5D%5B0-9%5D%7C2%5B0-3%5D%29%3A%5B0-5%5D%5B0-9%5D%3A%28%5B0-5%5D%5B0-9%5D%7C60%29%28%5B.%5D%5B0-9%5D%2B%29%3F%28Z%7C%5B%2B-%5D%28%5B01%5D%5B0-9%5D%7C2%5B0-3%5D%29%3A%5B0-5%5D%5B0-9%5D%29%24)
 
 ## EnergyPerVolume
 
@@ -321,4 +321,4 @@ For a single substance, volume-per-mass is the substance's "specific volume" (se
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-14 at 21:26:21+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.0) on 2026-10-16 at 09:05:53+0200.
