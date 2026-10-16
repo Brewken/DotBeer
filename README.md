@@ -85,6 +85,9 @@ The underlying format for both types of file is [JSONC](https://jsonc.org/) --- 
 
 Detailed documentation is generated in the `docs` directory from the schema files in the `schema` directory by `scripts/generateDocs.py`.  All documentation is available online at [www.dotbeer.org](https://www.dotbeer.org/).
 
+The `scripts/generateDocs.py` has the following dependencies:
+ - [`loguru`](https://loguru.readthedocs.io/en/stable/overview.html)
+ - [`PyYAML`](https://pyyaml.org/)
 
 ## Contributing
 If you have an issue or question related to dotBeer, please don't hesitate to [create an issue](https://github.com/Brewken/DotBeer/issues) or start or continue a [discussion](https://github.com/Brewken/DotBeer/discussions).
