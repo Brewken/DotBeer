@@ -1,0 +1,17 @@
+// EXPECT-INVALID: duplicate local ID "pale"
+//
+// Local IDs must be unique across the whole file, even between objects of different types (here a hop and a
+// fermentable).  JSON Schema cannot check this.
+{
+  "DotBeer": {
+    "version": "0.9.0",
+    "output_by": "DotBeer examples (hand-written)",
+    "timestamp": "2026-10-16T10:00:00Z",
+    "hops": [
+      { "name": "Pale Ale Hop Blend", "local_id": "pale", "alpha_acid": { "unit": "%", "value": 7.0 } }
+    ],
+    "fermentables": [
+      { "name": "Pale Malt", "local_id": "pale", "fermentable_type": "grain", "color": { "unit": "EBC", "value": 5 } }
+    ]
+  }
+}

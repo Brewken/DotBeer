@@ -1,0 +1,33 @@
+// EXPECT-INVALID: /DotBeer/styles/0/original_gravity: minimum (1.06 sg) is greater than maximum (1.045 sg)
+// EXPECT-INVALID: /DotBeer/styles/0/final_gravity/minimum/value: 0.85 is less than the minimum of 0.9
+// EXPECT-INVALID: /DotBeer/styles/0/carbonation/maximum/value: -1 is less than the minimum of 0
+//
+// An inverted range (which JSON Schema cannot check), plus values outside the limits that it can check.
+{
+  "DotBeer": {
+    "version": "0.9.0",
+    "output_by": "DotBeer examples (hand-written)",
+    "timestamp": "2026-10-16T10:00:00Z",
+    "styles": [
+      {
+        "name": "Upside Down Ale",
+        "local_id": "style_upside_down",
+        "category": "Broken",
+        "style_guide": "None",
+        "style_type": "beer",
+        "original_gravity": {
+          "minimum": { "unit": "sg", "value": 1.060 },
+          "maximum": { "unit": "sg", "value": 1.045 }
+        },
+        "final_gravity": {
+          "minimum": { "unit": "sg", "value": 0.850 },
+          "maximum": { "unit": "sg", "value": 1.010 }
+        },
+        "carbonation": {
+          "minimum": { "unit": "vols", "value": 2.0 },
+          "maximum": { "unit": "vols", "value": -1 }
+        }
+      }
+    ]
+  }
+}

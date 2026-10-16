@@ -1,0 +1,31 @@
+// EXPECT-INVALID: style_id must refer to an item in "styles"
+//
+// A recipe's style_id is a valid local ID, but it belongs to a hop rather than a style.  JSON Schema cannot check this.
+{
+  "DotBeer": {
+    "version": "0.9.0",
+    "output_by": "DotBeer examples (hand-written)",
+    "timestamp": "2026-10-16T10:00:00Z",
+    "hops": [
+      { "name": "Cascade", "local_id": "cascade", "alpha_acid": { "unit": "%", "value": 6.0 } }
+    ],
+    "fermentables": [
+      { "name": "Pale Malt", "local_id": "ferm_pale", "fermentable_type": "grain", "color": { "unit": "EBC", "value": 5 } }
+    ],
+    "recipes": [
+      {
+        "name": "Confused Style",
+        "recipe_type": "all grain",
+        "author": "A. Brewer",
+        "style_id": "cascade",
+        "batch_size": { "unit": "l", "value": 20 },
+        "efficiency": { "brewhouse": { "unit": "%", "value": 70 } },
+        "ingredients": {
+          "fermentable_additions": [
+            { "fermentable_id": "ferm_pale", "schedule": { "stage": "add_to_mash" }, "amount": { "unit": "kg", "value": 4 } }
+          ]
+        }
+      }
+    ]
+  }
+}

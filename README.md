@@ -89,5 +89,12 @@ The `scripts/generateDocs.py` has the following dependencies:
  - [`loguru`](https://loguru.readthedocs.io/en/stable/overview.html)
  - [`PyYAML`](https://pyyaml.org/)
 
+Example <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> files are in the `examples`
+directory.  `scripts/validate.py` checks them against the schema, and also checks the rules that JSON Schema cannot
+express (eg that local IDs are unique and that references point to objects of the right type).  Files in
+`examples/invalid` are deliberately broken, and each one states the errors it is expected to produce.  Run
+`scripts/validate.py` with no arguments to check all the examples, or pass it your own files.  It depends on
+[`jsonschema`](https://python-jsonschema.readthedocs.io/) (version 4.18 or later).
+
 ## Contributing
 If you have an issue or question related to dotBeer, please don't hesitate to [create an issue](https://github.com/Brewken/DotBeer/issues) or start or continue a [discussion](https://github.com/Brewken/DotBeer/discussions).

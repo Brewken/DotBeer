@@ -1,0 +1,9 @@
+// The smallest valid dotBeer file: just the required header fields.  Useful as a sanity check for readers that
+// assume the optional sections are present.
+{
+  "DotBeer": {
+    "version": "0.9.0",
+    "output_by": "DotBeer examples (hand-written)",
+    "timestamp": "2026-10-16T08:00:00Z"
+  }
+}
