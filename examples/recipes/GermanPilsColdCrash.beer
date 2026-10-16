@@ -4,12 +4,16 @@
 //
 // This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
 // was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
-//======================================================================================================================
 //
-// A lager with a multi-step fermentation ending in a cold crash below 0°C, so that a negative Celsius temperature is
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+
+//
+// A lager with a multistep fermentation ending in a cold crash below 0°C, so that a negative Celsius temperature is
 // exercised.  Also:
 //  • A step mash with a decoction
-//  • A 90 minute boil with inline (counterflow) chilling
+//  • A 90-minute boil with inline (counterflow) chilling
 //  • Mostly-RO water, adjusted with calcium chloride and lactic acid (ie a water agent with a percent acid)
 //  • A fining (gelatin) added during a specific fermentation step
 //  • A brew log containing only the required fields

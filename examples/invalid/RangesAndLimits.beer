@@ -1,3 +1,14 @@
+//======================================================================================================================
+// examples/invalid/RangeAndLimits.beer is part of DotBeer and is copyright the following authors 2026:
+//   • Matt Young <mfsy@yahoo.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+// was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+
 // EXPECT-INVALID: /DotBeer/styles/0/original_gravity: minimum (1.06 sg) is greater than maximum (1.045 sg)
 // EXPECT-INVALID: /DotBeer/styles/0/final_gravity/minimum/value: 0.85 is less than the minimum of 0.9
 // EXPECT-INVALID: /DotBeer/styles/0/carbonation/maximum/value: -1 is less than the minimum of 0

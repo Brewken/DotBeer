@@ -25,7 +25,7 @@
   // This is not a "real" URL.  The "directory" above the filename is the version of the dotBeer schema.
   // Versions prior to 1.0.0 are subject to breaking changes!
   //
-  "$id": "https://dotbeer.org/schema/0.9.0/DotBeer.beer.schema",
+  "$id": "https://dotbeer.org/schema/0.9.1/DotBeer.beer.schema",
   "type": "object",
   "title": "DotBeer File Format",
   "description": "A free and open serialisation format for beer recipes, ingredients and related data",
@@ -52,7 +52,7 @@
         },
         "timestamp": {
           "description": "Date and time file was created.",
-          "$ref": "Measurement.beer.schema#/$defs/DateTime"
+          "$ref": "Measurement.beer.schema#/$defs/DateTimeOffset"
         },
         // Ingredients
         "hops": {

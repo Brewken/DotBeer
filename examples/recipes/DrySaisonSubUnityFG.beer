@@ -4,7 +4,11 @@
 //
 // This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
 // was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
 //======================================================================================================================
+
 //
 // A very dry saison (STA1+ yeast, plus table sugar) that finishes BELOW 1.000 SG.  This guards against anyone
 // "tightening" the Gravity minimum to 1.000, which would reject real-world data.  Also:

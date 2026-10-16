@@ -1,3 +1,14 @@
+//======================================================================================================================
+// examples/invalid/WaterAgentRules.beer is part of DotBeer and is copyright the following authors 2026:
+//   • Matt Young <mfsy@yahoo.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+// was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+
 // EXPECT-INVALID: /DotBeer/miscs/0: 'water_agent_type' is a required property
 // EXPECT-INVALID: /DotBeer/miscs/1/misc_type: 'water agent' was expected
 // EXPECT-INVALID: /DotBeer/miscs/2/water_agent_type: 'calcium sulfate' is not one of

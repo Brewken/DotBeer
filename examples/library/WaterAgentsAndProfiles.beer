@@ -4,7 +4,11 @@
 //
 // This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
 // was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
 //======================================================================================================================
+
 //
 // An ingredient library with no recipes, as might be exported to share a brewer's water setup.  It contains one misc
 // for every `water_agent_type`, including the ones that need `water_agent_percent_acid`, plus some classic water

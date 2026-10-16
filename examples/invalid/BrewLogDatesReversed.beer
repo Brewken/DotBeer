@@ -1,3 +1,14 @@
+//======================================================================================================================
+// examples/invalid/BrewLogDatesReversed.beer is part of DotBeer and is copyright the following authors 2026:
+//   • Matt Young <mfsy@yahoo.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+// was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+
 // EXPECT-INVALID: ferment_date 2026-09-01 is before brew_date 2026-09-14
 // EXPECT-INVALID: /DotBeer/recipes/0/brew_logs/1/brew_date: '2026-02-30' is not a 'date'
 //
