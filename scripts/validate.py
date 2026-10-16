@@ -52,6 +52,7 @@ import datetime
 import os
 import re
 import sys
+import urllib.parse
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterator
@@ -122,14 +123,31 @@ def load_schemas(schema_dir: Path) -> tuple[dict[str, Any], referencing.Registry
 
     registry: referencing.Registry = referencing.Registry()
     root = None
+    id_to_file: dict[str, Path] = {}
     for file in files:
         try:
             contents = JsoncParser.parse_file(str(file))
         except Exception as e:
             print(f"SCHEMA ERROR: cannot parse {file}: {e}")
             sys.exit(2)
-        if "$id" not in contents:
+        if not isinstance(contents, dict) or "$id" not in contents:
             print(f"SCHEMA ERROR: {file} has no $id")
+            sys.exit(2)
+        #
+        # If two files declare the same $id, the later one silently replaces the earlier one in the registry, and every
+        # $ref into the earlier one then fails.  (Easy to do when copying an existing schema file to start a new one.)
+        #
+        if contents["$id"] in id_to_file:
+            print(f"SCHEMA ERROR: {file.name} and {id_to_file[contents['$id']].name} both have "
+                  f"$id \"{contents['$id']}\"")
+            sys.exit(2)
+        id_to_file[contents["$id"]] = file
+        #
+        # The $id should end with the file name, otherwise relative $refs such as "Hop.beer.schema#/..." will not find
+        # the file.
+        #
+        if contents["$id"].rsplit("/", 1)[-1] != file.name:
+            print(f"SCHEMA ERROR: {file.name} has $id \"{contents['$id']}\", which does not end with the file name")
             sys.exit(2)
         registry = registry.with_resource(contents["$id"],
                                           referencing.Resource.from_contents(contents,
@@ -157,18 +175,32 @@ def walk_refs(node: Any, pointer: str = "") -> Iterator[tuple[str, str]]:
 
 def check_schema_refs(registry: referencing.Registry) -> list[str]:
     """Returns a list of problems with $refs that do not resolve"""
+    schema_uris = sorted(uri for uri in registry
+                         if isinstance(registry.contents(uri), dict) and registry.contents(uri).get("$id") == uri)
     problems = []
-    for uri in sorted(registry):
+    missing_documents: dict[str, list[str]] = {}
+    for uri in schema_uris:
         contents = registry.contents(uri)
-        if not isinstance(contents, dict) or contents.get("$id") != uri:
-            continue  # Subresource, not a schema file
         resolver = registry.resolver(base_uri=uri)
         file_name = uri.rsplit("/", 1)[-1]
         for pointer, ref in walk_refs(contents):
+            where = f"{file_name}{pointer or '/'}"
             try:
                 resolver.lookup(ref)
             except referencing.exceptions.Unresolvable:
-                problems.append(f"{file_name}{pointer or '/'}: $ref \"{ref}\" does not resolve")
+                #
+                # Distinguish "the referred-to schema file isn't loaded at all" (where we report once, rather than once
+                # per $ref) from "the file is loaded but has no such definition".
+                #
+                target = urllib.parse.urljoin(uri, ref).split("#", 1)[0]
+                if target not in schema_uris:
+                    missing_documents.setdefault(target, []).append(where)
+                else:
+                    problems.append(f"{where}: $ref \"{ref}\" does not resolve")
+    for target, wheres in sorted(missing_documents.items()):
+        problems.insert(0, f"no schema file has $id \"{target}\", but {len(wheres)} $ref(s) refer to it "
+                           f"(eg {wheres[0]}).  Loaded $ids are:\n" +
+                           "\n".join(f"        {u}" for u in schema_uris))
     return problems
 
 
