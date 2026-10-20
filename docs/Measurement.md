@@ -19,10 +19,10 @@ For Ranges, note that we do not force the same units for lower and upper bounds.
 
 <strong>Acidity</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `pH` |  |
-| value | ✅ | `-1.1 <= x <= 15.0` | The minimum and maximum pH values here come from the table on https://fr.wikipedia.org/wiki/Potentiel_hydrog%C3%A8ne.  In practice, a smaller range would probably suffice. |
+| Property | Required? | Type |
+| -------- | --------- | ---- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `pH` |
+| value | ✅ | `-1.1 <= x <= 15.0` |
 
 ## Bitterness
 
@@ -41,10 +41,10 @@ For Ranges, note that we do not force the same units for lower and upper bounds.
 
 <strong>Carbonation</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `vols`<br>&nbsp;∙ `g/l` |
-| value | ✅ | `0 <= x ` |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `vols`<br>&nbsp;∙ `g/l` | `vols` = volumes of CO₂, ≈ 1.96 g/L each. |
+| value | ✅ | `0 <= x ` |  |
 
 ## Color
 
@@ -59,7 +59,7 @@ Supports both grain color properties, such as Lovibond, and wort color propertie
 
 ## Count
 
-Used where unitless amounts are required, such as 1 apple, or 1 yeast packet.  Note that this _is_ allowed to be fractional because you might want to add 1½ cinnamon sticks or 2.5 packets of yeast.  Note too, that this only used in cases where things might be measured in multiple ways.  Eg a Misc can be measured by Volume, Mass or Count (depending on what it is).  In other places that use a count, eg CultureRecipeAddition.times_cultured, we just use a non-negative integer.
+Used where unitless amounts are required, such as 1 apple, or 1 yeast packet.  Note that this _is_ allowed to be fractional because you might want to add 1½ cinnamon sticks or 2.5 packets of yeast.  Note too, that this is only used in cases where things might be measured in multiple ways.  Eg a Misc can be measured by Volume, Mass or Count (depending on what it is).  In other places that use a count, eg CultureRecipeAddition.times_cultured, we just use a non-negative integer.
 
 <strong>Count</strong> is a JSON object with the following properties:
 
@@ -88,7 +88,8 @@ Either a calendar date (YYYY-MM-DD) or a date and time of day (YYYY-MM-DDThh:mm:
 
 ## EnergyPerVolume
 
-Energy per volume is used in nutritional labelling.<br>`kcal/L` is kilocalories per liter<br>`kcal/50cl` is kilocalories per 50 centiliters<br>`kcal/33cl` is kilocalories per 33 centiliters<br>`kcal/25cl` is kilocalories per 25 centiliters<br>`kcal/100ml` is kilocalories per 100 milliliters*<br>`kcal/pt` is kilocalories per US pint (16 US fluid ounces)<br>`kcal/12floz` is kilocalories per 12 US fluid ounces<br>`kcal/ipt` is kilocalories per imperial pint<br>`kJ/100ml` is kilojoules per 100 milliliters*<br>Those marked * are EU standards for nutritional labelling.
+Energy per volume is used in nutritional labelling.
+`kcal/L` is kilocalories per liter<br>`kcal/50cl` is kilocalories per 50 centiliters<br>`kcal/33cl` is kilocalories per 33 centiliters<br>`kcal/25cl` is kilocalories per 25 centiliters<br>`kcal/100ml` is kilocalories per 100 milliliters*<br>`kcal/pt` is kilocalories per US pint (16 US fluid ounces)<br>`kcal/12floz` is kilocalories per 12 US fluid ounces<br>`kcal/ipt` is kilocalories per imperial pint<br>`kJ/100ml` is kilojoules per 100 milliliters*<br>Those marked * are EU standards for nutritional labelling.
 
 <strong>EnergyPerVolume</strong> is a JSON object with the following properties:
 
@@ -114,7 +115,9 @@ We assume that brewers don't need "specific gravity" below 0.900 SG (-30°P/°Bx
 
 ## DiastaticPower
 
-Diastatic power is a measurement of malted grains enzymatic content. A value of 35 Lintner is needed to self convert, while a value of 100 or more is desirable for base malts.
+Diastatic power is a measurement of malted grains enzymatic content.  More specifically, it is the total activity of malt enzymes that hydrolyze starch to fermentable sugars.  The starch-degrading enzymes contributing to this process are alpha-amylase, beta-amylase, limit dextrinase, and alpha-glucosidase.  The driving force for DP appears to be beta amylase, which usually correlates better with DP than the other starch-degrading enzymes and has the highest activity of all starch-degrading enzymes in malt.
+
+`WK` = Windisch-Kolbach, and °WK = 3.5 × °L − 16.
 
 <strong>DiastaticPower</strong> is a JSON object with the following properties:
 
@@ -158,7 +161,9 @@ Strictly speaking, mass concentration (eg mg/l) is different from mass fraction 
 
 ## PercentageNoMax
 
-PercentageNoMax, aka, "no max percentage" is a percentage that can be more than 100% (but cannot be less than 0%)
+PercentageNoMax, aka, "no max percentage" is a percentage that can be more than 100% (but cannot be less than 0%).
+
+NOTE: This is not currently used, but is reserved for future use.
 
 <strong>PercentageNoMax</strong> is a JSON object with the following properties:
 
@@ -178,20 +183,9 @@ PercentageSimple, aka, "simple percentage" is a percentage where the value is no
 | unit | ✅ | Enum:<br>&nbsp;∙ `%` |
 | value | ✅ | `0 <= x <= 100` |
 
-## Pressure
-
-
-
-<strong>Pressure</strong> is a JSON object with the following properties:
-
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `kPa`<br>&nbsp;∙ `psi`<br>&nbsp;∙ `bar` | `kPa` is kilopascals<br>`psi` is pounds per square inch<br>`bar` is bar (where 1 bar = 100 kPa) |
-| value | ✅ | `0 <= x ` |  |
-
 ## SpecificHeatCapacity
 
-The amount of heat that must be added to one unit of mass of the substance in order to cause an increase of one unit in temperature.<br>`c/g·C` is calories per Celsius per gram (and also kilocalories per degree Celsius per kilogram)<br>`J/kg·K` is joules per Kelvin per kilogram<br>`BTU/lb·F` is BTU per Fahrenheit per pound<br>Although SI units are "joules per kelvin per kilogram" (which is the same as "joules per degree Celsius per kilogram"), historically a measurement involving calories instead of joules was used in chemistry, nutrition and brewing.  There are two types of calorie: the "small calorie" (or "gram-calorie", "cal") = 4.184 J; and the "grand calorie" (aka "kilocalorie", "kcal" or "Cal") = 1000 small calories = 4184 J.  However, the specific heat measurement using "cal" ("calories per degree Celsius per gram") is the same as that for "Cal" ("kilocalories per degree Celsius per kilogram"): 1 cal / (°C × g) = 1 Cal / (°C × kg) = 4184 J / (°K × kg) = the specific heat capacity of liquid water.  Note too that, because a British Thermal Unit (BTU) is defined as "the amount of heat required to raise the temperature of one pound of water by one degree Fahrenheit", we have 1 BTU/lb·F = 1 c/g·C.
+The amount of heat that must be added to one unit of mass of the substance in order to cause an increase of one unit in temperature.<br>`c/g·C` is calories per Celsius per gram (and also kilocalories per degree Celsius per kilogram)<br>`J/kg·K` is joules per Kelvin per kilogram<br>`BTU/lb·F` is BTU per Fahrenheit per pound<br>Although SI units are "joules per kelvin per kilogram" (which is the same as "joules per degree Celsius per kilogram"), historically a measurement involving calories instead of joules was used in chemistry, nutrition and brewing.  There are two types of calorie: the "small calorie" (or "gram-calorie", "cal") = 4.184 J; and the "grand calorie" (aka "kilocalorie", "kcal" or "Cal") = 1000 small calories = 4184 J.  However, the specific heat measurement using "cal" ("calories per degree Celsius per gram") is the same as that for "Cal" ("kilocalories per degree Celsius per kilogram"): 1 cal / (°C × g) = 1 Cal / (°C × kg) = 4184 J / (K × kg) = the specific heat capacity of liquid water.  Note too that, because a British Thermal Unit (BTU) is defined as "the amount of heat required to raise the temperature of one pound of water by one degree Fahrenheit", we have 1 BTU/lb·F = 1 c/g·C.
 
 <strong>SpecificHeatCapacity</strong> is a JSON object with the following properties:
 
@@ -202,16 +196,16 @@ The amount of heat that must be added to one unit of mass of the substance in or
 
 ## Temperature
 
-
+`C` is degrees Celsius (°C)<br>`F` is degrees Fahrenheit (°F).  We assume that brewers never need temperatures below -30°C (-22°F) or above 150°C (302°F).
 
 <strong>Temperature</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type | Conditional? | Description |
-| -------- | --------- | ---- | ------------ | ----------- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `C`<br>&nbsp;∙ `F` |  | `C` is degrees Celsius (°C)<br>`F` is degrees Fahrenheit (°F).  We assume that brewers never need temperatures below -30°C (-22°F) or above 150°C (302°F). |
-| value | ✅ | number |  |  |
-| value |  | None | **If** unit = C |  |
-| value |  | None | **If NOT** unit = C |  |
+| Property | Required? | Type | Conditional? |
+| -------- | --------- | ---- | ------------ |
+| unit | ✅ | Enum:<br>&nbsp;∙ `C`<br>&nbsp;∙ `F` |  |
+| value | ✅ | number |  |
+| value |  | None | **If** unit = C |
+| value |  | None | **If NOT** unit = C |
 
 ## Time
 
@@ -327,4 +321,4 @@ For a single substance, volume-per-mass is the substance's "specific volume" (se
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.1) on 2026-10-16 at 22:16:29+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-20 at 19:21:07+0200.

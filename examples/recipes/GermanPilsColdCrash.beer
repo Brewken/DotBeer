@@ -20,7 +20,7 @@
 //
 {
   "DotBeer": {
-    "version": "0.9.0",
+    "version": "0.10.0",
     "output_by": "DotBeer examples (hand-written)",
     "timestamp": "2026-10-16T10:00:00Z",
 
@@ -69,7 +69,7 @@
         "name": "Calcium Chloride",
         "local_id": "misc_cacl2",
         "misc_type": "water agent",
-        "water_agent_type": "calcium chloride"
+        "water_agent_type": "calcium chloride anhydrous"
       },
       {
         "name": "Lactic Acid 80%",

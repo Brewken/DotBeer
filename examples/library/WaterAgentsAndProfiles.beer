@@ -16,17 +16,17 @@
 //
 {
   "DotBeer": {
-    "version": "0.9.0",
+    "version": "0.10.0",
     "output_by": "DotBeer examples (hand-written)",
     "timestamp": "2026-10-16T10:00:00.250+02:00",
 
     "miscs": [
-      { "name": "Calcium Chloride",  "local_id": "wa_cacl2",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium chloride"   },
-      { "name": "Chalk",             "local_id": "wa_caco3",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium carbonate"  },
-      { "name": "Gypsum",            "local_id": "wa_caso4",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium sulfate"    },
-      { "name": "Epsom Salt",        "local_id": "wa_mgso4",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "magnesium sulfate"  },
-      { "name": "Table Salt",        "local_id": "wa_nacl",     "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "sodium chloride"    },
-      { "name": "Baking Soda",       "local_id": "wa_nahco3",   "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "sodium bicarbonate" },
+      { "name": "Calcium Chloride",  "local_id": "wa_cacl2",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium chloride anhydrous"    },
+      { "name": "Chalk",             "local_id": "wa_caco3",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium carbonate"             },
+      { "name": "Gypsum",            "local_id": "wa_caso4",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium sulfate dihydrate"     },
+      { "name": "Epsom Salt",        "local_id": "wa_mgso4",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "magnesium sulfate heptahydrate"},
+      { "name": "Table Salt",        "local_id": "wa_nacl",     "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "sodium chloride"               },
+      { "name": "Baking Soda",       "local_id": "wa_nahco3",   "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "sodium bicarbonate"            },
       {
         "name": "Lactic Acid 88%",
         "local_id": "wa_lactic_88",

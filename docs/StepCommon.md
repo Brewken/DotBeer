@@ -17,9 +17,9 @@ Common attributes of MashStep, BoilStep and FermentationStep.
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
 | step_description |  | string |  |
-| step_time |  | [Measurement::Time](./Measurement.md#time) |  |
+| step_time |  | [Measurement::Time](./Measurement.md#time) | The duration to spend at this step – ie the amount of time we are to hold this particular step temperature. |
 | start_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | For a MashStep this is also known as the step temperature, and is the target temperature for this step |
-| end_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) |  |
+| end_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Temperature at the end of the step, eg after the mash cools naturally during a long rest. |
 | start_pH |  | [Measurement::Acidity](./Measurement.md#acidity) |  |
 | end_pH |  | [Measurement::Acidity](./Measurement.md#acidity) |  |
 
@@ -31,7 +31,7 @@ Common attribute of MashStep and BoilStep but not FermentationStep.
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
-| ramp_time |  | [Measurement::Time](./Measurement.md#time) | The amount of time that passes before this step begins. eg moving from a mash step (step 1) of 148°F, to a new temperature step of 156°F (step 2) may take 8 minutes to heat the mash. Step 2 would have a ramp time of 8 minutes. |
+| ramp_time |  | [Measurement::Time](./Measurement.md#time) | The amount of time that passes before this step begins.  Eg moving from a mash step (step 1) of 148°F, to a new temperature step of 156°F (step 2) may take 8 minutes to heat the mash. Step 2 would have a ramp time of 8 minutes. |
 
 ## StepWithGravity
 
@@ -48,4 +48,4 @@ Common attributes of BoilStep and FermentationStep but not MashStep.
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.1) on 2026-10-16 at 22:16:29+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-20 at 19:21:07+0200.

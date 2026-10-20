@@ -16,7 +16,7 @@
 // An inverted range (which JSON Schema cannot check), plus values outside the limits that it can check.
 {
   "DotBeer": {
-    "version": "0.9.0",
+    "version": "0.10.0",
     "output_by": "DotBeer examples (hand-written)",
     "timestamp": "2026-10-16T10:00:00Z",
     "styles": [

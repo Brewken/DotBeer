@@ -31,7 +31,7 @@ An individual vessel (eg mash tun, boil kettle) that forms part of brewing equip
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | max_volume | ✅ | [Measurement::Volume](./Measurement.md#volume) | Maximum usable capacity of the vessel. |
-| loss | ✅ | [Measurement::Volume](./Measurement.md#volume) |  |
+| loss | ✅ | [Measurement::Volume](./Measurement.md#volume) | Volume left behind (dead space, trub, chiller) when transferring out of this vessel |
 | vessel_type |  | string |  |
 | notes |  | string |  |
 
@@ -66,11 +66,11 @@ A hot-side vessel used for the boil.
 | -------- | --------- | ---- | ----------- |
 | boil_rate_per_hour |  | [Measurement::Volume](./Measurement.md#volume) | The volume boiled off during 1 hour, measured before and after at room temperature. |
 | drain_rate_per_minute |  | [Measurement::Volume](./Measurement.md#volume) | The volume that leaves the kettle, especially important for non-immersion chillers that cool the wort as it leaves the kettle. |
-| internal_diameter |  | [Measurement::Length](./Measurement.md#length) | With opening_diameter, allows calculation of IBU by Paul-John Hosom's mIBU formula |
-| opening_diameter |  | [Measurement::Length](./Measurement.md#length) | With internal_diameter, allows calculation of IBU by Paul-John Hosom's mIBU formula |
+| internal_diameter |  | [Measurement::Length](./Measurement.md#length) | With opening_diameter, allows calculation of IBU by John-Paul Hosom's mIBU formula |
+| opening_diameter |  | [Measurement::Length](./Measurement.md#length) | With internal_diameter, allows calculation of IBU by John-Paul Hosom's mIBU formula |
 
 
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.1) on 2026-10-16 at 22:16:29+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-20 at 19:21:07+0200.

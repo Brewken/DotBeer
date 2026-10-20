@@ -39,6 +39,10 @@ Usage:
     scripts/validate.py                     # Validate everything under examples/
     scripts/validate.py foo.beer bar/       # Validate the given files and (recursively) directories
 
+Files under examples/ must also have a "version" matching the version of the schema (ie the version in the schema files'
+$ids), so that the examples get updated whenever the schema version changes.  For other files, a different version is
+only a warning, since it is perfectly normal for a file to have been written with an older version of the schema.
+
 Exit status: 0 if all files give the expected result; 1 if any do not; 2 if the schema itself is broken.
 
 Dependencies:
@@ -69,25 +73,7 @@ except ImportError:
     sys.exit("This script needs jsonschema 4.18 or later -- eg `pip install jsonschema`")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-
-#
-# Every field that holds a cross-reference, mapped to the top-level section (of the DotBeer root object) in which the
-# referred-to object must live.  If the schema gains a new "..._id" reference field, it needs adding here.  (We warn
-# about any "..._id" field we don't recognise, so that we don't silently stop checking it.)
-#
-REFERENCE_FIELDS = {
-    "style_id"        : "styles"       ,
-    "equipment_id"    : "equipments"   ,
-    "mash_id"         : "mashes"       ,
-    "boil_id"         : "boils"        ,
-    "fermentation_id" : "fermentations",
-    "water_base_id"   : "waters"       ,
-    "water_target_id" : "waters"       ,
-    "fermentable_id"  : "fermentables" ,
-    "hop_id"          : "hops"         ,
-    "misc_id"         : "miscs"        ,
-    "culture_id"      : "cultures"     ,
-}
+EXAMPLES_DIR = REPO_ROOT / "examples"
 
 #
 # Fields ending in "_id" that are NOT local-ID cross-references
@@ -103,6 +89,8 @@ STAGE_PROCEDURES = {
     "add_to_fermentation": ("fermentation_id", "fermentation_steps"),
 }
 
+VERSION_RE = re.compile(r"^[0-9]+[.][0-9]+[.][0-9]+$")  # Same as VersionNumber in DotBeer.beer.schema
+
 EXPECT_INVALID_RE = re.compile(r"^\s*//\s*EXPECT-INVALID:\s*(.+?)\s*$")
 
 
@@ -110,13 +98,19 @@ EXPECT_INVALID_RE = re.compile(r"^\s*//\s*EXPECT-INVALID:\s*(.+?)\s*$")
 class Result:
     errors  : list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    # Set if the file's "version" differs from the schema version.  Kept separate from `errors` because it is handled
+    # differently depending on whether the file is one of our examples (see main()).
+    version_mismatch: str | None = None
 
 
 #=======================================================================================================================
 # Schema loading
 #=======================================================================================================================
-def load_schemas(schema_dir: Path) -> tuple[dict[str, Any], referencing.Registry]:
-    """Returns the root schema and a registry containing all the schemas, keyed by their $id"""
+def load_schemas(schema_dir: Path) -> tuple[dict[str, Any], referencing.Registry, str]:
+    """
+    Returns the root schema, a registry containing all the schemas (keyed by their $id), and the schema version (taken
+    from the $ids, which all have the form https://dotbeer.org/schema/<version>/<file name>)
+    """
     files = sorted(schema_dir.glob("*.beer.schema"))
     if not files:
         sys.exit(f"No *.beer.schema files found in {schema_dir}")
@@ -124,6 +118,7 @@ def load_schemas(schema_dir: Path) -> tuple[dict[str, Any], referencing.Registry
     registry: referencing.Registry = referencing.Registry()
     root = None
     id_to_file: dict[str, Path] = {}
+    version_to_files: dict[str, list[str]] = {}
     for file in files:
         try:
             contents = JsoncParser.parse_file(str(file))
@@ -149,6 +144,17 @@ def load_schemas(schema_dir: Path) -> tuple[dict[str, Any], referencing.Registry
         if contents["$id"].rsplit("/", 1)[-1] != file.name:
             print(f"SCHEMA ERROR: {file.name} has $id \"{contents['$id']}\", which does not end with the file name")
             sys.exit(2)
+        #
+        # The "directory" above the file name is the schema version, and it needs to be the same for all the files.
+        # (Easy to get wrong when bumping the version, as it has to be changed in every file.)
+        #
+        id_parts = urllib.parse.urlparse(contents["$id"]).path.rstrip("/").split("/")
+        version = id_parts[-2] if len(id_parts) >= 2 else ""
+        if not VERSION_RE.match(version):
+            print(f"SCHEMA ERROR: {file.name} has $id \"{contents['$id']}\", which does not contain a version number "
+                  f"before the file name")
+            sys.exit(2)
+        version_to_files.setdefault(version, []).append(file.name)
         registry = registry.with_resource(contents["$id"],
                                           referencing.Resource.from_contents(contents,
                                                                              default_specification=DRAFT202012))
@@ -157,7 +163,12 @@ def load_schemas(schema_dir: Path) -> tuple[dict[str, Any], referencing.Registry
 
     if root is None:
         sys.exit(f"DotBeer.beer.schema not found in {schema_dir}")
-    return root, registry.crawl()
+    if len(version_to_files) > 1:
+        print("SCHEMA ERROR: the schema files do not all have the same version in their $id:")
+        for version, names in sorted(version_to_files.items()):
+            print(f"    {version}: {', '.join(names)}")
+        sys.exit(2)
+    return root, registry.crawl(), next(iter(version_to_files))
 
 
 def walk_refs(node: Any, pointer: str = "") -> Iterator[tuple[str, str]]:
@@ -202,6 +213,104 @@ def check_schema_refs(registry: referencing.Registry) -> list[str]:
                            f"(eg {wheres[0]}).  Loaded $ids are:\n" +
                            "\n".join(f"        {u}" for u in schema_uris))
     return problems
+
+
+def walk_refers_to(node: Any, pointer: str = "") -> Iterator[tuple[str, str, Any]]:
+    """
+    Yields (JSON pointer, property name, "x-refers-to" value) for every property schema that has an "x-refers-to"
+    annotation.  (This is our own keyword: it says that the property holds a local ID, and gives, as a JSON Pointer into
+    the dotBeer file, the array in which the referred-to object must be.  Eg "x-refers-to": "/DotBeer/hops".)
+    """
+    if isinstance(node, dict):
+        for key, value in node.items():
+            child = f"{pointer}/{key}"
+            if pointer.endswith("/properties") and isinstance(value, dict) and "x-refers-to" in value:
+                yield child, key, value["x-refers-to"]
+            yield from walk_refers_to(value, child)
+    elif isinstance(node, list):
+        for index, value in enumerate(node):
+            yield from walk_refers_to(value, f"{pointer}/{index}")
+
+
+def split_json_pointer(pointer: str) -> list[str]:
+    """Splits a JSON Pointer (RFC 6901) into its (unescaped) reference tokens"""
+    return [token.replace("~1", "/").replace("~0", "~") for token in pointer.split("/")[1:]]
+
+
+def load_reference_fields(registry: referencing.Registry,
+                          root_schema: dict[str, Any]) -> tuple[dict[str, str], list[str]]:
+    """
+    Returns a map from the name of each property that holds a local-ID cross-reference to the JSON Pointer of the array
+    (in a dotBeer file) where the referred-to object must be, plus a list of any problems with the "x-refers-to"
+    annotations.
+
+    NB: We key on property name alone, so the same property name must refer to the same place wherever it is used.
+    """
+    schema_uris = sorted(uri for uri in registry
+                         if isinstance(registry.contents(uri), dict) and registry.contents(uri).get("$id") == uri)
+    fields: dict[str, tuple[str, str]] = {}  # property name -> (target, where defined)
+    problems = []
+    for uri in schema_uris:
+        file_name = uri.rsplit("/", 1)[-1]
+        for pointer, name, target in walk_refers_to(registry.contents(uri)):
+            where = f"{file_name}{pointer}"
+            if not isinstance(target, str) or not target.startswith("/"):
+                problems.append(f"{where}: x-refers-to must be a JSON Pointer string, eg \"/DotBeer/hops\"")
+                continue
+            #
+            # Check the target exists in the schema, by following "properties" down from the root schema.  (We don't
+            # follow $refs, but we don't need to, as the arrays of top-level objects are all defined directly in
+            # DotBeer.beer.schema.)
+            #
+            node: Any = root_schema
+            for token in split_json_pointer(target):
+                node = node.get("properties", {}).get(token) if isinstance(node, dict) else None
+            if not isinstance(node, dict) or node.get("type") != "array":
+                problems.append(f"{where}: x-refers-to \"{target}\" is not an array property of the root schema")
+                continue
+            if name in fields and fields[name][0] != target:
+                problems.append(f"{where}: x-refers-to \"{target}\" conflicts with \"{fields[name][0]}\" for the "
+                                f"same property name at {fields[name][1]}")
+                continue
+            fields.setdefault(name, (target, where))
+    return {name: target for name, (target, _) in fields.items()}, problems
+
+
+def walk_formats(node: Any, pointer: str = "") -> Iterator[tuple[str, str]]:
+    """Yields (JSON pointer, format value) for every "format" keyword in a schema"""
+    if isinstance(node, dict):
+        for key, value in node.items():
+            #
+            # Inside "properties", keys are property names rather than keywords, so a property called "format" is not a
+            # format keyword
+            #
+            if key == "format" and isinstance(value, str) and not pointer.endswith("/properties"):
+                yield pointer, value
+            else:
+                yield from walk_formats(value, f"{pointer}/{key}")
+    elif isinstance(node, list):
+        for index, value in enumerate(node):
+            yield from walk_formats(value, f"{pointer}/{index}")
+
+
+def check_format_support(registry: referencing.Registry, format_checker: jsonschema.FormatChecker) -> list[str]:
+    """
+    Returns a warning for each "format" used in the schema that the format checker cannot actually check.
+
+    Several of jsonschema's format checkers depend on optional packages (eg "date-time" needs rfc3339-validator).  If
+    the package is not installed, the format is silently treated as valid, so, eg, "2026-02-30T08:00:00Z" would be
+    accepted.  (The "pattern" on such fields still catches most, but not all, mistakes.)
+    """
+    schema_uris = sorted(uri for uri in registry
+                         if isinstance(registry.contents(uri), dict) and registry.contents(uri).get("$id") == uri)
+    used: dict[str, str] = {}
+    for uri in schema_uris:
+        file_name = uri.rsplit("/", 1)[-1]
+        for pointer, format_name in walk_formats(registry.contents(uri)):
+            used.setdefault(format_name, f"{file_name}{pointer or '/'}")
+    return [f"format \"{format_name}\" (used at eg {where}) is not being checked -- for full checking, "
+            f"install jsonschema with the format extras, eg `pip install \"jsonschema[format-nongpl]\"`"
+            for format_name, where in sorted(used.items()) if format_name not in format_checker.checkers]
 
 
 #=======================================================================================================================
@@ -268,27 +377,28 @@ def check_local_ids(root: dict, result: Result) -> dict[str, tuple[str, str, Any
     return defined
 
 
-def check_references(root: dict, defined: dict[str, tuple[str, str, Any]], result: Result) -> None:
+def check_references(root: dict, defined: dict[str, tuple[str, str, Any]], reference_fields: dict[str, str],
+                     result: Result) -> None:
     for path, obj in walk(root, "/DotBeer"):
         if not isinstance(obj, dict):
             continue
         for key, value in obj.items():
-            if key in REFERENCE_FIELDS:
-                expected_section = REFERENCE_FIELDS[key]
+            if key in reference_fields:
+                expected = reference_fields[key]
                 if not isinstance(value, str):
                     continue  # Schema validation will already have complained
                 if value not in defined:
                     result.errors.append(f"{path}/{key}: local ID \"{value}\" is not defined anywhere in this file "
-                                         f"(expected an item in \"{expected_section}\")")
+                                         f"(expected an item in {expected})")
                     continue
-                actual_section, target_path, target = defined[value]
-                if actual_section != expected_section:
+                _, target_path, target = defined[value]
+                actual = target_path.rsplit("/", 1)[0]
+                if actual != expected:
                     result.errors.append(f"{path}/{key}: local ID \"{value}\" refers to {label(target, target_path)}, "
-                                         f"which is in \"{actual_section}\", but {key} must refer to an item in "
-                                         f"\"{expected_section}\"")
+                                         f"which is in {actual}, but {key} must refer to an item in {expected}")
             elif key.endswith("_id") and key not in NON_REFERENCE_ID_FIELDS:
-                result.warnings.append(f"{path}/{key}: field looks like a local ID reference, but validate.py does "
-                                       f"not know what type it should refer to (update REFERENCE_FIELDS)")
+                result.warnings.append(f"{path}/{key}: field looks like a local ID reference, but its schema has no "
+                                       f"x-refers-to annotation, so validate.py cannot check it")
 
 
 def check_addition_steps(root: dict, defined: dict[str, tuple[str, str, Any]], result: Result) -> None:
@@ -320,11 +430,6 @@ def check_addition_steps(root: dict, defined: dict[str, tuple[str, str, Any]], r
                     continue  # Already reported as a dangling reference
                 procedure = defined[procedure_id][2]
                 num_steps = len(procedure.get(steps_field, []))
-                #
-                # Per Boil.beer.schema, a boil with no steps is the same as a standard single-step boil
-                #
-                if stage == "add_to_boil":
-                    num_steps = max(num_steps, 1)
                 if isinstance(schedule["step"], int) and schedule["step"] > num_steps:
                     result.errors.append(f"{where}: schedule is for step {schedule['step']} of {stage}, but "
                                          f"\"{procedure.get('name')}\" only has {num_steps} step(s)")
@@ -364,12 +469,12 @@ def check_brew_log_dates(root: dict, result: Result) -> None:
                                      f"{ferment_date} is before brew_date {brew_date}")
 
 
-def semantic_checks(document: Any, result: Result) -> None:
+def semantic_checks(document: Any, reference_fields: dict[str, str], result: Result) -> None:
     root = document.get("DotBeer") if isinstance(document, dict) else None
     if not isinstance(root, dict):
         return  # Schema validation will already have complained
     defined = check_local_ids(root, result)
-    check_references(root, defined, result)
+    check_references(root, defined, reference_fields, result)
     check_addition_steps(root, defined, result)
     check_ranges(root, result)
     check_brew_log_dates(root, result)
@@ -378,7 +483,8 @@ def semantic_checks(document: Any, result: Result) -> None:
 #=======================================================================================================================
 # Driver
 #=======================================================================================================================
-def validate_file(path: Path, validator: jsonschema.protocols.Validator) -> Result:
+def validate_file(path: Path, validator: jsonschema.protocols.Validator, schema_version: str,
+                  reference_fields: dict[str, str]) -> Result:
     result = Result()
     try:
         document = JsoncParser.parse_file(str(path))
@@ -386,8 +492,17 @@ def validate_file(path: Path, validator: jsonschema.protocols.Validator) -> Resu
         result.errors.append(f"cannot parse file: {e}")
         return result
     result.errors.extend(schema_errors(document, validator))
-    semantic_checks(document, result)
+    semantic_checks(document, reference_fields, result)
+    root = document.get("DotBeer") if isinstance(document, dict) else None
+    file_version = root.get("version") if isinstance(root, dict) else None
+    if isinstance(file_version, str) and file_version != schema_version:  # If not a string, schema already complained
+        result.version_mismatch = (f"/DotBeer/version: file is version {file_version}, but the schema is version "
+                                   f"{schema_version}")
     return result
+
+
+def is_example(path: Path) -> bool:
+    return path.resolve().is_relative_to(EXAMPLES_DIR.resolve())
 
 
 def expected_failures(path: Path) -> list[str]:
@@ -426,7 +541,7 @@ def main() -> int:
     parser.add_argument("-q", "--quiet", action="store_true", help="only report files with unexpected results")
     args = parser.parse_args()
 
-    root_schema, registry = load_schemas(Path(args.schema_dir))
+    root_schema, registry, schema_version = load_schemas(Path(args.schema_dir))
 
     ref_problems = check_schema_refs(registry)
     if ref_problems:
@@ -435,9 +550,19 @@ def main() -> int:
             print(f"    {problem}")
         return 2
 
+    reference_fields, refers_to_problems = load_reference_fields(registry, root_schema)
+    if refers_to_problems:
+        print("SCHEMA ERROR: problems with x-refers-to annotations:")
+        for problem in refers_to_problems:
+            print(f"    {problem}")
+        return 2
+
     validator_class = jsonschema.validators.validator_for(root_schema)
     validator_class.check_schema(root_schema)
     validator = validator_class(root_schema, registry=registry, format_checker=validator_class.FORMAT_CHECKER)
+
+    for warning in check_format_support(registry, validator_class.FORMAT_CHECKER):
+        print(f"WARNING: {warning}")
 
     files = collect_files(args.paths)
     if not files:
@@ -446,7 +571,7 @@ def main() -> int:
 
     num_unexpected = 0
     for path in files:
-        result = validate_file(path, validator)
+        result = validate_file(path, validator, schema_version, reference_fields)
         expectations = expected_failures(path)
         try:
             shown = path.resolve().relative_to(Path.cwd())
@@ -463,6 +588,18 @@ def main() -> int:
             ok = not missing
             status = ("PASS (invalid, as expected)" if ok else
                       "FAIL (invalid, but not for the expected reason: " + "; ".join(f'"{m}"' for m in missing) + ")")
+
+        #
+        # A version mismatch fails an example even if the example is meant to be invalid (otherwise the "expected"
+        # errors would hide it).  For any other file, it's just a warning.
+        #
+        if result.version_mismatch:
+            if is_example(path):
+                ok = False
+                status = "FAIL (example is not at the current schema version)"
+                result.errors.insert(0, result.version_mismatch)
+            else:
+                result.warnings.insert(0, result.version_mismatch)
 
         if not ok:
             num_unexpected += 1

@@ -9,7 +9,6 @@ Root element of all DotBeer documents.  Most of the Primary Types (ie ones that 
 | version | ✅ | [VersionNumber](#versionnumber) | DotBeer schema version used to create the file. |
 | output_by | ✅ | string | Application that wrote the file -- eg Brewtarget 5.2.1. |
 | timestamp | ✅ | [Measurement::DateTimeOffset](./Measurement.md#datetimeoffset) | Date and time file was created. |
-| $schema |  | string | It is not required or expected to include this field in a dotBeer file.  However, some tools such as VS Code make use of it for syntax highlighting and autocorrect, so we allow it to be set.  If it is present, the most sensible value for it to have is "https://json-schema.org/draft/2020-12/schema" (ie the same as the dotBeer schema files). |
 | hops |  | array of [Hop](./Hop.md) | Records detailing properties of unique hop varieties. |
 | fermentables |  | array of [Fermentable](./Fermentable.md) | Records for any ingredient that contributes to the gravity of the beer. |
 | miscs |  | array of [Misc](./Misc.md) | Records for ingredients that are not hops, fermentables or cultures.  Variously known as "miscellaneous ingredients", "non-fermentable adjuncts", "other ingredients", or "adjuncts that do not contribute to the gravity of the beer". |
@@ -43,7 +42,7 @@ The JSON Schema cannot validate that local IDs are correct - merely that they ad
 
 NOTE: If you are merging two or more dotBeer files, you will first need to ensure that there are no Local ID clashes in them.
 
-<strong>LocalId</strong> is a ``string``  matching regular expression [`^[A-Za-z0-9_]+$`](https://regex101.com/?regex=%5E%5BA-Za-z0-9_%5D%2B%24)
+<strong>LocalId</strong> is a ``string``  matching regular expression [`^[A-Za-z0-9_-]+$`](https://regex101.com/?regex=%5E%5BA-Za-z0-9_-%5D%2B%24)
 
 ## VersionNumber
 
@@ -55,4 +54,4 @@ We use semantic versioning, which encodes a version by a three-part version numb
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.1) on 2026-10-16 at 22:16:29+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-20 at 19:21:07+0200.

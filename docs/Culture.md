@@ -12,18 +12,18 @@ Collects the attributes of a microbial culture such as a yeast.
 | local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this Culture object. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Culture object. |
 | producer |  | string |  |
-| product_id |  | string |  |
+| product_id |  | string | Producer’s product code or number for this item. |
 | temperature_range |  | [Measurement::RangeOfTemperature](./Measurement.md#rangeoftemperature) | The recommended temperature range of fermentation by the culture producer. |
-| alcohol_tolerance |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The recommended limit of abv by the culture producer before attenuation stops. |
-| flocculation |  | Enum:<br>&nbsp;∙ `very low`<br>&nbsp;∙ `low`<br>&nbsp;∙ `medium low`<br>&nbsp;∙ `medium`<br>&nbsp;∙ `medium high`<br>&nbsp;∙ `high`<br>&nbsp;∙ `very high` | Flocculation refers to the ability of yeast to aggregate to form large flocs which drop out of suspension. |
+| alcohol_tolerance |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The recommended limit of abv by the culture producer before attenuation stops.<br /><br />This field is normally only meaningful for yeasts (not bacteria). |
+| flocculation |  | Enum:<br>&nbsp;∙ `very low`<br>&nbsp;∙ `low`<br>&nbsp;∙ `medium low`<br>&nbsp;∙ `medium`<br>&nbsp;∙ `medium high`<br>&nbsp;∙ `high`<br>&nbsp;∙ `very high` | Flocculation refers to the ability of yeast to aggregate to form large flocs which drop out of suspension.<br /><br />This field is normally only meaningful for yeasts (not bacteria). |
 | attenuation_range |  | [Measurement::RangeOfPercentageSimple](./Measurement.md#rangeofpercentagesimple) |  |
 | notes |  | string |  |
 | best_for |  | string | Recommended styles for a particular culture. |
 | max_reuse |  | `0 <= x ` | Maximum number of times to reuse a culture before a new lab source is recommended. |
-| pof |  | boolean | A POF+ culture is capable of producing phenols, which is a common distinctive property of saison, and brett yeasts. |
-| glucoamylase |  | boolean | A glucoamylase positive culture is capable of producing glucoamylase, the enzyme produced through expression of the diastatic gene, which allows yeast to attenuate dextrins and starches leading to a very low FG. This is positive in some saison/brett yeasts as well as the new gulo hybrid by Omega yeast labs. |
+| pof |  | boolean | Phenolic off-flavour positive: converts ferulic acid to 4-vinyl guaiacol (clove), typical of weizen, saison and many Belgian strains.  A POF+ culture is capable of producing phenols, which is a common distinctive property of saison, and brett yeasts.<br /><br />This field is normally only meaningful for yeasts (not bacteria). |
+| glucoamylase |  | boolean | STA1-positive (‘diastaticus’): secretes glucoamylase so can ferment dextrins and starch. Risk of very low FG, over-carbonation and cross-contamination.<br /><br />This field is normally only meaningful for yeasts (not bacteria). |
 | inventory |  | [CultureAmount](#cultureamount) |  |
-| killer |  | [KillerProperties](#killerproperties) |  |
+| killer |  | [KillerProperties](#killerproperties) | Information about any "killer yeast properties".<br /><br />This field is normally only meaningful for yeasts (not bacteria). |
 
 
 ---
@@ -60,4 +60,4 @@ Note that `neutral` being `true` implies all the other `producing_xxx_toxin` pro
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.9.1) on 2026-10-16 at 22:16:29+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-20 at 19:21:07+0200.

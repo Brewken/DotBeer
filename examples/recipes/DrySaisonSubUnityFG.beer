@@ -15,12 +15,12 @@
 //  • US customary units throughout (gal, lb, oz, °F, qt/lb)
 //  • A gravity in degrees Plato that is negative (−0.5 °P ≈ 0.998 SG), exercising the non-SG branch of Gravity
 //  • A sugar (non-grain) fermentable added to the boil
-//  • A boil with no steps (which, per the schema, means a standard single-step boil)
+//  • A boil with a single step (the simplest valid boil)
 //  • A culture with glucoamylase and phenolic off-flavour (POF+) flags set
 //
 {
   "DotBeer": {
-    "version": "0.9.0",
+    "version": "0.10.0",
     "output_by": "DotBeer examples (hand-written)",
     "timestamp": "2026-10-16T04:00:00-04:00",
 
@@ -105,7 +105,16 @@
         "name": "Default Boil",
         "local_id": "boil_default",
         "pre_boil_size": { "unit": "gal", "value": 6.5 },
-        "boil_steps": []
+        "boil_steps": [
+          {
+            "name": "Boil",
+            "step_time": { "unit": "min", "value": 60 },
+            "start_temperature": { "unit": "F", "value": 212.0 },
+            "end_temperature": { "unit": "F", "value": 212.0 },
+            "start_gravity": { "unit": "sg", "value": 1.048 },
+            "end_gravity": { "unit": "sg", "value": 1.056 }
+          }
+        ]
       }
     ],
 
@@ -169,7 +178,7 @@
               "amount": { "unit": "lb", "value": 1.0 }
             },
             {
-              // A step-less boil counts as a single step, so step 1 is fine here
+              // The boil has only one step, so this is the same as giving no step
               "fermentable_id": "ferm_sucrose",
               "schedule": {
                 "stage": "add_to_boil",

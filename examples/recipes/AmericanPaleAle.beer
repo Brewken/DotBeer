@@ -22,7 +22,7 @@
 //
 {
   "DotBeer": {
-    "version": "0.9.0",
+    "version": "0.10.0",
     "output_by": "DotBeer examples (hand-written)",
     "timestamp": "2026-10-16T10:00:00+02:00",
 
@@ -155,7 +155,7 @@
         "local_id": "misc_gypsum",
         "folder_path": "/Water Agents",
         "misc_type": "water agent",
-        "water_agent_type": "calcium sulfate",
+        "water_agent_type": "calcium sulfate dihydrate",
         "use_for": "Raises calcium and sulfate; accentuates hop bitterness.",
         "inventory": { "unit": "g", "value": 500 }
       },
@@ -615,7 +615,7 @@
             "measured_original_gravity": { "unit": "sg", "value": 1.051 },
             "measured_post_boil_volume": { "unit": "l", "value": 24.0 },
             "expected_volume_into_fv": { "unit": "l", "value": 21.0 },
-            "measured_volume_into_fermentation_vessel": { "unit": "l", "value": 21.5 },
+            "measured_volume_into_fv": { "unit": "l", "value": 21.5 },
             "measured_pitch_temperature": { "unit": "C", "value": 18.5 },
             "expected_final_gravity": { "unit": "sg", "value": 1.011 },
             "measured_final_gravity": { "unit": "sg", "value": 1.010 },
