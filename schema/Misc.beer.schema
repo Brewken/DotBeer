@@ -52,10 +52,10 @@
       ]
     },
     "water_agent_type": {
-      "description": "Must be set if and only if `misc_type` is `water agent`.<br>`calcium chloride anhydrous` = CaCl₂<br>`calcium chloride dihydrate` = CaCl₂·2H₂O (Usual food-grade “flake”)<br>`calcium carbonate` = CaCO₃ (anhydrous; eg chalk)”<br>`calcium sulfate dihydrate` = CaSO₄·2H₂O (gypsum)<br>`calcium hydroxide` = Ca(OH)₂ (pickling lime)<br>`magnesium sulfate heptahydrate` = MgSO₄·7H₂O  aka Epsom salt<br>`magnesium chloride hexahydrate` = MgCl₂·6H₂O<br>`sodium chloride` = NaCl  aka \"regular\" salt<br>`sodium bicarbonate` = NaHCO₃<br>`lactic acid` = CH₃CH(OH)CO₂H (extended formula) = C₃H₆O₃ (regular formula)<br>`phosphoric acid` = H₃PO₄<br>`sulfuric acid` = H₂SO₄<br>`hydrochloric acid` = HCl<br>`other` = none of the above",
+      "description": "Must be set if and only if `misc_type` is `water agent`.<br>`calcium chloride anhydrous` = CaCl₂<br>`calcium chloride dihydrate` = CaCl₂·2H₂O (Usual food-grade “flake”)<br>`calcium carbonate` = CaCO₃ (anhydrous; eg chalk)<br>`calcium sulfate dihydrate` = CaSO₄·2H₂O (gypsum)<br>`calcium hydroxide` = Ca(OH)₂ (pickling lime)<br>`magnesium sulfate heptahydrate` = MgSO₄·7H₂O  aka Epsom salt<br>`magnesium chloride hexahydrate` = MgCl₂·6H₂O<br>`sodium chloride` = NaCl  aka \"regular\" salt<br>`sodium bicarbonate` = NaHCO₃<br>`lactic acid` = CH₃CH(OH)CO₂H (extended formula) = C₃H₆O₃ (regular formula)<br>`phosphoric acid` = H₃PO₄<br>`sulfuric acid` = H₂SO₄<br>`hydrochloric acid` = HCl<br>`other` = none of the above",
       "enum": [
         "calcium chloride anhydrous",
-        // Calcium chloride has multimple hydrates, but only this one is used in brewing
+        // Calcium chloride has multiple hydrates, but only this one is used in brewing
         "calcium chloride dihydrate",
         // Only the anhydrous form of calcium carbonate is used in brewing
         "calcium carbonate",
@@ -94,10 +94,9 @@
     },
     "notes": {
       "type": "string"
-    },
-    "inventory": {
-      "$ref": "#/$defs/MiscAmount"
     }
+    // BeerJSON and BeerXML have `inventory` here, but we prefer to keep inventory separate and more detailed via
+    // StockPurchaseMisc and StockUseMisc
   },
   "required": [
     "name",

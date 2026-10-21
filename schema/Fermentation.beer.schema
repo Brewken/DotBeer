@@ -62,7 +62,7 @@
         {
           "properties": {
             "free_rise": {
-              "description": "Free rise is used to indicate a fermentation step where the exothermic fermentation is allowed to raise the temperature without restriction This is either True or false.",
+              "description": "Free rise is used to indicate a fermentation step where the exothermic fermentation is allowed to raise the temperature without restriction.",
               "type": "boolean"
             },
             "vessel": {

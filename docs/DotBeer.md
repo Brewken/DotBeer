@@ -20,6 +20,10 @@ Root element of all DotBeer documents.  Most of the Primary Types (ie ones that 
 | styles |  | array of [Style](./Style.md) | Details of judging guidelines for individual beer styles. |
 | equipments |  | array of [Equipment](./Equipment.md) | Provides necessary information for brewing equipment. |
 | recipes |  | array of [Recipe](./Recipe.md) | Records containing a minimal collection of the description of ingredients, procedures and other required parameters necessary to recreate a batch of beer. |
+| culture_stock_purchases |  | array of [StockPurchase::StockPurchaseCulture](./StockPurchase.md#stockpurchaseculture) |  |
+| fermentable_stock_purchases |  | array of [StockPurchase::StockPurchaseFermentable](./StockPurchase.md#stockpurchasefermentable) |  |
+| hop_stock_purchases |  | array of [StockPurchase::StockPurchaseHop](./StockPurchase.md#stockpurchasehop) |  |
+| misc_stock_purchases |  | array of [StockPurchase::StockPurchaseMisc](./StockPurchase.md#stockpurchasemisc) |  |
 
 
 ---
@@ -54,4 +58,4 @@ We use semantic versioning, which encodes a version by a three-part version numb
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 15:04:15+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 19:47:37+0200.

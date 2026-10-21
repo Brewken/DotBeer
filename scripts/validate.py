@@ -19,7 +19,8 @@ Each file is checked in two passes:
   2. Against the rules that JSON Schema cannot express (see the description of LocalId in DotBeer.beer.schema):
        • every local ID is unique within the file, across all object types
        • every referred-to local ID is defined in the same file
-       • every reference points to an object of the right type (eg a recipe's style_id is the ID of a style)
+       • every reference points to an object of the right type (eg a recipe's style_id is the ID of a style, or a
+         stock use's brew_log_id is the ID of a brew log in one of the recipes)
      plus a few other cross-field consistency checks:
        • an addition schedule's `step` exists in the relevant mash / boil / fermentation procedure
        • a range's minimum is not greater than its maximum (where both use the same unit)
@@ -220,6 +221,9 @@ def walk_refers_to(node: Any, pointer: str = "") -> Iterator[tuple[str, str, Any
     Yields (JSON pointer, property name, "x-refers-to" value) for every property schema that has an "x-refers-to"
     annotation.  (This is our own keyword: it says that the property holds a local ID, and gives, as a JSON Pointer into
     the dotBeer file, the array in which the referred-to object must be.  Eg "x-refers-to": "/DotBeer/hops".)
+
+    A "*" token matches any index of an array, for objects that are nested inside other objects.  Eg
+    "x-refers-to": "/DotBeer/recipes/*/brew_logs" means the referred-to object must be a brew log of some recipe.
     """
     if isinstance(node, dict):
         for key, value in node.items():
@@ -235,6 +239,58 @@ def walk_refers_to(node: Any, pointer: str = "") -> Iterator[tuple[str, str, Any
 def split_json_pointer(pointer: str) -> list[str]:
     """Splits a JSON Pointer (RFC 6901) into its (unescaped) reference tokens"""
     return [token.replace("~1", "/").replace("~0", "~") for token in pointer.split("/")[1:]]
+
+
+def deref(node: Any, resolver: referencing.Resolver) -> tuple[Any, referencing.Resolver]:
+    """
+    Follows "$ref"s until we get to a schema that is not just a reference.  Returns that schema and the resolver to use
+    for any relative "$ref"s inside it (which may be in a different schema file from the one we started in).
+    """
+    seen = set()
+    while isinstance(node, dict) and isinstance(node.get("$ref"), str):
+        if id(node) in seen:
+            break  # Circular $ref -- shouldn't happen in our schema, but don't loop forever if it does
+        seen.add(id(node))
+        resolved = resolver.lookup(node["$ref"])
+        node, resolver = resolved.contents, resolved.resolver
+    return node, resolver
+
+
+def schema_for_pointer(registry: referencing.Registry, root_schema: dict[str, Any], pointer: str) -> Any:
+    """
+    Returns the schema that applies, in a dotBeer file, at the place given by a JSON Pointer such as "/DotBeer/hops" or
+    "/DotBeer/recipes/*/brew_logs", or None if there is no such place.  A "*" token means "any item of this array".
+
+    We follow "$ref"s (so that we can get from the root schema into, eg, Recipe.beer.schema), "properties" and "items".
+    We don't look inside "allOf" etc, as that is not needed for any of the places local IDs are currently defined.
+    """
+    node: Any = root_schema
+    resolver = registry.resolver(base_uri=root_schema["$id"])
+    for token in split_json_pointer(pointer):
+        node, resolver = deref(node, resolver)
+        if not isinstance(node, dict):
+            return None
+        if token == "*":
+            if node.get("type") != "array":
+                return None
+            node = node.get("items")
+        else:
+            node = node.get("properties", {}).get(token)
+        if node is None:
+            return None
+    node, _ = deref(node, resolver)
+    return node
+
+
+def pointer_matches(pattern: str, pointer: str) -> bool:
+    """
+    True if a JSON Pointer to an array in a dotBeer file (eg "/DotBeer/recipes/2/brew_logs") matches an "x-refers-to"
+    target (eg "/DotBeer/recipes/*/brew_logs"), where "*" matches any array index.
+    """
+    pattern_tokens, pointer_tokens = split_json_pointer(pattern), split_json_pointer(pointer)
+    return len(pattern_tokens) == len(pointer_tokens) and all(
+        p == a or (p == "*" and a.isdigit()) for p, a in zip(pattern_tokens, pointer_tokens)
+    )
 
 
 def load_reference_fields(registry: referencing.Registry,
@@ -258,15 +314,15 @@ def load_reference_fields(registry: referencing.Registry,
                 problems.append(f"{where}: x-refers-to must be a JSON Pointer string, eg \"/DotBeer/hops\"")
                 continue
             #
-            # Check the target exists in the schema, by following "properties" down from the root schema.  (We don't
-            # follow $refs, but we don't need to, as the arrays of top-level objects are all defined directly in
-            # DotBeer.beer.schema.)
+            # Check the target exists in the schema, by following it down from the root schema.  (This needs to
+            # follow $refs because targets such as "/DotBeer/recipes/*/brew_logs" are inside other schema files.)
             #
-            node: Any = root_schema
-            for token in split_json_pointer(target):
-                node = node.get("properties", {}).get(token) if isinstance(node, dict) else None
+            try:
+                node = schema_for_pointer(registry, root_schema, target)
+            except referencing.exceptions.Unresolvable:
+                node = None  # check_schema_refs() will normally have caught this already
             if not isinstance(node, dict) or node.get("type") != "array":
-                problems.append(f"{where}: x-refers-to \"{target}\" is not an array property of the root schema")
+                problems.append(f"{where}: x-refers-to \"{target}\" is not an array in the schema")
                 continue
             if name in fields and fields[name][0] != target:
                 problems.append(f"{where}: x-refers-to \"{target}\" conflicts with \"{fields[name][0]}\" for the "
@@ -393,7 +449,7 @@ def check_references(root: dict, defined: dict[str, tuple[str, str, Any]], refer
                     continue
                 _, target_path, target = defined[value]
                 actual = target_path.rsplit("/", 1)[0]
-                if actual != expected:
+                if not pointer_matches(expected, actual):
                     result.errors.append(f"{path}/{key}: local ID \"{value}\" refers to {label(target, target_path)}, "
                                          f"which is in {actual}, but {key} must refer to an item in {expected}")
             elif key.endswith("_id") and key not in NON_REFERENCE_ID_FIELDS:

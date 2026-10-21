@@ -99,7 +99,7 @@
       //
       // In BeerJSON (and draft BeerXML 2.01), this is called `percent_lost`.
       //
-      "description": "The percentage of hop alpha lost in 6 months of storage at room temperature (~20 °C)”.\n\nNote that this is percentage and not percentage points.  So, eg, if a hop starts out with 4.0% `alpha_acid` and has 25% `six_month_alpha_loss`, then we would expect its alpha acid to be 3.0% after six months in storage.",
+      "description": "The percentage of hop alpha lost in 6 months of storage at room temperature (~20 °C).\n\nNote that this is percentage and not percentage points.  So, eg, if a hop starts out with 4.0% `alpha_acid` and has 25% `six_month_alpha_loss`, then we would expect its alpha acid to be 3.0% after six months in storage.",
       "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "substitutes": {
@@ -120,10 +120,9 @@
     "xanthohumol": {
       "description": "Xanthohumol as a percentage of hop mass.\n\nXanthohumol is a natural flavonoid found in the female inflorescences of hops.  Its impact on beer taste is not as significant as that of alpha acids or essential oils, but it may contribute to the overall complexity and subtle nuances in beer flavors.  (Xanthohumol has also been the subject of considerable research for its potential health benefits, but typically in quantities far exceeding any amount that could be obtained by ordinary dietary intake.)",
       "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
-    },
-    "inventory": {
-      "$ref": "#/$defs/HopAmount"
     }
+    // BeerJSON and BeerXML have `inventory` here, but we prefer to keep inventory separate and more detailed via
+    // StockPurchaseHop and StockUseHop
   },
   "required": [
     "name",

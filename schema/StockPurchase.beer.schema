@@ -73,7 +73,7 @@
           "$ref": "Measurement.beer.schema#/$defs/Date"
         },
         "reason": {
-          "description": "`used`¥¥¥¥¥This is typically auto-generated, eg \"Stock Use #1\"``.",
+          "description": "`used` is typically use in a recipe<br>`lost` is spillage and spoilage<br>`disposed` means deliberately disposed of (eg given to someone else or thrown away because past sell-by date).",
           //
           // We deliberately don't have stock adjustments here.  Instead, any discrepancy between what was ordered and
           // what it turns out we received is recorded in StockPurchaseHop etc in the amount_ordered and amount_received
@@ -88,8 +88,12 @@
             "disposed"
           ]
         },
-//        "brew":   { /* reference to a brew log, optional */ },
-        "comment":  {
+        "brew_log_id": {
+          "description": "The Local ID of the brew log corresponding to this use.  (Obviously the brew log in question must be in the \"brew_logs\" section of a recipe the same dotBeer file.)",
+          "x-refers-to": "/DotBeer/recipes/*/brew_logs",
+          "$ref": "DotBeer.beer.schema#/$defs/LocalId"
+        },
+        "note":  {
           "type": "string"
         }
       },
@@ -98,17 +102,88 @@
         "reason"
       ]
     },
-
-    // Thin per-ingredient layers: only the ingredient ref and amount type differ
-    "StockUseHop": {
-      "description": "Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.",
+    "StockUseCulture": {
       "allOf": [{ "$ref": "#/$defs/StockUseCommon" }],
       "properties": {
+        "amount_used": { "$ref": "Culture.beer.schema#/$defs/CultureAmount" }
       },
-      "required": ["amount_received"],
+      "required": ["amount_used"],
+      "unevaluatedProperties": false
+    },
+    "StockPurchaseCulture": {
+      "description": "Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.",
+      "allOf": [{ "$ref": "#/$defs/StockPurchaseCommon" }],
+      "properties": {
+        "Culture_id":    {
+          "description": "The Local ID of the Culture purchased.  (Obviously the culture in question must be in the \"cultures\" section of the same dotBeer file.)",
+          "x-refers-to": "/DotBeer/cultures",
+          "$ref": "DotBeer.beer.schema#/$defs/LocalId"
+        },
+        "amount_ordered": {
+          "$ref": "Culture.beer.schema#/$defs/CultureAmount"
+        },
+        "amount_received": {
+          "$ref": "Culture.beer.schema#/$defs/CultureAmount"
+        },
+        "stock_uses":   {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StockUseCulture"
+          }
+        }
+      },
+      "required": [
+        "Culture_id"
+        // Probably want at least one of amount_ordered and amount_received here
+      ],
+      "unevaluatedProperties": false
+    },
+    "StockUseFermentable": {
+      "allOf": [{ "$ref": "#/$defs/StockUseCommon" }],
+      "properties": {
+        "amount_used": { "$ref": "Fermentable.beer.schema#/$defs/FermentableAmount" }
+      },
+      "required": ["amount_used"],
+      "unevaluatedProperties": false
+    },
+    "StockPurchaseFermentable": {
+      "description": "Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.",
+      "allOf": [{ "$ref": "#/$defs/StockPurchaseCommon" }],
+      "properties": {
+        "fermentable_id":    {
+          "description": "The Local ID of the fermentable purchased.  (Obviously the fermentable in question must be in the \"fermentables\" section of the same dotBeer file.)",
+          "x-refers-to": "/DotBeer/fermentables",
+          "$ref": "DotBeer.beer.schema#/$defs/LocalId"
+        },
+        "amount_ordered": {
+          "$ref": "Fermentable.beer.schema#/$defs/FermentableAmount"
+        },
+        "amount_received": {
+          "$ref": "Fermentable.beer.schema#/$defs/FermentableAmount"
+        },
+        "stock_uses":   {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StockUseFermentable"
+          }
+        }
+      },
+      "required": [
+        "fermentable_id"
+        // Probably want at least one of amount_ordered and amount_received here
+      ],
+      "unevaluatedProperties": false
+    },
+    "StockUseHop": {
+      "allOf": [{ "$ref": "#/$defs/StockUseCommon" }],
+      "properties": {
+        "amount_used": { "$ref": "Hop.beer.schema#/$defs/HopAmount" }
+      },
+      "required": ["amount_used"],
       "unevaluatedProperties": false
     },
     "StockPurchaseHop": {
+      "description": "Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.",
       "allOf": [{ "$ref": "#/$defs/StockPurchaseCommon" }],
       "properties": {
         "hop_id":    {
@@ -134,6 +209,42 @@
         // Probably want at least one of amount_ordered and amount_received here
       ],
       "unevaluatedProperties": false
+    },
+    "StockUseMisc": {
+      "allOf": [{ "$ref": "#/$defs/StockUseCommon" }],
+      "properties": {
+        "amount_used": { "$ref": "Misc.beer.schema#/$defs/MiscAmount" }
+      },
+      "required": ["amount_used"],
+      "unevaluatedProperties": false
+    },
+    "StockPurchaseMisc": {
+      "description": "Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.",
+      "allOf": [{ "$ref": "#/$defs/StockPurchaseCommon" }],
+      "properties": {
+        "misc_id":    {
+          "description": "The Local ID of the misc purchased.  (Obviously the misc in question must be in the \"miscs\" section of the same dotBeer file.)",
+          "x-refers-to": "/DotBeer/miscs",
+          "$ref": "DotBeer.beer.schema#/$defs/LocalId"
+        },
+        "amount_ordered": {
+          "$ref": "Misc.beer.schema#/$defs/MiscAmount"
+        },
+        "amount_received": {
+          "$ref": "Misc.beer.schema#/$defs/MiscAmount"
+        },
+        "stock_uses":   {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StockUseMisc"
+          }
+        }
+      },
+      "required": [
+        "misc_id"
+        // Probably want at least one of amount_ordered and amount_received here
+      ],
+      "unevaluatedProperties": false
     }
-    // TODO: same pattern for Culture, Fermentable, Misc
-  }}
+  }
+}

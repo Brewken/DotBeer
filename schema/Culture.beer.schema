@@ -102,12 +102,11 @@
       "type": "boolean"
     },
     "glucoamylase": {
-      "description": "STA1-positive (‘diastaticus’): secretes glucoamylase so can ferment dextrins and starch. Risk of very low FG, over-carbonation and cross-contamination.\n\nThis field is normally only meaningful for yeasts (not bacteria).",
+      "description": "STA1-positive (‘diastaticus’): secretes glucoamylase so can ferment dextrins and starch.  Risk of very low FG, over-carbonation and cross-contamination.\n\nThis field is normally only meaningful for yeasts (not bacteria).",
       "type": "boolean"
     },
-    "inventory": {
-      "$ref": "#/$defs/CultureAmount"
-    },
+    // BeerJSON and BeerXML have `inventory` here, but we prefer to keep inventory separate and more detailed via
+    // StockPurchaseCulture and StockUseCulture
     "killer": {
       "description": "Information about any \"killer yeast properties\".\n\nThis field is normally only meaningful for yeasts (not bacteria).",
       "$ref": "#/$defs/KillerProperties"

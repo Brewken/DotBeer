@@ -48,8 +48,7 @@
         "six_month_alpha_loss": { "unit": "%", "value": 15.0 },
         "cohumulone": { "unit": "%", "value": 26.0 },
         "notes": "Clean, neutral bittering hop.",
-        "substitutes": "Warrior, Horizon",
-        "inventory": { "unit": "g", "value": 250 }
+        "substitutes": "Warrior, Horizon"
       },
       {
         "name": "Cascade",
@@ -83,8 +82,7 @@
         },
         "polyphenols": { "unit": "%", "value": 4.0 },
         "xanthohumol": { "unit": "%", "value": 0.3 },
-        "notes": "Floral, grapefruit.",
-        "inventory": { "unit": "oz", "value": 8 }
+        "notes": "Floral, grapefruit."
       },
       {
         "name": "Centennial",
@@ -124,8 +122,7 @@
         "fan": { "unit": "mg/l", "value": 150 },
         "beta_glucan": { "unit": "mg/l", "value": 100 },
         "fermentability": { "unit": "%", "value": 82.0 },
-        "notes": "Classic English base malt.",
-        "inventory": { "unit": "kg", "value": 25 }
+        "notes": "Classic English base malt."
       },
       {
         "name": "Munich Malt",
@@ -156,16 +153,14 @@
         "folder_path": "/Water Agents",
         "misc_type": "water agent",
         "water_agent_type": "calcium sulfate dihydrate",
-        "use_for": "Raises calcium and sulfate; accentuates hop bitterness.",
-        "inventory": { "unit": "g", "value": 500 }
+        "use_for": "Raises calcium and sulfate; accentuates hop bitterness."
       },
       {
         "name": "Whirlfloc",
         "local_id": "misc_whirlfloc",
         "misc_type": "fining",
         "producer": "Kerry",
-        "use_for": "Kettle fining to help protein coagulation.",
-        "inventory": { "unit": "count", "value": 10 }
+        "use_for": "Kettle fining to help protein coagulation."
       }
     ],
 
@@ -198,8 +193,7 @@
           "producing_K28_toxin": false,
           "producing_Klus_toxin": false,
           "neutral": true
-        },
-        "inventory": { "unit": "count", "value": 3 }
+        }
       }
     ],
 

@@ -67,7 +67,7 @@
       ]
     },
     "yield_fine_grind": {
-      "description": "Extract Yield Dry Basis Fine Grind (DBFG) - aka percentage yield, compared to sucrose, of a fine grind, or, for extracts and sugars, the raw yield by weight”.",
+      "description": "Extract Yield Dry Basis Fine Grind (DBFG) - aka percentage yield, compared to sucrose, of a fine grind, or, for extracts and sugars, the raw yield by weight.",
       "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "yield_coarse_grind": {
@@ -118,9 +118,8 @@
       "description": "True if the fermentable must be mashed, false if it can be steeped.\n\nThis field is normally only meaningful when `fermentable_type` is `grain`.",
       "type": "boolean"
     },
-    "inventory": {
-      "$ref": "#/$defs/FermentableAmount"
-    },
+    // BeerJSON and BeerXML have `inventory` here, but we prefer to keep inventory separate and more detailed via
+    // StockPurchaseFermentable and StockUseFermentable
     "hardness_prp_glassy": {
       "description": "Percentage of malt that is \"glassy\".  For a malt, % \"glassy\" + % \"half glassy\" + % \"mealy\" = 100%.\n\nMaltsters classify kernels by how much of the endosperm is hard and glassy (vitreous) rather than soft and mealy: mealy kernels are up to 25% glassy, half-glassy 26–75%, and glassy more than 75%.  Glassy kernels are generally a sign of poor modification, and mill and mash less well.  As a rule of thumb, a base malt should be at least 90% mealy, and at least 95% mealy for a single-infusion mash.  (See https://byo.com/article/understanding-malt-spec-sheets-advanced-brewing/ and https://www.probrewer.com/library/malt/understanding-malt-analysis-sheets/.)\n\nThis field is normally only meaningful for *malted* grains.",
       "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"

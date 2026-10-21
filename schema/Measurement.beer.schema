@@ -162,7 +162,8 @@
       "required": [
         "iso_alphabetic_code",
         "amount"
-      ]
+      ],
+      "unevaluatedProperties": false
     },
     "Date": {
       "type": "string",

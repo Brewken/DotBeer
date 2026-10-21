@@ -21,8 +21,7 @@ Collects the attributes of a microbial culture such as a yeast.
 | best_for |  | string | Recommended styles for a particular culture. |
 | max_reuse |  | `0 <= x ` | Maximum number of times to reuse a culture before a new lab source is recommended. |
 | pof |  | boolean | Phenolic off-flavour positive: converts ferulic acid to 4-vinyl guaiacol (clove), typical of weizen, saison and many Belgian strains.  A POF+ culture is capable of producing phenols, which is a common distinctive property of saison, and brett yeasts.<br /><br />This field is normally only meaningful for yeasts (not bacteria). |
-| glucoamylase |  | boolean | STA1-positive (‘diastaticus’): secretes glucoamylase so can ferment dextrins and starch. Risk of very low FG, over-carbonation and cross-contamination.<br /><br />This field is normally only meaningful for yeasts (not bacteria). |
-| inventory |  | [CultureAmount](#cultureamount) |  |
+| glucoamylase |  | boolean | STA1-positive (‘diastaticus’): secretes glucoamylase so can ferment dextrins and starch.  Risk of very low FG, over-carbonation and cross-contamination.<br /><br />This field is normally only meaningful for yeasts (not bacteria). |
 | killer |  | [KillerProperties](#killerproperties) | Information about any "killer yeast properties".<br /><br />This field is normally only meaningful for yeasts (not bacteria). |
 
 
@@ -60,4 +59,4 @@ Note that `neutral` being `true` implies all the other `producing_xxx_toxin` pro
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 15:04:15+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 19:47:37+0200.
