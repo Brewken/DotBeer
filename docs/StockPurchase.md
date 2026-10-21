@@ -22,7 +22,7 @@ Each type of ingredient (Culture, Fermentable, Hop, Misc) has a corresponding st
 | supplier |  | string |  |
 | note |  | string | This is intended to be a brief note (hence singular *note* rather than *notes* that we use elsewhere for more extensive text). |
 | purchase_price |  | [Measurement::CurrencyAmount](./Measurement.md#currencyamount) | Excludes any amount specified in `purchase_tax`.  This field is optional as a "stock purchase" could potentially be a stock acquisition in which no money changed hands. |
-| purchase_tax |  | [Measurement::CurrencyAmount](./Measurement.md#currencyamount) | If this is present, then it represents a tax ammount (eg sales tax, VAT, import duty) not included in `purchase_price` (and in particular, a `purchase_tax` of zero means no tax was paid on the purchase).  If `purchase_tax` is not present, it means `purchase_price` is inclusive of (an unspecified amount of ) tax. |
+| purchase_tax |  | [Measurement::CurrencyAmount](./Measurement.md#currencyamount) | If this is present, then it represents a tax amount (eg sales tax, VAT, import duty) not included in `purchase_price` (and in particular, a `purchase_tax` of zero means no tax was paid on the purchase).  If `purchase_tax` is not present, it means `purchase_price` is inclusive of (an unspecified amount of) tax. |
 | shipping_cost |  | [Measurement::CurrencyAmount](./Measurement.md#currencyamount) | This is whatever part of the shipping cost of an order that the brewer (or her brewing software) chooses to allocate to this ingredient purchase. |
 
 ## StockUseCommon
@@ -119,4 +119,4 @@ Note that both `amount_ordered` and `amount_received` need to be the same type o
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 21:22:31+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 21:58:05+0200.
