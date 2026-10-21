@@ -30,6 +30,10 @@ A dotBeer (<span style="color:green; font-weight: bold; font-family: monospace;"
 
   - [Recipe](../docs/Recipe.md)
 
+#### Inventory
+
+  - [StockPurchase](../docs/StockPurchase.md)
+
 #### Other
 
   - [Measurement](../docs/Measurement.md)
@@ -44,4 +48,4 @@ If a field is marked `deprecated` in the schema that usually means it should be 
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-20 at 19:21:07+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 15:04:15+0200.

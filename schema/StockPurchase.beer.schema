@@ -1,0 +1,139 @@
+//======================================================================================================================
+// schema/StockPurchase.beer.schema is part of DotBeer and is copyright the following authors 2026:
+//   • Matt Young <mfsy@yahoo.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
+// was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+//
+// DotBeer is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
+//======================================================================================================================
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dotbeer.org/schema/0.10.0/StockPurchase.beer.schema",
+  "title": "StockPurchase",
+  "description": "Each type of ingredient (Culture, Fermentable, Hop, Misc) has a corresponding stock purchase",
+  "$defs": {
+    // Shared fields; deliberately NO unevaluatedProperties here
+    "StockPurchaseCommon": {
+      "type": "object",
+      "properties": {
+        "name": {
+          //
+          // At the moment, this (in combination with date_ordered/date_received) is the only way to group multiple
+          // purchases together.   It's planned to have a more structure to support such groupings in future (eg
+          // shopping lists / orders).
+          //
+          "description": "This is typically a short label for the purchase, eg \"April visit to LHBS\".",
+          "type": "string"
+        },
+        "date_ordered": {
+          "$ref": "Measurement.beer.schema#/$defs/Date"
+        },
+        "date_received": {
+          "$ref": "Measurement.beer.schema#/$defs/Date"
+        },
+        "date_best_before": {
+          "$ref": "Measurement.beer.schema#/$defs/Date"
+        },
+        "supplier": {
+          "type": "string"
+        },
+        "note": {
+          "description": "This is intended to be a brief note (hence singular *note* rather than *notes* that we use elsewhere for more extensive text).",
+          "type": "string"
+        },
+        "purchase_price": {
+          "$ref": "Measurement.beer.schema#/$defs/CurrencyAmount"
+        },
+        "purchase_tax": {
+          "$ref": "Measurement.beer.schema#/$defs/CurrencyAmount"
+        },
+        "shipping_cost": {
+          "$ref": "Measurement.beer.schema#/$defs/CurrencyAmount"
+        }
+      },
+      "required": [
+        // TBD: Probably want to say at least one of date_ordered and date_received should be set.  But need to enforce
+        //      this in Brewken/Brewtarget too.
+      ]
+    },
+    "StockUseCommon": {
+      //
+      // TBD: In Brewken/Brewtarget, we can optionally link a stock use to the recipe in which the use was made.  I
+      // haven't yet added a field to represent that here.  Need to think about value vs complexity.
+      //
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "This is typically auto-generated, eg \"Stock Use #1\".",
+          "type": "string"
+        },
+        "date": {
+          "$ref": "Measurement.beer.schema#/$defs/Date"
+        },
+        "reason": {
+          "description": "`used`¥¥¥¥¥This is typically auto-generated, eg \"Stock Use #1\"``.",
+          //
+          // We deliberately don't have stock adjustments here.  Instead, any discrepancy between what was ordered and
+          // what it turns out we received is recorded in StockPurchaseHop etc in the amount_ordered and amount_received
+          // fields.  This is partly a simplification (eg we don't have to deal with negative amounts) and partly
+          // philosophical (using or otherwise disposing of stock is a different thing than discovering you have a
+          // different amount than you thought you did).  That said, if there were strong user demand for stock
+          // adjustments, then it would be entirely feasible to add them.
+          //
+          "enum": [
+            "used",
+            "lost",
+            "disposed"
+          ]
+        },
+//        "brew":   { /* reference to a brew log, optional */ },
+        "comment":  {
+          "type": "string"
+        }
+      },
+      "required": [
+        "date",
+        "reason"
+      ]
+    },
+
+    // Thin per-ingredient layers: only the ingredient ref and amount type differ
+    "StockUseHop": {
+      "description": "Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.",
+      "allOf": [{ "$ref": "#/$defs/StockUseCommon" }],
+      "properties": {
+      },
+      "required": ["amount_received"],
+      "unevaluatedProperties": false
+    },
+    "StockPurchaseHop": {
+      "allOf": [{ "$ref": "#/$defs/StockPurchaseCommon" }],
+      "properties": {
+        "hop_id":    {
+          "description": "The Local ID of the hop purchased.  (Obviously the hop in question must be in the \"hops\" section of the same dotBeer file.)",
+          "x-refers-to": "/DotBeer/hops",
+          "$ref": "DotBeer.beer.schema#/$defs/LocalId"
+        },
+        "amount_ordered": {
+          "$ref": "Hop.beer.schema#/$defs/HopAmount"
+        },
+        "amount_received": {
+          "$ref": "Hop.beer.schema#/$defs/HopAmount"
+        },
+        "stock_uses":   {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StockUseHop"
+          }
+        }
+      },
+      "required": [
+        "hop_id"
+        // Probably want at least one of amount_ordered and amount_received here
+      ],
+      "unevaluatedProperties": false
+    }
+    // TODO: same pattern for Culture, Fermentable, Misc
+  }}

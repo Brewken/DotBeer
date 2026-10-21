@@ -68,6 +68,17 @@ Used where unitless amounts are required, such as 1 apple, or 1 yeast packet.  N
 | unit | ✅ | Enum:<br>&nbsp;∙ `count` |
 | value | ✅ | `0 <= x ` |
 
+## CurrencyAmount
+
+An amount of a currency, eg $1.23 or €3.45.
+
+<strong>CurrencyAmount</strong> is a JSON object with the following properties:
+
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| iso_alphabetic_code | ✅ |  matching regular expression [`^[A-WYZ][A-Z]{2}$`](https://regex101.com/?regex=%5E%5BA-WYZ%5D%5BA-Z%5D%7B2%7D%24) | The three-letter ISO 4217 alphabetic code for this currency, eg AUD for Australian Dollars, CAD for Canadian Dollars, USD for US Dollars.<br /><br />Note that codes beginning with X are not supported. |
+| amount | ✅ | `0 <= x ` |  |
+
 ## Date
 
 A calendar date in ISO 8601 / RFC 3339 format, ie YYYY-MM-DD.
@@ -321,4 +332,4 @@ For a single substance, volume-per-mass is the substance's "specific volume" (se
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-20 at 19:21:07+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 15:04:15+0200.

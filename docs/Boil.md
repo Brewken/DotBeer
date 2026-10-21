@@ -33,4 +33,4 @@ Individual step of a boil, including preboil steps, non-boiling pasteurization s
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-20 at 19:21:07+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 15:04:15+0200.

@@ -162,7 +162,11 @@
       "$ref": "Measurement.beer.schema#/$defs/MassFractionOrConcentration"
     },
     "fermentability": {
-      "description": "Fermentability - indicates a baseline typical apparent attenuation for a typical medium attenuation yeast.\n\nThis field is normally only meaningful for extracts (and possibly sugars and honey).",
+      "description": "Fermentability - indicates a baseline typical apparent attenuation for a typical medium attenuation yeast.\n\nThis field is normally only meaningful for extracts (and possibly sugars and honey).  Compare `fermentable_fraction`.",
+      "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
+    },
+    "fermentable_fraction": {
+      "description": "The percentage of this ingredient's extract that brewing yeast (*Saccharomyces*) can ferment.  The rest is treated as unfermentable when estimating final gravity and ABV: it raises both original and final gravity, but is not attenuated.  If this field is absent, 100% should be assumed.\n\nTypical values are 0% for lactose and around 10% for maltodextrin, which is mostly dextrins with a little glucose and maltose.\n\nThis is a property of the ingredient, not of the beer, and is intended for ingredients that are wholly or largely unfermentable.  Do not set it for ordinary malts, as the attenuation figures quoted for yeasts already allow for the unfermentable dextrins in a normal all-malt wort.  (By contrast, `fermentability` is the typical apparent attenuation of a wort made from the ingredient, and so already includes the effect of the yeast.)\n\nNote that some organisms (eg some *Brettanomyces* strains and lactic acid bacteria) can ferment sugars that brewing yeast cannot, so a recipe using them may attenuate further than this value implies.",
       "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "beta_glucan": {

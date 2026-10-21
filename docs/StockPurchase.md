@@ -1,0 +1,60 @@
+# StockPurchase
+
+Each type of ingredient (Culture, Fermentable, Hop, Misc) has a corresponding stock purchase
+
+
+---
+
+# Component Types
+
+## StockPurchaseCommon
+
+
+
+<strong>StockPurchaseCommon</strong> is a JSON object with the following properties:
+
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| name |  | string | This is typically a short label for the purchase, eg "April visit to LHBS". |
+| date_ordered |  | [Measurement::Date](./Measurement.md#date) |  |
+| date_received |  | [Measurement::Date](./Measurement.md#date) |  |
+| date_best_before |  | [Measurement::Date](./Measurement.md#date) |  |
+| supplier |  | string |  |
+| note |  | string | This is intended to be a brief note (hence singular *note* rather than *notes* that we use elsewhere for more extensive text). |
+| purchase_price |  | [Measurement::CurrencyAmount](./Measurement.md#currencyamount) |  |
+| purchase_tax |  | [Measurement::CurrencyAmount](./Measurement.md#currencyamount) |  |
+| shipping_cost |  | [Measurement::CurrencyAmount](./Measurement.md#currencyamount) |  |
+
+## StockUseCommon
+
+
+
+<strong>StockUseCommon</strong> is a JSON object with the following properties:
+
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| date | ✅ | [Measurement::Date](./Measurement.md#date) |  |
+| reason | ✅ | Enum:<br>&nbsp;∙ `used`<br>&nbsp;∙ `lost`<br>&nbsp;∙ `disposed` | `used`¥¥¥¥¥This is typically auto-generated, eg "Stock Use #1"``. |
+| name |  | string | This is typically auto-generated, eg "Stock Use #1". |
+| comment |  | string |  |
+
+## StockUseHop
+
+Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.
+
+No items to display.## StockPurchaseHop
+
+
+
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| hop_id | ✅ | [DotBeer::LocalId](./DotBeer.md#localid) | The Local ID of the hop purchased.  (Obviously the hop in question must be in the "hops" section of the same dotBeer file.) |
+| amount_ordered |  | [Hop::HopAmount](./Hop.md#hopamount) |  |
+| amount_received |  | [Hop::HopAmount](./Hop.md#hopamount) |  |
+| stock_uses |  | array of [StockUseHop](#stockusehop) |  |
+
+
+
+---
+
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 15:04:15+0200.

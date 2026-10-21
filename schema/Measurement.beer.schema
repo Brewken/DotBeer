@@ -131,6 +131,39 @@
       ],
       "unevaluatedProperties": false
     },
+    "CurrencyAmount": {
+      //
+      // CurrencyAmount is too small to merit its own schema file, so we bend the rules a bit to include it here with
+      // measures (mostly) of actual physical quantities.
+      //
+      "type": "object",
+      "description": "An amount of a currency, eg $1.23 or €3.45.",
+      "properties": {
+        //
+        // We use the ISO currency codes to avoid ambiguity (eg '$' symbol is used by a number of different currencies).
+        //
+        "iso_alphabetic_code": {
+          "type": "string",
+          "description": "The three-letter ISO 4217 alphabetic code for this currency, eg AUD for Australian Dollars, CAD for Canadian Dollars, USD for US Dollars.\n\nNote that codes beginning with X are not supported.",
+          "pattern": "^[A-WYZ][A-Z]{2}$"
+        },
+        "amount": {
+          //
+          // In the Brewken/Brewtarget code, we convert everything to "cents" (ie the minor unit of the currency) so we
+          // can store numbers as integers to avoid floating point rounding errors (see eg
+          // https://0.30000000000000004.com/).  However, since we are not doing any arithmetic here, I think it's OK to
+          // use JSON's floating point type.  This simplifies the storage (eg we don't have to record how many minor
+          // units the currency has per major unit).
+          //
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "iso_alphabetic_code",
+        "amount"
+      ]
+    },
     "Date": {
       "type": "string",
       "description": "A calendar date in ISO 8601 / RFC 3339 format, ie YYYY-MM-DD.",

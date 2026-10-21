@@ -136,6 +136,8 @@ preferredOrder = [
    "Style", "Equipment", "Water",
    ">Recipe is best read or written after all above (see note below)",
    "Recipe",
+   ">Inventory",
+   "StockPurchase",
    ">Other",
    "Measurement"
 ]
