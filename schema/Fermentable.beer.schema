@@ -111,11 +111,11 @@
       "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "max_in_batch": {
-      "description": "The recommended maximum percentage by weight to use in a grain bill.",
+      "description": "The recommended maximum percentage, by weight, of this ingredient in the total fermentables of a recipe.",
       "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "recommend_mash": {
-      "description": "True if the fermentable must be mashed, false if it can be steeped.\n\nThis field is normally only meaningful when `fermentable_type` is `grain`.",
+      "description": "True if it is recommended that the fermentable be mashed, false if it can be steeped.  This is a property of the ingredient, used when designing recipes: it does not say whether the fermentable is actually mashed in any particular recipe.\n\nThis field is normally only meaningful when `fermentable_type` is `grain`.",
       "type": "boolean"
     },
     // BeerJSON and BeerXML have `inventory` here, but we prefer to keep inventory separate and more detailed via

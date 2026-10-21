@@ -11,7 +11,7 @@ The information stored in a beer recipe.
 | author | ✅ | string |  |
 | batch_size | ✅ | [Measurement::Volume](./Measurement.md#volume) | The volume into the fermentation vessel. |
 | efficiency | ✅ | object | Stores each efficiency component. |
-| efficiency.brewhouse | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The percentage of sugar that makes it from the grain to the fermenter. |
+| efficiency.brewhouse | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The percentage of the available sugar that makes it from the fermentables into the fermenter.  This only applies to fermentables whose sugars have to be extracted (eg grain that is mashed or steeped).  The sugar in extracts and sugars is assumed to be fully available.  So, in an extract recipe with no grain, this value has no effect. |
 | ingredients | ✅ | object | All the recipe's ingredient additions.  Note that these lists are cross-references (via "local IDs") to ingredient definitions that must appear in the same file.  This saves on repetition when, eg, the same type of hop is added at more than one point.  If you are exporting one or more recipes, you must also export the full versions of their ingredients in the same file. |
 | ingredients.fermentable_additions | ✅ | array of [FermentableRecipeAddition](#fermentablerecipeaddition) | All the fermentable additions to the recipe |
 | ingredients.hop_additions |  | array of [HopRecipeAddition](#hoprecipeaddition) | All the hop additions to the recipe |
@@ -32,7 +32,7 @@ The information stored in a beer recipe.
 | notes |  | string |  |
 | original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The expected gravity of wort when transferred to the fermenter.  Typically this and `final_gravity` are calculated values, so they are written out for information but ignored (or overwritten by a calculated value) for recipes read in from a file. |
 | final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The expected gravity of beer at the end of fermentation.  Comments about `original_gravity` apply equally here. |
-| alcohol_by_volume |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  |
+| alcohol_by_volume |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The expected alcohol by volume of the finished beer, typically calculated from `original_gravity` and `final_gravity`.  Comments about `original_gravity` apply equally here.  (Measured values for an actual brew of the recipe go in its brew log.) |
 | ibu_estimate |  | [Measurement::Bitterness](./Measurement.md#bitterness) | Estimated bitterness of finished beer. |
 | ibu_estimate_formula |  | Enum:<br>&nbsp;∙ `Tinseth`<br>&nbsp;∙ `Rager`<br>&nbsp;∙ `Noonan`<br>&nbsp;∙ `mIBU`<br>&nbsp;∙ `Garetz`<br>&nbsp;∙ `SMPH`<br>&nbsp;∙ `Daniel`<br>&nbsp;∙ `other` | Used to differentiate which IBU formula is being used in a recipe. |
 | color_estimate |  | [Measurement::Color](./Measurement.md#color) | The color of the finished beer, using SRM or EBC. |
@@ -55,13 +55,15 @@ The information stored in a beer recipe.
 
 This object fully describes when, and for how long, a recipe addition should be made, with options for basis on time, gravity, or pH at any process step.
 
+Hop additions that BeerXML would call *first wort* and *aroma* (eg whirlpool, hop stand or flameout additions) are expressed through the step of the boil in which they are made.  By convention, a boil has a pre-boil step (ramping up from mash temperature), then the boil proper, then one or more post-boil steps (cooling).  So:<br> • a first wort addition is `add_to_boil` in the pre-boil step (typically `step` 1)<br> • an ordinary boil addition is `add_to_boil` in the boil proper (typically `step` 2), with `time` being how long before the end of the boil it is added<br> • a whirlpool or hop stand addition is `add_to_boil` in a post-boil step (typically `step` 3), with `duration` being how long the hops steep<br>Readers should identify these steps by their temperatures (a pre-boil step starts below boiling; a post-boil step ends below boiling) rather than relying on the step numbers.
+
 <strong>AdditionSchedule</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | stage | ✅ | Enum:<br>&nbsp;∙ `add_to_mash`<br>&nbsp;∙ `add_to_boil`<br>&nbsp;∙ `add_to_fermentation`<br>&nbsp;∙ `add_to_package` | Differentiates the specific process type when this ingredient addition is used.  Note that `add_to_package` is used, for example, for priming sugar added when beer is bottled. |
-| time |  | [Measurement::Time](./Measurement.md#time) | What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, when `stage` is `add_to_boil`, this is time *before* the *end* of the step (or of the boil if no step is specified).  For other values of `stage`, this is time *after* the *start* of the step (or of the process if no step is specified). |
-| duration |  | [Measurement::Time](./Measurement.md#time) | How long an ingredient addition remains, this was referred to as time in the BeerXML standard. Eg A 40 minute hop boil additions means to boil for 40 minutes, and a 2 day duration for a dry hop means to remove it after 2 days.  If this field is not set or not present, the addition is generally assumed to be removed at the end of the `stage` in which it was added.  (Thus, this field is normally only needed if an addition is to be removed before the end of the `stage` it was added.) |
+| time |  | [Measurement::Time](./Measurement.md#time) | What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, when `stage` is `add_to_boil`, this is time *before* the *end* of the step (or of the boil if no step is specified).  For other values of `stage`, this is time *after* the *start* of the step (or of the process if no step is specified).  If none of `time`, `specific_gravity` and `pH` is set, the addition is made at the start of the step (or of the process if no step is specified). |
+| duration |  | [Measurement::Time](./Measurement.md#time) | How long an ingredient addition remains, this was referred to as time in the BeerXML standard. Eg A 40 minute hop boil additions means to boil for 40 minutes, and a 2 day duration for a dry hop means to remove it after 2 days.  If this field is not set or not present, the addition is generally assumed to be removed at the end of the `stage` in which it was added.  For a whirlpool or hop stand addition (see above), this is the steeping time.  (Thus, this field is normally only needed if an addition is to be removed before the end of the `stage` it was added.) |
 | specific_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Used (as an alternative to `time`) to indicate when an addition is added based on a desired specific gravity.  Eg Add dry hop at when SG is 1.018. |
 | pH |  | [Measurement::Acidity](./Measurement.md#acidity) | Used (as an alternative to `time`) to indicate when an addition is added based on a desired specific pH.  Eg Add brett when pH is 3.4. |
 | step |  | `1 <= x ` | Used to indicate what step this ingredient timing addition is referencing.  Steps are numbered from 1.  Eg A value of 2 for add_to_fermentation would mean to add during the second fermentation step. |
@@ -172,4 +174,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 21:58:05+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 22:38:47+0200.

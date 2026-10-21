@@ -73,4 +73,4 @@ A hot-side vessel used for the boil.
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 21:58:05+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 22:38:47+0200.

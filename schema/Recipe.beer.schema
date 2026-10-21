@@ -63,7 +63,7 @@
         // BeerJSON has additional efficiencies for "conversion", "lauter" and "mash", but we don't support these in
         // Brewken or Brewtarget.
         "brewhouse": {
-          "description": "The percentage of sugar that makes it from the grain to the fermenter.",
+          "description": "The percentage of the available sugar that makes it from the fermentables into the fermenter.  This only applies to fermentables whose sugars have to be extracted (eg grain that is mashed or steeped).  The sugar in extracts and sugars is assumed to be fully available.  So, in an extract recipe with no grain, this value has no effect.",
           "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
         }
       },
@@ -173,6 +173,7 @@
       "$ref": "Measurement.beer.schema#/$defs/Gravity"
     },
     "alcohol_by_volume": {
+      "description": "The expected alcohol by volume of the finished beer, typically calculated from `original_gravity` and `final_gravity`.  Comments about `original_gravity` apply equally here.  (Measured values for an actual brew of the recipe go in its brew log.)",
       "$ref": "Measurement.beer.schema#/$defs/PercentageSimple"
     },
     "ibu_estimate": {
@@ -286,10 +287,10 @@
   "$defs": {
     "AdditionSchedule": {
       "type": "object",
-      "description": "This object fully describes when, and for how long, a recipe addition should be made, with options for basis on time, gravity, or pH at any process step.",
+      "description": "This object fully describes when, and for how long, a recipe addition should be made, with options for basis on time, gravity, or pH at any process step.\n\nHop additions that BeerXML would call *first wort* and *aroma* (eg whirlpool, hop stand or flameout additions) are expressed through the step of the boil in which they are made.  By convention, a boil has a pre-boil step (ramping up from mash temperature), then the boil proper, then one or more post-boil steps (cooling).  So:<br> • a first wort addition is `add_to_boil` in the pre-boil step (typically `step` 1)<br> • an ordinary boil addition is `add_to_boil` in the boil proper (typically `step` 2), with `time` being how long before the end of the boil it is added<br> • a whirlpool or hop stand addition is `add_to_boil` in a post-boil step (typically `step` 3), with `duration` being how long the hops steep<br>Readers should identify these steps by their temperatures (a pre-boil step starts below boiling; a post-boil step ends below boiling) rather than relying on the step numbers.",
       "properties": {
         "time": {
-          "description": "What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, when `stage` is `add_to_boil`, this is time *before* the *end* of the step (or of the boil if no step is specified).  For other values of `stage`, this is time *after* the *start* of the step (or of the process if no step is specified).",
+          "description": "What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, when `stage` is `add_to_boil`, this is time *before* the *end* of the step (or of the boil if no step is specified).  For other values of `stage`, this is time *after* the *start* of the step (or of the process if no step is specified).  If none of `time`, `specific_gravity` and `pH` is set, the addition is made at the start of the step (or of the process if no step is specified).",
           //
           // We have chosen to follow BeerJSON here rather than reinvent the wheel, not least because it keeps things
           // simpler in Brewtarget and Brewken.  An alternative approach would have been to have positive values
@@ -300,7 +301,7 @@
           "$ref": "Measurement.beer.schema#/$defs/Time"
         },
         "duration": {
-          "description": "How long an ingredient addition remains, this was referred to as time in the BeerXML standard. Eg A 40 minute hop boil additions means to boil for 40 minutes, and a 2 day duration for a dry hop means to remove it after 2 days.  If this field is not set or not present, the addition is generally assumed to be removed at the end of the `stage` in which it was added.  (Thus, this field is normally only needed if an addition is to be removed before the end of the `stage` it was added.)",
+          "description": "How long an ingredient addition remains, this was referred to as time in the BeerXML standard. Eg A 40 minute hop boil additions means to boil for 40 minutes, and a 2 day duration for a dry hop means to remove it after 2 days.  If this field is not set or not present, the addition is generally assumed to be removed at the end of the `stage` in which it was added.  For a whirlpool or hop stand addition (see above), this is the steeping time.  (Thus, this field is normally only needed if an addition is to be removed before the end of the `stage` it was added.)",
           "$ref": "Measurement.beer.schema#/$defs/Time"
         },
         // BeerJSON has "continuous" here, but we don't support this in Brewken or Brewtarget
