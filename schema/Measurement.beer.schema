@@ -513,7 +513,7 @@
       "type": "object",
       "properties": {
         "unit": {
-          "description": "`ml` is milliliters (Metric/SI)<br>`l` is liters (Metric/SI)<br>`tsp` is US teaspoons<br>`tbsp` is US tablespoons<br>`floz` is US fluid ounces<br>`cup` is US cups<br>`pt` is US pints (liquid)<br>`qt` is US quarts (liquid)<br>`gal` is US gallons (liquid)<br>`bbl` is US barrels (liquid)<br>`itsp` is Imperial teaspoons<br>`itbsp` is Imperial tablespoons<br>`ifloz` is Imperial fluid ounces<br>`icup` is Imperial cups<br>`ipt` is Imperial pints (liquid)<br>`iqt` is Imperial quarts (liquid)<br>`igal` is Imperial gallons (liquid)<br>`ibbl` is Imperial barrels (liquid)",
+          "description": "`ml` is milliliters (Metric/SI)<br>`l` is liters (Metric/SI)<br>`tsp` is US teaspoons<br>`tbsp` is US tablespoons<br>`floz` is US fluid ounces<br>`cup` is US cups<br>`pt` is US pints (liquid)<br>`qt` is US quarts (liquid)<br>`gal` is US gallons (liquid)<br>`bbl` is US barrels (beer)<br>`itsp` is Imperial teaspoons<br>`itbsp` is Imperial tablespoons<br>`ifloz` is Imperial fluid ounces<br>`icup` is Imperial cups (containing 10 Imperial fluid ounces)<br>`ipt` is Imperial pints (liquid)<br>`iqt` is Imperial quarts (liquid)<br>`igal` is Imperial gallons (liquid)<br>`ibbl` is Imperial barrels (liquid)",
           "enum": [
             // Metric
             "ml",

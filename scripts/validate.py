@@ -25,6 +25,15 @@ Each file is checked in two passes:
        • an addition schedule's `step` exists in the relevant mash / boil / fermentation procedure
        • a range's minimum is not greater than its maximum (where both use the same unit)
        • a brew log's ferment_date is not before its brew_date
+       • a stock purchase's date_received is not before its date_ordered, and no stock use is dated before the stock
+         was received (or, if it hasn't been received, ordered)
+       • a stock purchase's amounts (ordered, received and used) all measure the same kind of thing (eg all mass)
+       • a stock purchase's uses don't add up to more than was received (or, if nothing was received, ordered)
+
+When an error in a property that comes from an "allOf" (eg a bad `reason` in StockUseCommon) makes that part of the
+schema fail, JSON Schema then also reports the part's other properties as "unevaluated".  These knock-on errors are
+removed, so that only the real problem is reported.  (A property name that is not declared anywhere in the schema, eg a
+typo, is still reported.)
 
 Before any files are checked, the schema files themselves are checked: each must parse, and every "$ref" in them must
 resolve.  (Otherwise a broken $ref is only reported if and when a file happens to exercise it.)
@@ -53,6 +62,7 @@ Dependencies:
 from __future__ import annotations
 
 import argparse
+import ast
 import datetime
 import os
 import re
@@ -91,6 +101,63 @@ STAGE_PROCEDURES = {
 }
 
 VERSION_RE = re.compile(r"^[0-9]+[.][0-9]+[.][0-9]+$")  # Same as VersionNumber in DotBeer.beer.schema
+
+#
+# For the stock checks, we need to know which units measure the same kind of thing (so we can spot, eg, a purchase
+# received by mass but used by volume) and how to convert between them (so we can add up uses in different units).
+# For each measure in Measurement.beer.schema, this gives the size of each unit in terms of a canonical one.  At start-up
+# we check that the units here match the enums in the schema, so this can't silently get out of step with it.
+#
+# A few units have more than one definition in common use.  Here we take: bbl = US beer barrel = 31 US gallons (rather
+# than the 31.5 US gallon barrel used for other liquids); ibbl = imperial beer barrel = 36 imperial gallons; and
+# 1 icup = 10 ifloz (ie half an imperial pint).  For imperial spoons, we use the traditional British definitions: 1 itsp
+# = 1 imperial fluid drachm = 1/8 ifloz, and 1 itbsp = 4 itsp = 1/2 ifloz.  (NB this differs from the US, where
+# 1 tbsp = 3 tsp.)  These should match whatever Brewtarget/Brewken uses.  (The exact factors only matter here when uses
+# in different units add up to almost exactly the amount purchased.)
+#
+UNIT_CONVERSIONS: dict[str, dict[str, float]] = {
+    "Mass": {  # In grams
+        "mg" : 0.001,
+        "g"  : 1.0,
+        "kg" : 1000.0,
+        "lb" : 453.59237,
+        "oz" : 28.349523125,
+    },
+    "Volume": {  # In milliliters
+        "ml"   : 1.0,
+        "l"    : 1000.0,
+        "tsp"  : 4.92892159375,
+        "tbsp" : 14.78676478125,
+        "floz" : 29.5735295625,
+        "cup"  : 236.5882365,
+        "pt"   : 473.176473,
+        "qt"   : 946.352946,
+        "gal"  : 3785.411784,
+        "bbl"  : 117347.765304,  # US beer barrel = 31 US gallons
+        "itsp" : 3.5516328125,
+        "itbsp": 14.20653125,
+        "ifloz": 28.4130625,
+        "icup" : 284.130625,
+        "ipt"  : 568.26125,
+        "iqt"  : 1136.5225,
+        "igal" : 4546.09,
+        "ibbl" : 163659.24,  # Imperial beer barrel = 36 imperial gallons
+    },
+    "Count": {
+        "count": 1.0,
+    },
+}
+UNIT_TO_MEASURE = {unit: measure for measure, units in UNIT_CONVERSIONS.items() for unit in units}
+
+#
+# Allow for floating-point rounding when adding up amounts in different units
+#
+STOCK_TOLERANCE = 1e-9
+
+#
+# Matches each quoted property name in a jsonschema "Unevaluated properties are not allowed (...)" message
+#
+QUOTED_NAME_RE = re.compile(r"""'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)\"""")
 
 EXPECT_INVALID_RE = re.compile(r"^\s*//\s*EXPECT-INVALID:\s*(.+?)\s*$")
 
@@ -369,10 +436,52 @@ def check_format_support(registry: referencing.Registry, format_checker: jsonsch
             for format_name, where in sorted(used.items()) if format_name not in format_checker.checkers]
 
 
+def check_unit_tables(registry: referencing.Registry) -> list[str]:
+    """
+    Returns a list of problems where UNIT_CONVERSIONS (above) does not match the units in Measurement.beer.schema
+    """
+    measurement = next((registry.contents(uri) for uri in registry
+                        if uri.endswith("/Measurement.beer.schema")), None)
+    if not isinstance(measurement, dict):
+        return ["cannot find Measurement.beer.schema"]
+    problems = []
+    for measure, conversions in UNIT_CONVERSIONS.items():
+        try:
+            schema_units = set(measurement["$defs"][measure]["properties"]["unit"]["enum"])
+        except (KeyError, TypeError):
+            problems.append(f"Measurement.beer.schema has no unit enum for {measure}")
+            continue
+        if schema_units != set(conversions):
+            missing = sorted(schema_units - set(conversions))
+            extra   = sorted(set(conversions) - schema_units)
+            problems.append(f"units for {measure} in validate.py do not match Measurement.beer.schema "
+                            f"(missing from validate.py: {missing or 'none'}; not in schema: {extra or 'none'})")
+    return problems
+
+
+def declared_property_names(registry: referencing.Registry) -> set[str]:
+    """Returns the name of every property declared (in a "properties" keyword) anywhere in the schema"""
+    names: set[str] = set()
+
+    def visit(node: Any) -> None:
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if key == "properties" and isinstance(value, dict):
+                    names.update(value.keys())
+                visit(value)
+        elif isinstance(node, list):
+            for value in node:
+                visit(value)
+
+    for uri in registry:
+        visit(registry.contents(uri))
+    return names
+
+
 #=======================================================================================================================
 # Pass 1: JSON Schema
 #=======================================================================================================================
-def describe_schema_error(error: jsonschema.ValidationError) -> str:
+def describe_schema_error(error: jsonschema.ValidationError, message: str | None = None) -> str:
     #
     # For oneOf/anyOf failures, the top-level message just dumps the whole instance, which is not very helpful.  Where
     # there is a more specific underlying error, report that instead.
@@ -383,12 +492,49 @@ def describe_schema_error(error: jsonschema.ValidationError) -> str:
             error = best
     # Use JSON Pointer notation, for consistency with the messages from the other checks
     path = "".join(f"/{p}" for p in error.absolute_path) or "(root)"
-    return f"{path}: {error.message}"
+    return f"{path}: {message if message is not None else error.message}"
 
 
-def schema_errors(document: Any, validator: jsonschema.protocols.Validator) -> list[str]:
+def unevaluated_names(error: jsonschema.ValidationError) -> list[str]:
+    """Returns the property names listed in an "Unevaluated properties are not allowed (...)" error"""
+    names = []
+    for match in QUOTED_NAME_RE.finditer(error.message):
+        try:
+            names.append(ast.literal_eval(match.group(0)))
+        except (ValueError, SyntaxError):
+            names.append(match.group(1) if match.group(1) is not None else match.group(2))
+    return names
+
+
+def schema_errors(document: Any, validator: jsonschema.protocols.Validator, declared_names: set[str]) -> list[str]:
     errors = sorted(validator.iter_errors(document), key=lambda e: list(map(str, e.absolute_path)))
-    return [describe_schema_error(e) for e in errors]
+    #
+    # If part of an "allOf" fails (eg because StockUseCommon's `reason` has a bad value), JSON Schema treats all that
+    # part's properties as not evaluated, so `"unevaluatedProperties": false` then reports them as unexpected, even
+    # though they are perfectly valid.  We drop such knock-on errors, ie unevaluated properties that are declared
+    # somewhere in the schema, in an object where (or inside which) there is another error.  We keep any property name
+    # that is not declared anywhere (eg a typo), and we keep everything if there is no other error in the object (so
+    # that, eg, a fermentable_id in a hop stock purchase is still reported).
+    #
+    other_error_paths = [tuple(e.absolute_path) for e in errors if e.validator != "unevaluatedProperties"]
+    descriptions = []
+    for error in errors:
+        if error.validator == "unevaluatedProperties":
+            path = tuple(error.absolute_path)
+            if any(other[:len(path)] == path for other in other_error_paths):
+                names = unevaluated_names(error)
+                remaining = [name for name in names if name not in declared_names]
+                if not remaining:
+                    continue
+                if len(remaining) < len(names):
+                    descriptions.append(describe_schema_error(
+                        error,
+                        f"Unevaluated properties are not allowed ({', '.join(map(repr, remaining))} "
+                        f"{'was' if len(remaining) == 1 else 'were'} unexpected)"
+                    ))
+                    continue
+        descriptions.append(describe_schema_error(error))
+    return descriptions
 
 
 #=======================================================================================================================
@@ -525,6 +671,100 @@ def check_brew_log_dates(root: dict, result: Result) -> None:
                                      f"{ferment_date} is before brew_date {brew_date}")
 
 
+def parse_date(value: Any) -> datetime.date | None:
+    """Returns the date, or None if it is missing or invalid (in which case schema validation will have complained)"""
+    try:
+        return datetime.date.fromisoformat(value) if isinstance(value, str) else None
+    except ValueError:
+        return None
+
+
+def amount_in_canonical_units(amount: Any) -> tuple[str, float] | None:
+    """
+    For an amount such as {"unit": "kg", "value": 1.5}, returns the measure and the value in the canonical unit for that
+    measure (eg ("Mass", 1500.0)), or None if the amount is missing or invalid (which schema validation will report)
+    """
+    if not isinstance(amount, dict):
+        return None
+    unit, value = amount.get("unit"), amount.get("value")
+    if unit not in UNIT_TO_MEASURE or isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    measure = UNIT_TO_MEASURE[unit]
+    return measure, value * UNIT_CONVERSIONS[measure][unit]
+
+
+def describe_amount(amount: dict) -> str:
+    return f"{amount['value']:g} {amount['unit']}"
+
+
+def check_stock_purchases(root: dict, result: Result) -> None:
+    for section, purchases in root.items():
+        if not section.endswith("_stock_purchases") or not isinstance(purchases, list):
+            continue
+        for index, purchase in enumerate(purchases):
+            if not isinstance(purchase, dict):
+                continue
+            path = f"/DotBeer/{section}/{index}"
+            stock_uses = purchase.get("stock_uses", [])
+            if not isinstance(stock_uses, list):
+                stock_uses = []  # Schema validation will already have complained
+
+            #
+            # Dates
+            #
+            date_ordered  = parse_date(purchase.get("date_ordered"))
+            date_received = parse_date(purchase.get("date_received"))
+            if date_ordered and date_received and date_received < date_ordered:
+                result.errors.append(f"{label(purchase, path)}: date_received {date_received} is before date_ordered "
+                                     f"{date_ordered}")
+            #
+            # If the stock hasn't been received (yet), we can at least check it wasn't used before it was ordered
+            #
+            earliest, earliest_field = (date_received, "date_received") if date_received else \
+                                       (date_ordered , "date_ordered" )
+            if earliest:
+                for use_index, use in enumerate(stock_uses):
+                    use_date = parse_date(use.get("date")) if isinstance(use, dict) else None
+                    if use_date and use_date < earliest:
+                        result.errors.append(f"{path}/stock_uses/{use_index}: date {use_date} is before the "
+                                             f"purchase's {earliest_field} {earliest}")
+
+            #
+            # Amounts: first check they all measure the same kind of thing, then that uses don't exceed what we have
+            #
+            amounts: list[tuple[str, dict, str, float]] = []  # (where, amount, measure, value in canonical units)
+            for field_name in ("amount_ordered", "amount_received"):
+                converted = amount_in_canonical_units(purchase.get(field_name))
+                if converted:
+                    amounts.append((f"{path}/{field_name}", purchase[field_name], *converted))
+            for use_index, use in enumerate(stock_uses):
+                converted = amount_in_canonical_units(use.get("amount_used")) if isinstance(use, dict) else None
+                if converted:
+                    amounts.append((f"{path}/stock_uses/{use_index}/amount_used", use["amount_used"], *converted))
+            measures = {measure for _, _, measure, _ in amounts}
+            if len(measures) > 1:
+                result.errors.append(
+                    f"{label(purchase, path)}: amounts must all be the same kind of measure, but there is a mix of "
+                    f"{', '.join(sorted(m.lower() for m in measures))} (" +
+                    "; ".join(f"{where.removeprefix(path + '/')} is {describe_amount(amount)}"
+                              for where, amount, _, _ in amounts) + ")"
+                )
+                continue  # Can't meaningfully add up the uses
+
+            available_field = "amount_received" if "amount_received" in purchase else "amount_ordered"
+            available = amount_in_canonical_units(purchase.get(available_field))
+            used = [(amount, value) for where, amount, _, value in amounts if "/stock_uses/" in where]
+            if available and used:
+                total_used = sum(value for _, value in used)
+                if total_used > available[1] * (1 + STOCK_TOLERANCE):
+                    unit = purchase[available_field]["unit"]
+                    in_unit = total_used / UNIT_CONVERSIONS[available[0]][unit]
+                    result.errors.append(
+                        f"{label(purchase, path)}: stock uses total {in_unit:.6g} {unit}, which is more than the "
+                        f"{describe_amount(purchase[available_field])} of {available_field}"
+                    )
+
+
 def semantic_checks(document: Any, reference_fields: dict[str, str], result: Result) -> None:
     root = document.get("DotBeer") if isinstance(document, dict) else None
     if not isinstance(root, dict):
@@ -534,20 +774,21 @@ def semantic_checks(document: Any, reference_fields: dict[str, str], result: Res
     check_addition_steps(root, defined, result)
     check_ranges(root, result)
     check_brew_log_dates(root, result)
+    check_stock_purchases(root, result)
 
 
 #=======================================================================================================================
 # Driver
 #=======================================================================================================================
 def validate_file(path: Path, validator: jsonschema.protocols.Validator, schema_version: str,
-                  reference_fields: dict[str, str]) -> Result:
+                  reference_fields: dict[str, str], declared_names: set[str]) -> Result:
     result = Result()
     try:
         document = JsoncParser.parse_file(str(path))
     except Exception as e:
         result.errors.append(f"cannot parse file: {e}")
         return result
-    result.errors.extend(schema_errors(document, validator))
+    result.errors.extend(schema_errors(document, validator, declared_names))
     semantic_checks(document, reference_fields, result)
     root = document.get("DotBeer") if isinstance(document, dict) else None
     file_version = root.get("version") if isinstance(root, dict) else None
@@ -613,6 +854,14 @@ def main() -> int:
             print(f"    {problem}")
         return 2
 
+    unit_problems = check_unit_tables(registry)
+    if unit_problems:
+        print("SCHEMA ERROR: validate.py's unit tables are out of date:")
+        for problem in unit_problems:
+            print(f"    {problem}")
+        return 2
+    declared_names = declared_property_names(registry)
+
     validator_class = jsonschema.validators.validator_for(root_schema)
     validator_class.check_schema(root_schema)
     validator = validator_class(root_schema, registry=registry, format_checker=validator_class.FORMAT_CHECKER)
@@ -627,7 +876,7 @@ def main() -> int:
 
     num_unexpected = 0
     for path in files:
-        result = validate_file(path, validator, schema_version, reference_fields)
+        result = validate_file(path, validator, schema_version, reference_fields, declared_names)
         expectations = expected_failures(path)
         try:
             shown = path.resolve().relative_to(Path.cwd())
