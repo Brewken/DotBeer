@@ -12,7 +12,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dotbeer.org/schema/0.10.0/StockPurchase.beer.schema",
   "title": "StockPurchase",
-  "description": "Each type of ingredient (Culture, Fermentable, Hop, Misc) has a corresponding stock purchase",
+  // We use "purchase" rather than, say, "acquisition" in the interests of brevity since, for most brewers, most
+  // acquisitions will be purchases.  (StockAcquisitionFermentable would be a bit long IMHO.)
+  "description": "Each type of ingredient (Culture, Fermentable, Hop, Misc) has a corresponding stock purchase.  A \"stock purchase\" can actually be any sort of stock acquisition, including by gift or self-production.",
   "$defs": {
     // Shared fields; deliberately NO unevaluatedProperties here
     "StockPurchaseCommon": {
@@ -44,25 +46,29 @@
           "type": "string"
         },
         "purchase_price": {
+          "description": "Excludes any amount specified in `purchase_tax`.  This field is optional as a \"stock purchase\" could potentially be a stock acquisition in which no money changed hands.",
           "$ref": "Measurement.beer.schema#/$defs/CurrencyAmount"
         },
         "purchase_tax": {
+          "description": "If this is present, then it represents a tax ammount (eg sales tax, VAT, import duty) not included in `purchase_price` (and in particular, a `purchase_tax` of zero means no tax was paid on the purchase).  If `purchase_tax` is not present, it means `purchase_price` is inclusive of (an unspecified amount of ) tax.",
           "$ref": "Measurement.beer.schema#/$defs/CurrencyAmount"
         },
         "shipping_cost": {
+          "description": "This is whatever part of the shipping cost of an order that the brewer (or her brewing software) chooses to allocate to this ingredient purchase.",
           "$ref": "Measurement.beer.schema#/$defs/CurrencyAmount"
         }
       },
-      "required": [
-        // TBD: Probably want to say at least one of date_ordered and date_received should be set.  But need to enforce
-        //      this in Brewken/Brewtarget too.
+      //
+      // A purchase must have at least one of `date_ordered` and `date_received` (or both).
+      //
+      // TODO: We need to enforce this in Brewken/Brewtarget too!
+      //
+      "anyOf": [
+        { "required": ["date_ordered" ] },
+        { "required": ["date_received"] }
       ]
     },
     "StockUseCommon": {
-      //
-      // TBD: In Brewken/Brewtarget, we can optionally link a stock use to the recipe in which the use was made.  I
-      // haven't yet added a field to represent that here.  Need to think about value vs complexity.
-      //
       "type": "object",
       "properties": {
         "name": {
@@ -73,7 +79,7 @@
           "$ref": "Measurement.beer.schema#/$defs/Date"
         },
         "reason": {
-          "description": "`used` is typically use in a recipe<br>`lost` is spillage and spoilage<br>`disposed` means deliberately disposed of (eg given to someone else or thrown away because past sell-by date).",
+          "description": "`used` typically means \"used in a recipe\"<br>`lost` is spillage and spoilage<br>`disposed` means deliberately disposed of (eg given to someone else or thrown away because past sell-by date).",
           //
           // We deliberately don't have stock adjustments here.  Instead, any discrepancy between what was ordered and
           // what it turns out we received is recorded in StockPurchaseHop etc in the amount_ordered and amount_received
@@ -89,7 +95,7 @@
           ]
         },
         "brew_log_id": {
-          "description": "The Local ID of the brew log corresponding to this use.  (Obviously the brew log in question must be in the \"brew_logs\" section of a recipe the same dotBeer file.)",
+          "description": "The Local ID of the brew log corresponding to this use.  (Obviously the brew log in question must be in the \"brew_logs\" section of a recipe in the same dotBeer file.)",
           "x-refers-to": "/DotBeer/recipes/*/brew_logs",
           "$ref": "DotBeer.beer.schema#/$defs/LocalId"
         },
@@ -114,7 +120,7 @@
       "description": "Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.",
       "allOf": [{ "$ref": "#/$defs/StockPurchaseCommon" }],
       "properties": {
-        "Culture_id":    {
+        "culture_id":    {
           "description": "The Local ID of the Culture purchased.  (Obviously the culture in question must be in the \"cultures\" section of the same dotBeer file.)",
           "x-refers-to": "/DotBeer/cultures",
           "$ref": "DotBeer.beer.schema#/$defs/LocalId"
@@ -133,8 +139,14 @@
         }
       },
       "required": [
-        "Culture_id"
-        // Probably want at least one of amount_ordered and amount_received here
+        "culture_id"
+      ],
+      //
+      // A purchase must have at least one of `amount_ordered` and `amount_received` (or both).
+      //
+      "anyOf": [
+        { "required": ["amount_ordered" ] },
+        { "required": ["amount_received"] }
       ],
       "unevaluatedProperties": false
     },
@@ -170,7 +182,13 @@
       },
       "required": [
         "fermentable_id"
-        // Probably want at least one of amount_ordered and amount_received here
+      ],
+      //
+      // A purchase must have at least one of `amount_ordered` and `amount_received` (or both).
+      //
+      "anyOf": [
+        { "required": ["amount_ordered" ] },
+        { "required": ["amount_received"] }
       ],
       "unevaluatedProperties": false
     },
@@ -206,7 +224,13 @@
       },
       "required": [
         "hop_id"
-        // Probably want at least one of amount_ordered and amount_received here
+      ],
+      //
+      // A purchase must have at least one of `amount_ordered` and `amount_received` (or both).
+      //
+      "anyOf": [
+        { "required": ["amount_ordered" ] },
+        { "required": ["amount_received"] }
       ],
       "unevaluatedProperties": false
     },
@@ -242,7 +266,13 @@
       },
       "required": [
         "misc_id"
-        // Probably want at least one of amount_ordered and amount_received here
+      ],
+      //
+      // A purchase must have at least one of `amount_ordered` and `amount_received` (or both).
+      //
+      "anyOf": [
+        { "required": ["amount_ordered" ] },
+        { "required": ["amount_received"] }
       ],
       "unevaluatedProperties": false
     }

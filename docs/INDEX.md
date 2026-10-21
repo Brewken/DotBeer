@@ -38,7 +38,7 @@ A dotBeer (<span style="color:green; font-weight: bold; font-family: monospace;"
 
   - [Measurement](../docs/Measurement.md)
 
-When reading or writing a <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file, you need read or write `Recipe` record(s) after all the ingredients, processes and so on that the recipes refer to.  This is because each `Recipe` record cross-refers to ingredient additions, mash profile, style, etc in the same file. This avoids the duplication required in BeerXML and BeerJSON files.  Similarly, you will want to read or write any `StockPurchase` records (eg `StockUseCulture`, `StockUseHop`) after any `Recipe` record(s), as this will make processing cross-references easier.  NOTE that this only refers to order of processing.  The order of records inside the file is, for the most part, not important.  (The exceptions are boil steps, mash steps, fermentation steps and instructions, which need to appear in correct order.)
+When reading or writing a <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file, you need read or write `Recipe` record(s) after all the ingredients, processes and so on that the recipes refer to.  This is because each `Recipe` record cross-refers to ingredient additions, mash profile, style, etc in the same file. This avoids the duplication required in BeerXML and BeerJSON files.  Similarly, you will want to read or write any `StockPurchase` records (eg `StockPurchaseCulture`, `StockPurchaseHop`) after any `Recipe` record(s), as this will make processing cross-references easier.  NOTE that this only refers to order of processing.  The order of records inside the file is, for the most part, not important.  (The exceptions are boil steps, mash steps, fermentation steps and instructions, which need to appear in correct order.)
 
 The version of the DotBeer schema is stored in the `$id` field in the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> files.  Eg <span style="color:Blue; font-weight: bold; font-family: monospace;">https://dotbeer.org/schema/0.8.0/DotBeer.beer.schema</span> would be the `$id` field for version 0.8.0 of the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">DotBeer.beer.schema</span> file.  (The version should be the same in all the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> files!)
 
@@ -48,4 +48,4 @@ If a field is marked `deprecated` in the schema that usually means it should be 
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 19:47:37+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-21 at 21:19:57+0200.
