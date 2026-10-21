@@ -50,7 +50,7 @@
           "$ref": "Measurement.beer.schema#/$defs/CurrencyAmount"
         },
         "purchase_tax": {
-          "description": "If this is present, then it represents a tax ammount (eg sales tax, VAT, import duty) not included in `purchase_price` (and in particular, a `purchase_tax` of zero means no tax was paid on the purchase).  If `purchase_tax` is not present, it means `purchase_price` is inclusive of (an unspecified amount of ) tax.",
+          "description": "If this is present, then it represents a tax amount (eg sales tax, VAT, import duty) not included in `purchase_price` (and in particular, a `purchase_tax` of zero means no tax was paid on the purchase).  If `purchase_tax` is not present, it means `purchase_price` is inclusive of (an unspecified amount of) tax.",
           "$ref": "Measurement.beer.schema#/$defs/CurrencyAmount"
         },
         "shipping_cost": {
