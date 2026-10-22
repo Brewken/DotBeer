@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #======================================================================================================================
-# scripts/generateDocs.py is part of DotBeer and is copyright the following authors 2026:
+# scripts/generateDocs.py is part of dotBeer and is copyright the following authors 2026:
 #   • Matt Young <mfsy@yahoo.com>
 #
 # This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
@@ -98,7 +98,7 @@ args = parser.parse_args()
 # that references to '../docs' below are valid.
 #
 sourceFile = os.path.abspath(inspect.getsourcefile(lambda:0))
-print(f"Running {sourceFile} to generate DotBeer documentation from schema")
+print(f"Running {sourceFile} to generate dotBeer documentation from schema")
 sourceDir = os.path.dirname(sourceFile)
 os.chdir(sourceDir)
 print(f"Current directory now {os.getcwd()}")
@@ -124,7 +124,7 @@ timeStamp = timeAndDateLocal.strftime('%H:%M:%S%z')
 #
 # Since we'd like to group things together in the INDEX document, we have headings as well as files in this list.
 # Headings begin with '>'.  Note however that the first item in this list cannot be a heading.  (This restriction makes
-# the code below simpler, and doesn't really tie our hands as we already have special processing for the DotBeer file.)
+# the code below simpler, and doesn't really tie our hands as we already have special processing for DotBeer.beer.schema.)
 #
 preferredOrder = [
    "DotBeer",
@@ -191,7 +191,7 @@ for baseName in orderedBaseNames:
             f"# dotBeer {dotBeerSchemaVersion}\n\n"
             "A dotBeer (<span style=\"color:green; font-weight: bold; font-family: monospace;\">.beer</span>) file is a "
             "JSONC (JSON with comments allowed) document with a `DotBeer` root element.  A <span style=\"color:green; "
-            "font-weight: bold; font-family: monospace;\">.beer</span> file should be validated against the DotBeer "
+            "font-weight: bold; font-family: monospace;\">.beer</span> file should be validated against the dotBeer "
             "schema before being read.  The schema is split into the following sections (with a corresponding <span "
             "style=\"color:BlueViolet; font-weight: bold; font-family: monospace;\">.beer.schema</span> file for each "
             "one):\n\n"
@@ -232,7 +232,7 @@ with open("../docs/INDEX.md", "w") as indexFile:
       "order of processing.  The order of records inside the file is, for the most part, not important.  (The "
       "exceptions are boil steps, mash steps, fermentation steps and instructions, which need to appear in correct "
       "order.)\n\n"
-      "The version of the DotBeer schema is stored in the `$id` field in the <span style=\"color:BlueViolet; "
+      "The version of the dotBeer schema is stored in the `$id` field in the <span style=\"color:BlueViolet; "
       "font-weight: bold; font-family: monospace;\">.beer.schema</span> files.  Eg <span style=\"color:Blue; "
       "font-weight: bold; font-family: monospace;\">https://dotbeer.org/schema/0.8.0/DotBeer.beer.schema</span> would "
       "be the `$id` field for version 0.8.0 of the <span style=\"color:BlueViolet; font-weight: bold; font-family: "

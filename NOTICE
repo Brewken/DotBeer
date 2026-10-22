@@ -5,7 +5,7 @@ version 2.0 -- see LICENSE.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Some parts of DotBeer are derived from BeerJSON v1.0.2, which is distributed with the following license:
+Some parts of dotBeer are derived from BeerJSON v1.0.2, which is distributed with the following license:
 
    MIT License
 
@@ -34,7 +34,7 @@ Copyright dates and authorship for individual files originated from BeerJSON hav
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Some parts of DotBeer are derived from jsonschema-markdown release 2026.5.0, which is distributed with the following
+Some parts of dotBeer are derived from jsonschema-markdown release 2026.5.0, which is distributed with the following
 license:
 
    MIT License

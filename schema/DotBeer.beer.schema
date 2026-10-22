@@ -1,5 +1,5 @@
 //======================================================================================================================
-// schema/DotBeer.beer.schema is part of DotBeer and is copyright the following authors 2017-2026:
+// schema/DotBeer.beer.schema is part of dotBeer and is copyright the following authors 2017-2026:
 //   • Mark Price <shadowchao99@gmail.com>
 //   • Matt Young <mfsy@yahoo.com>
 //   • Roman Eremin <roman.eremin@gmail.com> <roman.eremin@devexpress.com>
@@ -41,11 +41,11 @@
   "properties": {
     //
     // Having a root element such as this is not strictly necessary, but it is useful to provide context, showing that
-    // the file contents are DotBeer format, even if the file extension got changed or is unavailable.
+    // the file contents are dotBeer format, even if the file extension got changed or is unavailable.
     //
     "DotBeer": {
       "type": "object",
-      "description": "Root element of all DotBeer documents.  Most of the Primary Types (ie ones that have their own schema file) are referred to here.  Various Component Types (ie smaller types used for composition) are defined in the \"$defs\" sections of most of the schema files (apart from this one).",
+      "description": "Root element of all dotBeer documents.  Most of the Primary Types (ie ones that have their own schema file) are referred to here.  Various Component Types (ie smaller types used for composition) are defined in the \"$defs\" sections of most of the schema files (apart from this one).",
       "properties": {
         "version": {
           "description": "DotBeer schema version used to create the file.",
@@ -186,7 +186,7 @@
       ],
       //
       // Allowing additional properties would make it easier to extend the schema in a way that allows old versions of
-      // software to read newer versions of DotBeer files.  However, it would also make it harder to validate things.
+      // software to read newer versions of dotBeer files.  However, it would also make it harder to validate things.
       // Eg if a program accidentally wrote optional parameter "foobar" with key "barfoo", it wouldn't be picked up by
       // schema validation if additional properties are allowed.  So, in general, we forbid unspecified properties.
       // Here, and elsewhere, `"unevaluatedProperties": false` is the newer, and more robust, way to do this (replacing

@@ -1,5 +1,5 @@
 #======================================================================================================================
-# scripts/markdownGenerator.py is part of DotBeer and is copyright the following authors 2023-2026:
+# scripts/markdownGenerator.py is part of dotBeer and is copyright the following authors 2023-2026:
 #   • Elisiário Couto <elisiario@couto.io>
 #   • Matt Young <mfsy@yahoo.com>
 #

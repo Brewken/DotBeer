@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #=======================================================================================================================
-# scripts/validate.py is part of DotBeer and is copyright the following authors 2026:
+# scripts/validate.py is part of dotBeer and is copyright the following authors 2026:
 #   • Matt Young <mfsy@yahoo.com>
 #
 # This Source Code Form is subject to the terms of the Mozilla Public License (MPL), version 2.0.  If a copy of the MPL
