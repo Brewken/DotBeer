@@ -45,10 +45,10 @@
   //
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   //
-  // This is not a "real" URL.  The "directory" above the filename is the version of the dotBeer schema.
-  // Versions prior to 1.0.0 are subject to breaking changes!
+  // The "directory" above the filename is the version of the dotBeer schema.  (See "Versioning" in README.md for what
+  // changes between versions mean.)
   //
-  "$id": "https://dotbeer.org/schema/0.10.0/DotBeer.beer.schema",
+  "$id": "https://dotbeer.org/schema/1.0.0/DotBeer.beer.schema",
   "type": "object",
   "title": "DotBeer File Format",
   "description": "A free and open serialisation format for beer recipes, ingredients and related data",

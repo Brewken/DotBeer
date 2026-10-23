@@ -58,4 +58,4 @@ We use semantic versioning, which encodes a version by a three-part version numb
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 12:55:01+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-23 at 13:33:22+0200.

@@ -26,7 +26,7 @@
 //   • a folder path with a segment that is only a space, and one with a control character (a tab)
 {
   "DotBeer": {
-    "version": "0.10.0",
+    "version": "1.0.0",
     "output_by": "DotBeer examples (hand-written)",
     "timestamp": "2026-10-16T10:00:00Z",
     "styles": [
