@@ -57,7 +57,7 @@ This object fully describes when, and for how long, a recipe addition should be 
 
 Hop additions that BeerXML would call *first wort* and *aroma* (eg whirlpool, hop stand or flameout additions) are expressed through the step of the boil in which they are made.  By convention, a boil has a pre-boil step (ramping up from mash temperature), then the boil proper, then one or more post-boil steps (cooling).
 
-A boil step is part of the *boil proper* if its start and end temperatures are both above 81°C (178°F).  (This is above any mash-out temperature and below the boiling point of water at any inhabited altitude.)  A boil step whose start or end temperature is not given is assumed to be at boiling at that point.  The length of the boil proper is the total `step_time` of its steps.  So:<br> • a first wort addition is `add_to_boil` in a first step (typically `step` 1) that starts at or below 81°C<br> • an ordinary boil addition is `add_to_boil` in the boil proper (typically `step` 2, or with `step` not set), with `time` being how long before the end of the boil proper it is added<br> • a whirlpool or hop stand addition is `add_to_boil` in a later step (typically `step` 3) that ends at or below 81°C, with `duration` being how long the hops steep<br>Readers should identify these steps by their temperatures, as above, rather than relying on the step numbers.
+A boil step is part of the *boil proper* if its start and end temperatures are both above 81°C (178°F).  (This is above any mash-out temperature and below the boiling point of water at any inhabited altitude.)  A boil step whose start or end temperature is not given is assumed to be at boiling at that point.  The length of the boil proper is the total `step_time` of its steps.  So:<br> • a first wort addition is `add_to_boil` in a first step (typically `step` 1) that starts at or below 81°C, with no `time` (because it is added at the start of that step -- see `time`)<br> • an ordinary boil addition is `add_to_boil` in the boil proper (typically `step` 2, or with `step` not set), with `time` being how long before the end of the boil proper it is added<br> • a whirlpool or hop stand addition is `add_to_boil` in a later step (typically `step` 3) that ends at or below 81°C, with `duration` being how long the hops steep<br>Readers should identify these steps by their temperatures, as above, rather than relying on the step numbers.
 
 <strong>AdditionSchedule</strong> is a JSON object with the following properties:
 
@@ -176,4 +176,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 08:16:31+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 09:17:25+0200.
