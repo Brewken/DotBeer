@@ -7,7 +7,7 @@ A boil procedure, which can be used by multiple recipes.  Unlike in BeerJSON, a 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
-| boil_steps | ✅ | array of [BoilStep](#boilstep) |  |
+| boil_steps | ✅ | array of [BoilStep](#boilstep) | The steps that make up the boil, in the order they are performed. |
 | local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this boil. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Boil object. |
 | boil_description |  | string |  |
@@ -35,4 +35,4 @@ If `start_temperature` or `end_temperature` is not given, the step is assumed to
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 09:17:25+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 12:55:01+0200.

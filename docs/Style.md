@@ -16,12 +16,12 @@ Range fields (`original_gravity`, `final_gravity`, `ibu`, `color`, `alcohol_by_v
 | style_letter |  |  matching regular expression [`^([A-Z]\|[0-9]{1,2})$`](https://regex101.com/?regex=%5E%28%5BA-Z%5D%7C%5B0-9%5D%7B1%2C2%7D%29%24) | The specific subcategory letter (or a one- or two-digit sub-style number) associated with this particular style.  For example in the BJCP 2021 style guide, an American Lager would be style letter “B” under the main category (1 = Standard American Beer).  Letters should be upper case |
 | local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this style. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Style object. |
-| original_gravity |  | [Measurement::RangeOfGravity](./Measurement.md#rangeofgravity) |  |
-| final_gravity |  | [Measurement::RangeOfGravity](./Measurement.md#rangeofgravity) |  |
-| ibu |  | [Measurement::RangeOfBitterness](./Measurement.md#rangeofbitterness) |  |
-| color |  | [Measurement::RangeOfColor](./Measurement.md#rangeofcolor) |  |
+| original_gravity |  | [Measurement::RangeOfGravity](./Measurement.md#rangeofgravity) | The typical range of original gravity for the style. |
+| final_gravity |  | [Measurement::RangeOfGravity](./Measurement.md#rangeofgravity) | The typical range of final gravity for the style. |
+| ibu |  | [Measurement::RangeOfBitterness](./Measurement.md#rangeofbitterness) | The typical range of bitterness for the style. |
+| color |  | [Measurement::RangeOfColor](./Measurement.md#rangeofcolor) | The typical range of colour for the style. |
 | carbonation |  | [Measurement::RangeOfCarbonation](./Measurement.md#rangeofcarbonation) | Note that, in contrast with the other range fields, the BJCP guidelines don’t give carbonation figures, so this usually comes from other sources. |
-| alcohol_by_volume |  | [Measurement::RangeOfPercentageSimple](./Measurement.md#rangeofpercentagesimple) |  |
+| alcohol_by_volume |  | [Measurement::RangeOfPercentageSimple](./Measurement.md#rangeofpercentagesimple) | The typical range of alcohol by volume for the style. |
 | notes |  | string | Anything else about the style not covered by the other fields, eg its history, or comments on what is and isn’t acceptable.  (In the BJCP guidelines, this is typically the “Comments” and “History” sections.) |
 | aroma |  | string | The aroma expected in a good example of the style: malt, hop, fermentation and other characteristics, and how they balance. |
 | appearance |  | string | Expected colour, clarity, and head (colour, texture and retention). |
@@ -35,4 +35,4 @@ Range fields (`original_gravity`, `final_gravity`, `ibu`, `color`, `alcohol_by_v
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 09:17:25+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 12:55:01+0200.

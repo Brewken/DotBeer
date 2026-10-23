@@ -8,7 +8,7 @@ A mash procedure, which can be used by multiple recipes.
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
 | grain_temperature | ✅ | [Measurement::Temperature](./Measurement.md#temperature) | Initial grain temperature prior to the start of the mash. |
-| mash_steps | ✅ | array of [MashStep](#mashstep) |  |
+| mash_steps | ✅ | array of [MashStep](#mashstep) | The steps that make up the mash, in the order they are performed. |
 | local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this mash. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Mash object. |
 | notes |  | string |  |
@@ -35,4 +35,4 @@ A mash step is an internal record used within a mash profile to denote a separat
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 09:17:25+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 12:55:01+0200.

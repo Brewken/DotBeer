@@ -7,7 +7,7 @@ A fermentation procedure, which can be used by multiple recipes.
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | name | ✅ | string |  |
-| fermentation_steps | ✅ | array of [FermentationStep](#fermentationstep) |  |
+| fermentation_steps | ✅ | array of [FermentationStep](#fermentationstep) | The steps that make up the fermentation, in the order they are performed. |
 | local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this fermentation. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Fermentation object. |
 | fermentation_description |  | string |  |
@@ -27,10 +27,10 @@ Individual step of a fermentation.
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | free_rise |  | boolean | Free rise is used to indicate a fermentation step where the exothermic fermentation is allowed to raise the temperature without restriction. |
-| vessel |  | string |  |
+| vessel |  | string | Name of the vessel the step takes place in, which is how a transfer between vessels is recorded. |
 
 
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 09:17:25+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 12:55:01+0200.

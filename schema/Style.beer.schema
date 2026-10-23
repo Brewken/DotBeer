@@ -25,6 +25,7 @@
       "description": "Category that this style belongs to – usually associated with a group of styles such as “English Ales” or “American Lagers”.",
       "type": "string"
     },
+    // NB: In BeerJSON, this is an integer
     "category_number": {
       "description": "Number or identifier associated with this style category. For example in the BJCP 2021 style guide, “Czech Premium Pale Lager” is category number “3”, style letter “B”, ie “3B”.\n\nNote that, despite the name, this needs to be a string rather than, say, an integer, because it can contain letters.  Eg BJCP mead and cider categories are M1–M4 and C1–C2.",
       "type": "string"
@@ -66,9 +67,11 @@
       "$ref": "DotBeer.beer.schema#/$defs/FolderPath"
     },
     "original_gravity": {
+      "description": "The typical range of original gravity for the style.",
       "$ref": "Measurement.beer.schema#/$defs/RangeOfGravity"
     },
     "final_gravity": {
+      "description": "The typical range of final gravity for the style.",
       "$ref": "Measurement.beer.schema#/$defs/RangeOfGravity"
     },
     //
@@ -79,10 +82,14 @@
     // what is actually measured is iso-alpha acid content.  And you almost never hear brewers saying "Would you say
     // that's within the iso-alpha acid content range for this style?" :)
     //
+    // BeerJSON calls this field `international_bitterness_units`.
+    //
     "ibu": {
+      "description": "The typical range of bitterness for the style.",
       "$ref": "Measurement.beer.schema#/$defs/RangeOfBitterness"
     },
     "color": {
+      "description": "The typical range of colour for the style.",
       "$ref": "Measurement.beer.schema#/$defs/RangeOfColor"
     },
     "carbonation": {
@@ -90,6 +97,7 @@
       "$ref": "Measurement.beer.schema#/$defs/RangeOfCarbonation"
     },
     "alcohol_by_volume": {
+      "description": "The typical range of alcohol by volume for the style.",
       "$ref": "Measurement.beer.schema#/$defs/RangeOfPercentageSimple"
     },
     "notes": {

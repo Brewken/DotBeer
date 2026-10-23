@@ -10,20 +10,20 @@ Full definition of a hop variety.
 | alpha_acid | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The actual alpha acid content of the specific year's harvest (and batch) of this type of hop. |
 | local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this hop. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Hop object. |
-| producer |  | string |  |
+| producer |  | string | The grower or company that supplied the hops. |
 | product_id |  | string | Producer’s product code or number for this item. |
 | origin |  | string | Country of origin for the hop variety |
 | year |  | string | Year of harvest.  (Note that this is intentionally not a number, as, for one thing, years are not generally formatted in the same way as numbers.) |
-| form |  | Enum:<br>&nbsp;∙ `extract`<br>&nbsp;∙ `leaf`<br>&nbsp;∙ `leaf (wet)`<br>&nbsp;∙ `pellet`<br>&nbsp;∙ `powder`<br>&nbsp;∙ `plug` |  |
+| form |  | Enum:<br>&nbsp;∙ `extract`<br>&nbsp;∙ `leaf`<br>&nbsp;∙ `leaf (wet)`<br>&nbsp;∙ `pellet`<br>&nbsp;∙ `powder`<br>&nbsp;∙ `plug` | The physical form the hops are supplied in. |
 | alpha_acid_range |  | [Measurement::RangeOfPercentageSimple](./Measurement.md#rangeofpercentagesimple) | The typical range of alpha acid for this type of hop. |
 | beta_acid |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The actual beta acid content of the specific year's harvest (and batch) of this type of hop. |
 | beta_acid_range |  | [Measurement::RangeOfPercentageSimple](./Measurement.md#rangeofpercentagesimple) | The typical range of beta acid for this type of hop. |
-| hop_type |  | Enum:<br>&nbsp;∙ `aroma`<br>&nbsp;∙ `bittering`<br>&nbsp;∙ `flavor`<br>&nbsp;∙ `aroma/bittering`<br>&nbsp;∙ `bittering/flavor`<br>&nbsp;∙ `aroma/flavor`<br>&nbsp;∙ `aroma/bittering/flavor` |  |
+| hop_type |  | Enum:<br>&nbsp;∙ `aroma`<br>&nbsp;∙ `bittering`<br>&nbsp;∙ `flavor`<br>&nbsp;∙ `aroma/bittering`<br>&nbsp;∙ `bittering/flavor`<br>&nbsp;∙ `aroma/flavor`<br>&nbsp;∙ `aroma/bittering/flavor` | What the variety is typically used for, given its aroma and bittering character. |
 | notes |  | string |  |
 | six_month_alpha_loss |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The percentage of hop alpha lost in 6 months of storage at room temperature (~20 °C).<br /><br />Note that this is percentage and not percentage points.  So, eg, if a hop starts out with 4.0% `alpha_acid` and has 25% `six_month_alpha_loss`, then we would expect its alpha acid to be 3.0% after six months in storage. |
 | substitutes |  | string | Alternate hop varieties that can be used in place of this hop variety |
 | cohumulone |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Cohumulone as a percentage of total hop alpha acids.<br /><br />Cohumulone is one of the three main alpha acids (with humulone and adhumulone), and typically makes up 20–50% of a hop's alpha acids.  It is somewhat more soluble than the others and isomerises a little more readily during the boil.  A long-standing view among brewers is that high-cohumulone hops give a harsher bitterness, although the evidence for this is mixed.  (See eg https://en.wikipedia.org/wiki/Humulone.) |
-| oil_content |  | [OilContent](#oilcontent) |  |
+| oil_content |  | [OilContent](#oilcontent) | The amount and make-up of the hop variety's essential oils. |
 | polyphenols |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Polyphenols as a percentage of hop mass.<br /><br />Polyphenols are a large family of naturally occurring phenols with "several hydroxyl groups on aromatic rings".  They include four principal classes: phenolic acids, flavonoids, stilbenes, and lignans.  Polyphenols in hops contribute to the astringency and fullness of beer's taste, enhancing its overall flavor profile.  They do not have a direct aroma but can affect beer taste by contributing to its mouthfeel, astringency, and haze formation.  Additionally, they play a role in beer stability, as they have antioxidant properties that can help prevent the oxidation of flavor compounds. |
 | xanthohumol |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Xanthohumol as a percentage of hop mass.<br /><br />Xanthohumol is a natural flavonoid found in the female inflorescences of hops.  Its impact on beer taste is not as significant as that of alpha acids or essential oils, but it may contribute to the overall complexity and subtle nuances in beer flavors.  (Xanthohumol has also been the subject of considerable research for its potential health benefits, but typically in quantities far exceeding any amount that could be obtained by ordinary dietary intake.) |
 
@@ -60,4 +60,4 @@ Collects all information of a hop variety pertaining to oil content.  With the e
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 09:17:25+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 12:55:01+0200.

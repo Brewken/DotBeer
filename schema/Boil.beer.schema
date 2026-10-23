@@ -49,6 +49,7 @@
     // this newer format, we might as well insist on the steps.)
     //
     "boil_steps": {
+      "description": "The steps that make up the boil, in the order they are performed.",
       "type": "array",
       "minItems": 1,
       "items": {

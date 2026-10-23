@@ -20,8 +20,8 @@ Common attributes of MashStep, BoilStep and FermentationStep.
 | step_time |  | [Measurement::Time](./Measurement.md#time) | The duration to spend at this step – ie the amount of time we are to hold this particular step temperature. |
 | start_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | For a MashStep this is also known as the step temperature, and is the target temperature for this step |
 | end_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Temperature at the end of the step, eg after the mash cools naturally during a long rest. |
-| start_pH |  | [Measurement::Acidity](./Measurement.md#acidity) |  |
-| end_pH |  | [Measurement::Acidity](./Measurement.md#acidity) |  |
+| start_pH |  | [Measurement::Acidity](./Measurement.md#acidity) | The pH at the start of the step. |
+| end_pH |  | [Measurement::Acidity](./Measurement.md#acidity) | The pH at the end of the step. |
 
 ## StepWithRampTime
 
@@ -39,13 +39,13 @@ Common attributes of BoilStep and FermentationStep but not MashStep.
 
 <strong>StepWithGravity</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type |
-| -------- | --------- | ---- |
-| start_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) |
-| end_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) |
+| Property | Required? | Type | Description |
+| -------- | --------- | ---- | ----------- |
+| start_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The gravity at the start of the step. |
+| end_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The gravity at the end of the step, eg a fermentation step might last until the gravity reaches 1.012 (rather than for a set time). |
 
 
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 09:17:25+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 12:55:01+0200.

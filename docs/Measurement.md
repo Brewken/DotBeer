@@ -80,7 +80,7 @@ An amount of a currency, eg $1.23 or €3.45.
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | iso_alphabetic_code | ✅ |  matching regular expression [`^[A-WYZ][A-Z]{2}$`](https://regex101.com/?regex=%5E%5BA-WYZ%5D%5BA-Z%5D%7B2%7D%24) | The three-letter ISO 4217 alphabetic code for this currency, eg AUD for Australian Dollars, CAD for Canadian Dollars, USD for US Dollars.<br /><br />Note that codes beginning with X are not supported. |
-| amount | ✅ | `0 <= x ` |  |
+| amount | ✅ | `0 <= x ` | The amount in the currency's major unit, eg 1.23 for $1.23 (and not 123 cents). |
 
 ## Date
 
@@ -175,9 +175,7 @@ Strictly speaking, mass concentration (eg mg/l) is different from mass fraction 
 
 ## PercentageNoMax
 
-PercentageNoMax, aka, "no max percentage" is a percentage that can be more than 100% (but cannot be less than 0%).
-
-NOTE: This is not currently used, but is reserved for future use.
+PercentageNoMax, aka, "no max percentage" is a percentage that can be more than 100% (but cannot be less than 0%).  Eg apparent attenuation is more than 100% for a beer whose final gravity is below 1.000 SG.
 
 <strong>PercentageNoMax</strong> is a JSON object with the following properties:
 
@@ -256,6 +254,8 @@ Viscosity of fluids
 
 ## VolumePerMass
 
+`qt/lb` is US quarts per pound<br>`gal/lb` is US gallons per pound<br>`gal/oz` is US gallons per ounce<br>`l/g` is liters per gram<br>`l/kg` is liters per kilogram<br>`floz/oz` is US fluid ounces per ounce<br>`m^3/kg` is cubic meters per kilogram<br>`ft^3/lb` is cubic feet per pound<br>(See Volume and Mass for the sizes of these units.)
+
 For a single substance, volume-per-mass is the substance's "specific volume" (see https://en.wikipedia.org/wiki/Specific_volume), which is the reciprocal of its density.  However, in brewing, volume-per-mass is mostly used for ratios between two different things -- eg mash thickness (volume of water per mass of grain) or grain absorption rate (volume of water absorbed per mass of grain).  In such cases, it would be inaccurate to refer to "specific volume".
 
 <strong>VolumePerMass</strong> is a JSON object with the following properties:
@@ -320,6 +320,17 @@ For a single substance, volume-per-mass is the substance's "specific volume" (se
 | minimum | ✅ | [Gravity](#gravity) |
 | maximum | ✅ | [Gravity](#gravity) |
 
+## RangeOfPercentageNoMax
+
+
+
+<strong>RangeOfPercentageNoMax</strong> is a JSON object with the following properties:
+
+| Property | Required? | Type |
+| -------- | --------- | ---- |
+| minimum | ✅ | [PercentageNoMax](#percentagenomax) |
+| maximum | ✅ | [PercentageNoMax](#percentagenomax) |
+
 ## RangeOfPercentageSimple
 
 
@@ -335,4 +346,4 @@ For a single substance, volume-per-mass is the substance's "specific volume" (se
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 09:17:25+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 12:55:01+0200.

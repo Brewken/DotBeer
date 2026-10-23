@@ -202,7 +202,7 @@
           "culture_additions": [
             {
               "culture_id": "culture_belle_saison",
-              "attenuation": { "unit": "%", "value": 100.0 },
+              "attenuation": { "unit": "%", "value": 103.6 },
               "schedule": { "stage": "add_to_fermentation" },
               "amount": { "unit": "g", "value": 11 }
             }
@@ -212,8 +212,8 @@
         // The point of this example
         "final_gravity": { "unit": "sg", "value": 0.998 },
         "alcohol_by_volume": { "unit": "%", "value": 7.6 },
-        // apparent_attenuation is omitted: (1.056 - 0.998) / (1.056 - 1.000) = 103.6%, which is correct but exceeds the
-        // 100% maximum of PercentageSimple.  Likewise computed_attenuation in the brew log below.
+        // Apparent attenuation of more than 100%: (1.056 - 0.998) / (1.056 - 1.000) = 103.6%
+        "apparent_attenuation": { "unit": "%", "value": 103.6 },
         "brew_logs": [
           {
             "batch_number": "S-3",
@@ -228,8 +228,9 @@
             // Negative degrees Plato
             "measured_final_gravity": { "unit": "plato", "value": -0.5 },
             "expected_alcohol_by_volume": { "unit": "%", "value": 7.6 },
-            // computed_attenuation omitted -- see comment on apparent_attenuation above
-            "expected_attenuation": { "unit": "%", "value": 100.0 },
+            "expected_attenuation": { "unit": "%", "value": 103.6 },
+            // From the measured gravities (13.9 °P ≈ 1.0564 SG and −0.5 °P ≈ 0.9981 SG)
+            "computed_attenuation": { "unit": "%", "value": 103.4 },
             "expected_efficiency": { "unit": "%", "value": 75.0 },
             "expected_boil_off": { "unit": "gal", "value": 1.0 }
           }

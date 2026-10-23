@@ -36,6 +36,7 @@
       "type": "string"
     },
     "fermentation_steps": {
+      "description": "The steps that make up the fermentation, in the order they are performed.",
       "type": "array",
       "minItems": 1,
       "items": {
@@ -65,7 +66,9 @@
               "description": "Free rise is used to indicate a fermentation step where the exothermic fermentation is allowed to raise the temperature without restriction.",
               "type": "boolean"
             },
+            // BeerJSON (from 3.0) also has `vessel_pressure`, for fermenting under pressure, which we don't (yet) have
             "vessel": {
+              "description": "Name of the vessel the step takes place in, which is how a transfer between vessels is recorded.",
               "type": "string"
             }
           }
