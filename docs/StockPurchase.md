@@ -119,4 +119,4 @@ Note that both `amount_ordered` and `amount_received` need to be the same type o
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-23 at 13:33:22+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-23 at 21:45:26+0200.

@@ -20,7 +20,7 @@
     "output_by": "DotBeer examples (hand-written)",
     "timestamp": "2026-10-16T10:00:00Z",
     "fermentables": [
-      { "name": "Pale Malt", "local_id": "ferm_pale", "fermentable_type": "grain", "color": { "unit": "EBC", "value": 5 } }
+      { "name": "Pale Malt", "local_id": "ferm_pale", "fermentable_type": "grain", "color": { "unit": "EBC", "value": 5 }, "yield_fine_grind": { "unit": "%", "value": 80.0 } }
     ],
     "recipes": [
       {

@@ -35,4 +35,4 @@ If `start_temperature` or `end_temperature` is not given, the step is assumed to
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-23 at 13:33:22+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-23 at 21:45:26+0200.

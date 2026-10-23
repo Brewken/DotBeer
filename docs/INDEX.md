@@ -54,4 +54,4 @@ If a field is marked `deprecated` in the schema that usually means it should be 
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-23 at 13:33:22+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-23 at 21:45:26+0200.

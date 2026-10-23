@@ -21,7 +21,7 @@
       { "name": "Cascade", "local_id": "cascade", "alpha_acid": { "unit": "%", "value": 6.0 } }
     ],
     "fermentables": [
-      { "name": "Pale Malt", "local_id": "ferm_pale", "fermentable_type": "grain", "color": { "unit": "EBC", "value": 5 } }
+      { "name": "Pale Malt", "local_id": "ferm_pale", "fermentable_type": "grain", "color": { "unit": "EBC", "value": 5 }, "yield_fine_grind": { "unit": "%", "value": 80.0 } }
     ],
     "recipes": [
       {
