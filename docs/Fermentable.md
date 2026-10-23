@@ -2,6 +2,8 @@
 
 An ingredient that contributes extractable sugar (and usually colour): malts and other grains, extracts, sugars, honey, fruit, juice.
 
+A fermentable must have at least one of `yield_fine_grind`, `yield_coarse_grind` and `yield_potential`, as otherwise its contribution to gravity cannot be calculated.  (`yield_fine_coarse_difference` does not count for this purpose, as, on its own, it does not give a yield.)
+
 As noted in descriptions, some fields are only meaningful for certain types of fermentable.  On the whole, the schema does not try to enforce this, partly in the interests of simplicity and partly because analysis sheets for unusual products do sometimes quote these values.
 
 <strong>Fermentable</strong> is a JSON object with the following properties:
@@ -57,4 +59,4 @@ The ways in which an amount of a Fermentable could be measured
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-22 at 08:30:19+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 08:16:31+0200.

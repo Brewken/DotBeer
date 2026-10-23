@@ -31,7 +31,8 @@
         "local_id": "ferm_maris_otter",
         "fermentable_type": "grain",
         "grain_group": "base",
-        "color": { "unit": "EBC", "value": 5.5 }
+        "color": { "unit": "EBC", "value": 5.5 },
+        "yield_coarse_grind": { "unit": "%", "value": 80.0 }
       }
     ],
     "miscs": [

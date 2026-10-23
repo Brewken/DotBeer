@@ -1,6 +1,6 @@
 # Boil
 
-A boil procedure, which can be used by multiple recipes.  A boil procedure with no steps is the same as a standard single step boil.
+A boil procedure, which can be used by multiple recipes.  Unlike in BeerJSON, a boil must have at least one step: a standard single step boil is simply a boil with one step.  (There is therefore no separate `boil_time` field, as the length of the boil comes from its steps.)
 
 <strong>Boil</strong> is a JSON object with the following properties:
 
@@ -23,6 +23,8 @@ A boil procedure, which can be used by multiple recipes.  A boil procedure with 
 
 Individual step of a boil, including preboil steps, non-boiling pasteurization steps, boiling, whirlpool steps, and chilling.
 
+If `start_temperature` or `end_temperature` is not given, the step is assumed to be at boiling at that point.  Steps are classified as pre-boil, boil proper or post-boil by their temperatures (see `AdditionSchedule` in [Recipe](./Recipe.md#additionschedule) for details).
+
 <strong>BoilStep</strong> is a JSON object with all properties from [StepCommon::StepBase](./StepCommon.md#stepbase), [StepCommon::StepWithRampTime](./StepCommon.md#stepwithramptime) and [StepCommon::StepWithGravity](./StepCommon.md#stepwithgravity) as well as these additional ones:
 
 | Property | Required? | Type | Description |
@@ -33,4 +35,4 @@ Individual step of a boil, including preboil steps, non-boiling pasteurization s
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-22 at 08:30:19+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 08:16:31+0200.

@@ -37,9 +37,9 @@
       // all style guides use a single letter for subcategories.  (BeerXML 2.01 described this field as "the specific
       // style number or subcategory letter".)
       //
-      "description": "The specific subcategory letter (or number) associated with this particular style. For example in the BJCP 2021 style guide, an American Lager would be style letter “B” under the main category (1 = Standard American Beer).  Letters should be upper case.",
+      "description": "The specific subcategory letter (or a one- or two-digit sub-style number) associated with this particular style.  For example in the BJCP 2021 style guide, an American Lager would be style letter “B” under the main category (1 = Standard American Beer).  Letters should be upper case",
       "type": "string",
-      "pattern": "^[A-Z0-9]+$"
+      "pattern": "^([A-Z]|[0-9]{1,2})$"
     },
     "style_guide": {
       "description": "Who published the guidelines, ideally with the edition, eg “BJCP 2021” or “BA 2024”.  Including the edition matters because category numbers and style definitions change between editions.",

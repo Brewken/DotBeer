@@ -25,7 +25,9 @@ Detailed documentation is [here](./docs/INDEX.md).
   debug code that generates <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> files, and developers can be a lot more confident
   that their implementation is correct than, say, with BeerXML where there is no published machine-readable schema.
   Secondly, it simplifies reading in files if you first validate them against the schema (because, after this is done,
-  code can safely assume that all "required" fields are present in the file and that field types are valid etc).
+  code can safely assume that all "required" fields are present in the file and that field types are valid etc).  So
+  you should always validate a file against the schema before reading it in: your parsing code then does not need to
+  check anything that schema validation has already ensured.
 
 
 * **Comments Allowed**
@@ -52,12 +54,13 @@ Detailed documentation is [here](./docs/INDEX.md).
 
 * **Schema Evolution**
 
-  We should make it as easy as possible for the file format to evolve over time.  Eg, if a new field is added, it should
-  not break existing software.  It should also be obvious from the documentation which fields are supported (or
-  deprecated) in which version of the schema.
+  We should make it as easy as possible for the file format to evolve over time, and it should be clear from the version
+  number what a change means for existing software (see [Versioning](#versioning) below).  It should also be obvious
+  from the documentation which fields are supported (or deprecated) in which version of the schema.
 
-  As an implementer, you should not need to juggle multiple schemas to cope with older and newer versions of files.  The
-  current version of the schema should tell you which fields are valid in which versions of the file.
+  Within a major version, as an implementer, you should not need to juggle multiple schemas to cope with older and newer
+  versions of files: the latest version of the schema will validate files written with any earlier version that has the
+  same major version number.
 
 
 * **Clear File Extensions**
@@ -82,6 +85,43 @@ DotBeer files have the <span style="color:green; font-weight: bold; font-family:
 DotBeer schema files have the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> file extension.
 
 The underlying format for both types of file is [JSONC](https://jsonc.org/) --- ie JSON with comments allowed.
+
+### File format details
+JSONC is not (yet) tightly standardised, and different JSON parsers accept different extensions, so, to be precise, a
+dotBeer file is a JSON text as defined by [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) with the following
+additions and restrictions:
+
+* **Comments are allowed** wherever whitespace is allowed, in both C++ style (`// ...` to the end of the line) and C
+  style (`/* ... */`, which do not nest).
+* **No other extensions are allowed.**  In particular, there are no trailing commas, no single-quoted strings, no
+  unquoted keys, and no `NaN`, `Infinity` or `-Infinity` (ie all numbers are finite).
+* **Keys must be unique** within each object.  (RFC 8259 only says they SHOULD be unique, and parsers differ over what
+  they do with duplicates: eg some keep the first value and others, including Boost.JSON, keep the last.  So a file with
+  duplicate keys might be read differently by different programs.)
+* **Encoding is UTF-8**, without a byte order mark.
+
+These rules match what [Boost.JSON](https://www.boost.org/doc/libs/release/libs/json/) accepts when `allow_comments` is
+set and its other `parse_options` are left at their defaults, except that Boost.JSON does not reject duplicate keys.  Note that JSON Schema validation cannot check any of these rules, as
+the validator only sees the result of parsing the file.  (`scripts/validate.py` does check them.)
+
+### Versioning
+The schema uses [semantic versioning](https://semver.org/), ie a three-part Major.Minor.Patch version number.  The
+version is in the `$id` of every schema file, and every dotBeer file records, in its `version` field, the version of the
+schema it was written with.  From version 1.0.0 onwards:
+
+* A **patch** change, eg 1.2.3 to 1.2.4, shouldn't break anything.  Eg we added or amended a description or, in certain
+  circumstances, tweaked a constraint.  Software using the older schema (eg 1.2.3) can validate and read a file written
+  with the newer schema (eg 1.2.4) and vice versa.
+* A **minor** change, eg 1.3.5 to 1.4.0, is backwards compatible.  Software using the newer schema (eg 1.4.0) can
+  validate and read a file written with the older schema (eg 1.3.5), but the reverse is not true.
+* A **major** change, eg 1.5.7 to 2.0.0, is not backwards compatible.  It's likely that "new" software would need two
+  versions of the schema and some additional logic to be able to read both new and old files.
+
+Versions prior to 1.0.0 are subject to breaking changes at any time.
+
+As noted above, you should always validate a file against the schema before reading it in.  Checking the file's
+`version` first lets you give the user a more helpful message (eg "This file was written by a newer version of
+Brewtarget") than a schema validation error would when a file is too new for your software to read.
 
 Detailed documentation is generated in the `docs` directory from the schema files in the `schema` directory by `scripts/generateDocs.py`.  All documentation is available online at [www.dotbeer.org](https://www.dotbeer.org/).
 

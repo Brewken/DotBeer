@@ -55,14 +55,16 @@ The information stored in a beer recipe.
 
 This object fully describes when, and for how long, a recipe addition should be made, with options for basis on time, gravity, or pH at any process step.
 
-Hop additions that BeerXML would call *first wort* and *aroma* (eg whirlpool, hop stand or flameout additions) are expressed through the step of the boil in which they are made.  By convention, a boil has a pre-boil step (ramping up from mash temperature), then the boil proper, then one or more post-boil steps (cooling).  So:<br> • a first wort addition is `add_to_boil` in the pre-boil step (typically `step` 1)<br> • an ordinary boil addition is `add_to_boil` in the boil proper (typically `step` 2), with `time` being how long before the end of the boil it is added<br> • a whirlpool or hop stand addition is `add_to_boil` in a post-boil step (typically `step` 3), with `duration` being how long the hops steep<br>Readers should identify these steps by their temperatures (a pre-boil step starts below boiling; a post-boil step ends below boiling) rather than relying on the step numbers.
+Hop additions that BeerXML would call *first wort* and *aroma* (eg whirlpool, hop stand or flameout additions) are expressed through the step of the boil in which they are made.  By convention, a boil has a pre-boil step (ramping up from mash temperature), then the boil proper, then one or more post-boil steps (cooling).
+
+A boil step is part of the *boil proper* if its start and end temperatures are both above 81°C (178°F).  (This is above any mash-out temperature and below the boiling point of water at any inhabited altitude.)  A boil step whose start or end temperature is not given is assumed to be at boiling at that point.  The length of the boil proper is the total `step_time` of its steps.  So:<br> • a first wort addition is `add_to_boil` in a first step (typically `step` 1) that starts at or below 81°C<br> • an ordinary boil addition is `add_to_boil` in the boil proper (typically `step` 2, or with `step` not set), with `time` being how long before the end of the boil proper it is added<br> • a whirlpool or hop stand addition is `add_to_boil` in a later step (typically `step` 3) that ends at or below 81°C, with `duration` being how long the hops steep<br>Readers should identify these steps by their temperatures, as above, rather than relying on the step numbers.
 
 <strong>AdditionSchedule</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
 | stage | ✅ | Enum:<br>&nbsp;∙ `add_to_mash`<br>&nbsp;∙ `add_to_boil`<br>&nbsp;∙ `add_to_fermentation`<br>&nbsp;∙ `add_to_package` | Differentiates the specific process type when this ingredient addition is used.  Note that `add_to_package` is used, for example, for priming sugar added when beer is bottled. |
-| time |  | [Measurement::Time](./Measurement.md#time) | What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, when `stage` is `add_to_boil`, this is time *before* the *end* of the step (or of the boil if no step is specified).  For other values of `stage`, this is time *after* the *start* of the step (or of the process if no step is specified).  If none of `time`, `specific_gravity` and `pH` is set, the addition is made at the start of the step (or of the process if no step is specified). |
+| time |  | [Measurement::Time](./Measurement.md#time) | What time during a process step is added, eg a value of 2 days for a dry hop addition would be added 2 days into the fermentation step.  NOTE that, when `stage` is `add_to_boil`, this is time *before* the *end* of the step (or, if no step is specified, of the boil proper -- ie excluding any post-boil steps, as explained above).  For other values of `stage`, this is time *after* the *start* of the step (or of the process if no step is specified).  If none of `time`, `specific_gravity` and `pH` is set, the addition is made at the start of the step (or of the process if no step is specified). |
 | duration |  | [Measurement::Time](./Measurement.md#time) | How long an ingredient addition remains, this was referred to as time in the BeerXML standard. Eg A 40 minute hop boil additions means to boil for 40 minutes, and a 2 day duration for a dry hop means to remove it after 2 days.  If this field is not set or not present, the addition is generally assumed to be removed at the end of the `stage` in which it was added.  For a whirlpool or hop stand addition (see above), this is the steeping time.  (Thus, this field is normally only needed if an addition is to be removed before the end of the `stage` it was added.) |
 | specific_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Used (as an alternative to `time`) to indicate when an addition is added based on a desired specific gravity.  Eg Add dry hop at when SG is 1.018. |
 | pH |  | [Measurement::Acidity](./Measurement.md#acidity) | Used (as an alternative to `time`) to indicate when an addition is added based on a desired specific pH.  Eg Add brett when pH is 3.4. |
@@ -70,7 +72,7 @@ Hop additions that BeerXML would call *first wort* and *aroma* (eg whirlpool, ho
 
 ## CultureRecipeAddition
 
-Collects the attributes of each culture ingredient for use in a recipe.  Unlike other additions, the `schedule` element is optional.
+Collects the attributes of each culture ingredient for use in a recipe.  (Unlike in BeerJSON, the `schedule` element is required, as it is for other additions.  For a culture pitched at the start of fermentation, it need only contain `"stage": "add_to_fermentation"`.)
 
 <strong>CultureRecipeAddition</strong> is a JSON object with the following properties:
 
@@ -174,4 +176,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-22 at 08:30:19+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 08:16:31+0200.

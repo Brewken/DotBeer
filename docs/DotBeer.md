@@ -20,10 +20,10 @@ Root element of all dotBeer documents.  Most of the Primary Types (ie ones that 
 | styles |  | array of [Style](./Style.md) | Details of judging guidelines for individual beer styles. |
 | equipments |  | array of [Equipment](./Equipment.md) | Provides necessary information for brewing equipment. |
 | recipes |  | array of [Recipe](./Recipe.md) | Records containing a minimal collection of the description of ingredients, procedures and other required parameters necessary to recreate a batch of beer. |
-| culture_stock_purchases |  | array of [StockPurchase::StockPurchaseCulture](./StockPurchase.md#stockpurchaseculture) |  |
-| fermentable_stock_purchases |  | array of [StockPurchase::StockPurchaseFermentable](./StockPurchase.md#stockpurchasefermentable) |  |
-| hop_stock_purchases |  | array of [StockPurchase::StockPurchaseHop](./StockPurchase.md#stockpurchasehop) |  |
-| misc_stock_purchases |  | array of [StockPurchase::StockPurchaseMisc](./StockPurchase.md#stockpurchasemisc) |  |
+| culture_stock_purchases |  | array of [StockPurchase::StockPurchaseCulture](./StockPurchase.md#stockpurchaseculture) | Records of acquisitions of stock of a culture (eg yeast), and of what was subsequently done with that stock.  Each refers, by local ID, to an item in the "cultures" section of the same dotBeer file. |
+| fermentable_stock_purchases |  | array of [StockPurchase::StockPurchaseFermentable](./StockPurchase.md#stockpurchasefermentable) | Records of acquisitions of stock of a fermentable, and of what was subsequently done with that stock.  Each refers, by local ID, to an item in the "fermentables" section of the same dotBeer file. |
+| hop_stock_purchases |  | array of [StockPurchase::StockPurchaseHop](./StockPurchase.md#stockpurchasehop) | Records of acquisitions of stock of a hop, and of what was subsequently done with that stock.  Each refers, by local ID, to an item in the "hops" section of the same dotBeer file. |
+| misc_stock_purchases |  | array of [StockPurchase::StockPurchaseMisc](./StockPurchase.md#stockpurchasemisc) | Records of acquisitions of stock of a miscellaneous ingredient, and of what was subsequently done with that stock.  Each refers, by local ID, to an item in the "miscs" section of the same dotBeer file. |
 
 
 ---
@@ -34,7 +34,7 @@ Root element of all dotBeer documents.  Most of the Primary Types (ie ones that 
 
 A FolderPath is typically used for the suggested slash-delimited subfolder path in which to store an object.  Any leading slash should be ignored.  Eg, if an object's folder path is "/hum/bug" (or "hum/bug") then importing the object into folder "/foo/bar" should result in its folder path being "/foo/bar/hum/bug".  If the importing software does not support folders, then it should ignore folder path fields.
 
-<strong>FolderPath</strong> is a ``string``  matching regular expression [`^[/]?([^/]+([/][^/]+)*)?$`](https://regex101.com/?regex=%5E%5B%2F%5D%3F%28%5B%5E%2F%5D%2B%28%5B%2F%5D%5B%5E%2F%5D%2B%29%2A%29%3F%24)
+<strong>FolderPath</strong> is a ``string``  matching regular expression [`^[/]?([ ]*[^/ \x00-\x1F\x7F-\x9F][^/\x00-\x1F\x7F-\x9F]*([/][ ]*[^/ \x00-\x1F\x7F-\x9F][^/\x00-\x1F\x7F-\x9F]*)*)?$`](https://regex101.com/?regex=%5E%5B%2F%5D%3F%28%5B+%5D%2A%5B%5E%2F+%5Cx00-%5Cx1F%5Cx7F-%5Cx9F%5D%5B%5E%2F%5Cx00-%5Cx1F%5Cx7F-%5Cx9F%5D%2A%28%5B%2F%5D%5B+%5D%2A%5B%5E%2F+%5Cx00-%5Cx1F%5Cx7F-%5Cx9F%5D%5B%5E%2F%5Cx00-%5Cx1F%5Cx7F-%5Cx9F%5D%2A%29%2A%29%3F%24)
 
 ## LocalId
 
@@ -58,4 +58,4 @@ We use semantic versioning, which encodes a version by a three-part version numb
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-22 at 08:30:19+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 08:16:31+0200.

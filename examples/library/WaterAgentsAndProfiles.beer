@@ -22,6 +22,9 @@
 
     "miscs": [
       { "name": "Calcium Chloride",  "local_id": "wa_cacl2",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium chloride anhydrous"    },
+      { "name": "Calcium Chloride Flake", "local_id": "wa_cacl2_flake", "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium chloride dihydrate" },
+      { "name": "Pickling Lime",     "local_id": "wa_caoh2",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium hydroxide"             },
+      { "name": "Magnesium Chloride", "local_id": "wa_mgcl2",   "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "magnesium chloride hexahydrate"},
       { "name": "Chalk",             "local_id": "wa_caco3",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium carbonate"             },
       { "name": "Gypsum",            "local_id": "wa_caso4",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "calcium sulfate dihydrate"     },
       { "name": "Epsom Salt",        "local_id": "wa_mgso4",    "folder_path": "Water Agents/Salts", "misc_type": "water agent", "water_agent_type": "magnesium sulfate heptahydrate"},
@@ -41,6 +44,22 @@
         "folder_path": "Water Agents/Acids",
         "misc_type": "water agent",
         "water_agent_type": "phosphoric acid",
+        "water_agent_percent_acid": { "unit": "%", "value": 10.0 }
+      },
+      {
+        "name": "Sulfuric Acid 10%",
+        "local_id": "wa_sulfuric_10",
+        "folder_path": "Water Agents/Acids",
+        "misc_type": "water agent",
+        "water_agent_type": "sulfuric acid",
+        "water_agent_percent_acid": { "unit": "%", "value": 10.0 }
+      },
+      {
+        "name": "Hydrochloric Acid 10%",
+        "local_id": "wa_hydrochloric_10",
+        "folder_path": "Water Agents/Acids",
+        "misc_type": "water agent",
+        "water_agent_type": "hydrochloric acid",
         "water_agent_percent_acid": { "unit": "%", "value": 10.0 }
       },
       {

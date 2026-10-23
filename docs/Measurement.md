@@ -52,10 +52,13 @@ Supports both grain color properties, such as Lovibond, and wort color propertie
 
 <strong>Color</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `EBC`<br>&nbsp;∙ `Lovi`<br>&nbsp;∙ `SRM` | `EBC` is European Brewing Convention system of color measurement<br>`Lovi` is Lovibond<br>`SRM` is Standard Reference Method color measurement system |
-| value | ✅ | `-1.5 <= x ` |  |
+| Property | Required? | Type | Conditional? | Description |
+| -------- | --------- | ---- | ------------ | ----------- |
+| unit | ✅ | Enum:<br>&nbsp;∙ `EBC`<br>&nbsp;∙ `Lovi`<br>&nbsp;∙ `SRM` |  | `EBC` is European Brewing Convention system of color measurement<br>`Lovi` is Lovibond<br>`SRM` is Standard Reference Method color measurement system |
+| value | ✅ | number |  |  |
+| value |  | None | **If** unit = Lovi |  |
+| value |  | None | **If** unit = SRM |  |
+| value |  | None | **If** unit = EBC |  |
 
 ## Count
 
@@ -100,20 +103,20 @@ Either a calendar date (YYYY-MM-DD) or a date and time of day (YYYY-MM-DDThh:mm:
 ## EnergyPerVolume
 
 Energy per volume is used in nutritional labelling.
-`kcal/L` is kilocalories per liter<br>`kcal/50cl` is kilocalories per 50 centiliters<br>`kcal/33cl` is kilocalories per 33 centiliters<br>`kcal/25cl` is kilocalories per 25 centiliters<br>`kcal/100ml` is kilocalories per 100 milliliters*<br>`kcal/pt` is kilocalories per US pint (16 US fluid ounces)<br>`kcal/12floz` is kilocalories per 12 US fluid ounces<br>`kcal/ipt` is kilocalories per imperial pint<br>`kJ/100ml` is kilojoules per 100 milliliters*<br>Those marked * are EU standards for nutritional labelling.
+`kcal/l` is kilocalories per liter<br>`kcal/50cl` is kilocalories per 50 centiliters<br>`kcal/33cl` is kilocalories per 33 centiliters<br>`kcal/25cl` is kilocalories per 25 centiliters<br>`kcal/100ml` is kilocalories per 100 milliliters*<br>`kcal/pt` is kilocalories per US pint (16 US fluid ounces)<br>`kcal/12floz` is kilocalories per 12 US fluid ounces<br>`kcal/ipt` is kilocalories per imperial pint<br>`kJ/100ml` is kilojoules per 100 milliliters*<br>Those marked * are EU standards for nutritional labelling.
 
 <strong>EnergyPerVolume</strong> is a JSON object with the following properties:
 
 | Property | Required? | Type |
 | -------- | --------- | ---- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `kcal/L`<br>&nbsp;∙ `kcal/50cl`<br>&nbsp;∙ `kcal/33cl`<br>&nbsp;∙ `kcal/25cl`<br>&nbsp;∙ `kcal/100ml`<br>&nbsp;∙ `kcal/pt`<br>&nbsp;∙ `kcal/12floz`<br>&nbsp;∙ `kcal/ipt`<br>&nbsp;∙ `kJ/100ml` |
+| unit | ✅ | Enum:<br>&nbsp;∙ `kcal/l`<br>&nbsp;∙ `kcal/50cl`<br>&nbsp;∙ `kcal/33cl`<br>&nbsp;∙ `kcal/25cl`<br>&nbsp;∙ `kcal/100ml`<br>&nbsp;∙ `kcal/pt`<br>&nbsp;∙ `kcal/12floz`<br>&nbsp;∙ `kcal/ipt`<br>&nbsp;∙ `kJ/100ml` |
 | value | ✅ | `0 <= x ` |
 
 ## Gravity
 
 In brewing, "gravity" is a shorthand for "specific gravity".  Typically, brewers measure relative gravity (aka specific gravity) to gauge percent of sugar content (ie Plato and Brix).
 
-We assume that brewers don't need "specific gravity" below 0.900 SG (-30°P/°Bx) or above 2.000 SG (212.9°P/°Bx)
+We assume that brewers don't need "specific gravity" below 0.900 SG (about -30°P/°Bx).  At the other end, because degrees Plato and Brix are percentages of sugar by weight, they cannot exceed 100, which corresponds to about 1.6 SG (the density of sucrose itself), so these are the maximums.
 
 <strong>Gravity</strong> is a JSON object with the following properties:
 
@@ -156,7 +159,7 @@ Diastatic power is a measurement of malted grains enzymatic content.  More speci
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `mg`<br>&nbsp;∙ `g`<br>&nbsp;∙ `kg`<br>&nbsp;∙ `lb`<br>&nbsp;∙ `oz` | `mg` is milligrams<br>`g` is grams<br>`kg` is kilograms<br>`lb` is pounds (imperial and US customary)<br>`oz` is ounces (imperial and US customary) |
+| unit | ✅ | Enum:<br>&nbsp;∙ `mg`<br>&nbsp;∙ `g`<br>&nbsp;∙ `kg`<br>&nbsp;∙ `lb`<br>&nbsp;∙ `oz` | `mg` is milligrams<br>`g` is grams<br>`kg` is kilograms<br>`lb` is pounds (imperial and US customary, which are the same) = 453.59237 g exactly<br>`oz` is ounces (imperial and US customary, which are the same) = 1/16 lb ≈ 28.35 g.  (NB these are avoirdupois ounces, not troy ounces.) |
 | value | ✅ | `0 <= x ` |  |
 
 ## MassFractionOrConcentration
@@ -248,7 +251,7 @@ Viscosity of fluids
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
-| unit | ✅ | Enum:<br>&nbsp;∙ `ml`<br>&nbsp;∙ `l`<br>&nbsp;∙ `tsp`<br>&nbsp;∙ `tbsp`<br>&nbsp;∙ `floz`<br>&nbsp;∙ `cup`<br>&nbsp;∙ `pt`<br>&nbsp;∙ `qt`<br>&nbsp;∙ `gal`<br>&nbsp;∙ `bbl`<br>&nbsp;∙ `itsp`<br>&nbsp;∙ `itbsp`<br>&nbsp;∙ `ifloz`<br>&nbsp;∙ `icup`<br>&nbsp;∙ `ipt`<br>&nbsp;∙ `iqt`<br>&nbsp;∙ `igal`<br>&nbsp;∙ `ibbl` | `ml` is milliliters (Metric/SI)<br>`l` is liters (Metric/SI)<br>`tsp` is US teaspoons<br>`tbsp` is US tablespoons<br>`floz` is US fluid ounces<br>`cup` is US cups<br>`pt` is US pints (liquid)<br>`qt` is US quarts (liquid)<br>`gal` is US gallons (liquid)<br>`bbl` is US barrels (beer)<br>`itsp` is Imperial teaspoons<br>`itbsp` is Imperial tablespoons<br>`ifloz` is Imperial fluid ounces<br>`icup` is Imperial cups (containing 10 Imperial fluid ounces)<br>`ipt` is Imperial pints (liquid)<br>`iqt` is Imperial quarts (liquid)<br>`igal` is Imperial gallons (liquid)<br>`ibbl` is Imperial barrels (liquid) |
+| unit | ✅ | Enum:<br>&nbsp;∙ `ml`<br>&nbsp;∙ `l`<br>&nbsp;∙ `tsp`<br>&nbsp;∙ `tbsp`<br>&nbsp;∙ `floz`<br>&nbsp;∙ `cup`<br>&nbsp;∙ `pt`<br>&nbsp;∙ `qt`<br>&nbsp;∙ `gal`<br>&nbsp;∙ `bbl`<br>&nbsp;∙ `itsp`<br>&nbsp;∙ `itbsp`<br>&nbsp;∙ `ifloz`<br>&nbsp;∙ `icup`<br>&nbsp;∙ `ipt`<br>&nbsp;∙ `iqt`<br>&nbsp;∙ `igal`<br>&nbsp;∙ `ibbl` | `ml` is milliliters (Metric/SI)<br>`l` is liters (Metric/SI)<br>`tsp` is US teaspoons = ⅙ US fl oz ≈ 4.929 ml<br>`tbsp` is US tablespoons = 3 US tsp = ½ US fl oz ≈ 14.79 ml<br>`floz` is US fluid ounces = ⅛ US cup ≈ 29.57 ml<br>`cup` is US customary cups = 8 US fl oz ≈ 236.6 ml (NB not the 240 ml "legal" cup used for US nutrition labelling)<br>`pt` is US pints (liquid) = 16 US fl oz ≈ 473.2 ml<br>`qt` is US quarts (liquid) = 2 US pt ≈ 946.4 ml<br>`gal` is US gallons (liquid) = 4 US qt = 3.785411784 l exactly<br>`bbl` is US beer barrels = 31 US gal ≈ 117.3 l (NB not the 31.5 US gal barrel used for other liquids, nor the 42 US gal oil barrel)<br>`itsp` is Imperial teaspoons = 1 Imperial fluid drachm = ⅛ Imperial fl oz ≈ 3.552 ml<br>`itbsp` is Imperial tablespoons = 4 Imperial tsp = ½ Imperial fl oz ≈ 14.21 ml (NB 4 teaspoons to the tablespoon, unlike in the US)<br>`ifloz` is Imperial fluid ounces = 1/160 Imperial gal ≈ 28.41 ml<br>`icup` is Imperial cups = 10 Imperial fl oz = ½ Imperial pt ≈ 284.1 ml<br>`ipt` is Imperial pints (liquid) = 20 Imperial fl oz ≈ 568.3 ml<br>`iqt` is Imperial quarts (liquid) = 2 Imperial pt ≈ 1.137 l<br>`igal` is Imperial gallons (liquid) = 4 Imperial qt = 4.54609 l exactly<br>`ibbl` is Imperial beer barrels = 36 Imperial gal ≈ 163.7 l<br><br /><br />Where a unit has more than one definition in common use, these are the ones that dotBeer uses.  (The traditional Imperial spoons here are rarely used in modern British recipes, which mostly use metric spoons of 5 ml and 15 ml -- in which case, it is clearer to record amounts in `ml`.) |
 | value | ✅ | `0 <= x ` |  |
 
 ## VolumePerMass
@@ -332,4 +335,4 @@ For a single substance, volume-per-mass is the substance's "specific volume" (se
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-22 at 08:30:19+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 08:16:31+0200.

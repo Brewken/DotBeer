@@ -12,7 +12,8 @@
 """
 Validate dotBeer (.beer) files.
 
-Each file is checked in two passes:
+Each file is first parsed, which also checks the rules in "File format details" in README.md that JSON Schema cannot
+(eg that there are no duplicate keys, and no NaN or Infinity).  It is then checked in two passes:
 
   1. Against the JSON Schema in the schema/ directory (JSON Schema 2020-12).
 
@@ -108,12 +109,11 @@ VERSION_RE = re.compile(r"^[0-9]+[.][0-9]+[.][0-9]+$")  # Same as VersionNumber 
 # For each measure in Measurement.beer.schema, this gives the size of each unit in terms of a canonical one.  At start-up
 # we check that the units here match the enums in the schema, so this can't silently get out of step with it.
 #
-# A few units have more than one definition in common use.  Here we take: bbl = US beer barrel = 31 US gallons (rather
-# than the 31.5 US gallon barrel used for other liquids); ibbl = imperial beer barrel = 36 imperial gallons; and
-# 1 icup = 10 ifloz (ie half an imperial pint).  For imperial spoons, we use the traditional British definitions: 1 itsp
-# = 1 imperial fluid drachm = 1/8 ifloz, and 1 itbsp = 4 itsp = 1/2 ifloz.  (NB this differs from the US, where
-# 1 tbsp = 3 tsp.)  These should match whatever Brewtarget/Brewken uses.  (The exact factors only matter here when uses
-# in different units add up to almost exactly the amount purchased.)
+# A few units have more than one definition in common use.  The ones used here are those defined in the descriptions of
+# Mass and Volume in Measurement.beer.schema: in particular, bbl = US beer barrel = 31 US gallons; ibbl = imperial beer
+# barrel = 36 imperial gallons; 1 icup = 10 ifloz; 1 itsp = 1 imperial fluid drachm = 1/8 ifloz; and 1 itbsp = 4 itsp =
+# 1/2 ifloz.  If you change any of these, change the schema descriptions too (and vice versa).  (The exact factors only
+# matter here when uses in different units add up to almost exactly the amount purchased.)
 #
 UNIT_CONVERSIONS: dict[str, dict[str, float]] = {
     "Mass": {  # In grams
@@ -482,6 +482,18 @@ def declared_property_names(registry: referencing.Registry) -> set[str]:
 # Pass 1: JSON Schema
 #=======================================================================================================================
 def describe_schema_error(error: jsonschema.ValidationError, message: str | None = None) -> str:
+    #
+    # An "anyOf" whose branches are all "required" means "must have at least one of these fields" (eg a Fermentable
+    # needs at least one of its yield fields).  best_match (below) would just pick one branch and report, eg,
+    # "'yield_fine_grind' is a required property", which wrongly suggests that particular field is mandatory.
+    #
+    if message is None and error.validator == "anyOf" and isinstance(error.validator_value, list) and all(
+        isinstance(branch, dict) and set(branch) == {"required"} for branch in error.validator_value
+    ):
+        names = [name for branch in error.validator_value for name in branch["required"]]
+        message = f"must have at least one of {', '.join(map(repr, names))}"
+        path = "".join(f"/{p}" for p in error.absolute_path) or "(root)"
+        return f"{path}: {message}"
     #
     # For oneOf/anyOf failures, the top-level message just dumps the whole instance, which is not very helpful.  Where
     # there is a more specific underlying error, report that instead.

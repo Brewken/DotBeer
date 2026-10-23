@@ -9,8 +9,8 @@
 // warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Mozilla Public License for more details.
 //======================================================================================================================
 
-// EXPECT-INVALID: /DotBeer/hop_stock_purchases/0: 'date_ordered' is a required property
-// EXPECT-INVALID: /DotBeer/hop_stock_purchases/1: 'amount_ordered' is a required property
+// EXPECT-INVALID: /DotBeer/hop_stock_purchases/0: must have at least one of 'date_ordered', 'date_received'
+// EXPECT-INVALID: /DotBeer/hop_stock_purchases/1: must have at least one of 'amount_ordered', 'amount_received'
 // EXPECT-INVALID: /DotBeer/hop_stock_purchases/2/stock_uses/0/reason: 'borrowed' is not one of
 // EXPECT-INVALID: /DotBeer/hop_stock_purchases/2/stock_uses/1: 'amount_used' is a required property
 // EXPECT-INVALID: /DotBeer/hop_stock_purchases/2/stock_uses/2/amount_used

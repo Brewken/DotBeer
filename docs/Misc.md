@@ -13,7 +13,7 @@ Miscellaneous ingredients that are not hops, fermentables, yeasts/cultures or wa
 | producer |  | string |  |
 | product_id |  | string | Producer’s product code or number for this item. |
 | water_agent_type |  | Enum:<br>&nbsp;∙ `calcium chloride anhydrous`<br>&nbsp;∙ `calcium chloride dihydrate`<br>&nbsp;∙ `calcium carbonate`<br>&nbsp;∙ `calcium sulfate dihydrate`<br>&nbsp;∙ `calcium hydroxide`<br>&nbsp;∙ `magnesium sulfate heptahydrate`<br>&nbsp;∙ `magnesium chloride hexahydrate`<br>&nbsp;∙ `sodium chloride`<br>&nbsp;∙ `sodium bicarbonate`<br>&nbsp;∙ `lactic acid`<br>&nbsp;∙ `phosphoric acid`<br>&nbsp;∙ `sulfuric acid`<br>&nbsp;∙ `hydrochloric acid`<br>&nbsp;∙ `other` | Must be set if and only if `misc_type` is `water agent`.<br>`calcium chloride anhydrous` = CaCl₂<br>`calcium chloride dihydrate` = CaCl₂·2H₂O (Usual food-grade “flake”)<br>`calcium carbonate` = CaCO₃ (anhydrous; eg chalk)<br>`calcium sulfate dihydrate` = CaSO₄·2H₂O (gypsum)<br>`calcium hydroxide` = Ca(OH)₂ (pickling lime)<br>`magnesium sulfate heptahydrate` = MgSO₄·7H₂O  aka Epsom salt<br>`magnesium chloride hexahydrate` = MgCl₂·6H₂O<br>`sodium chloride` = NaCl  aka "regular" salt<br>`sodium bicarbonate` = NaHCO₃<br>`lactic acid` = CH₃CH(OH)CO₂H (extended formula) = C₃H₆O₃ (regular formula)<br>`phosphoric acid` = H₃PO₄<br>`sulfuric acid` = H₂SO₄<br>`hydrochloric acid` = HCl<br>`other` = none of the above |
-| water_agent_percent_acid |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Should only be set if `misc_type` is `water agent` and `water_agent_type` is `lactic acid`, `phosphoric acid` or `other`. |
+| water_agent_percent_acid |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The strength of an acid, as a percentage by weight, eg 88% for typical lactic acid or 10% for a typical phosphoric acid solution.  Acids are sold at widely varying strengths, so this should always be set for an acid, as otherwise an amount of it is ambiguous.<br /><br />Should only be set if `misc_type` is `water agent` and `water_agent_type` is an acid (`lactic acid`, `phosphoric acid`, `sulfuric acid` or `hydrochloric acid`) or `other`. |
 | use_for |  | string | Used to describe the purpose of the miscellaneous ingredient, e.g. whirlfloc is used for clarity. |
 | notes |  | string |  |
 
@@ -30,4 +30,4 @@ The ways in which an amount of a Misc could be measured
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-22 at 08:30:19+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 08:16:31+0200.

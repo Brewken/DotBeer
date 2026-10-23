@@ -60,6 +60,7 @@
         "grain_group": "specialty",
         "producer": "Weyermann",
         "color": { "unit": "EBC", "value": 5.0 },
+        "yield_fine_grind": { "unit": "%", "value": 75.0 },
         "max_in_batch": { "unit": "%", "value": 10.0 }
       }
     ],

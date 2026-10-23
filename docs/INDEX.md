@@ -42,10 +42,16 @@ When reading or writing a <span style="color:green; font-weight: bold; font-fami
 
 The version of the dotBeer schema is stored in the `$id` field in the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> files.  Eg <span style="color:Blue; font-weight: bold; font-family: monospace;">https://dotbeer.org/schema/0.8.0/DotBeer.beer.schema</span> would be the `$id` field for version 0.8.0 of the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">DotBeer.beer.schema</span> file.  (The version should be the same in all the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> files!)
 
-Schema versions prior to 1.0.0 are subject to breaking changes, but from 1.0.0 onwards adhere to the backwards compatibility principle.  This principle is that you should always be able to validate an older <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file against a newer schema (although the reverse is not guaranteed).  Eg, if a file were written using the 1.0.0 schema, it should validate and be readable against the 1.1.0 schema.
+The schema uses semantic versioning (Major.Minor.Patch).  Versions prior to 1.0.0 are subject to breaking changes at any time.  From 1.0.0 onwards:
 
-If a field is marked `deprecated` in the schema that usually means it should be supported for reading but not for writing.  This approach is part of what maintains the backwards compatibility principle.
+  - A **patch** change, eg 1.2.3 to 1.2.4, shouldn't break anything.  Eg we added or amended a description or, in certain circumstances, tweaked a constraint.  Software using the older schema (eg 1.2.3) can validate and read a file written with the newer schema (eg 1.2.4) and vice versa.
+  - A **minor** change, eg 1.3.5 to 1.4.0, is backwards compatible.  Software using the newer schema (eg 1.4.0) can validate and read a file written with the older schema (eg 1.3.5), but the reverse is not true.
+  - A **major** change, eg 1.5.7 to 2.0.0, is not backwards compatible.  It's likely that "new" software would need two versions of the schema and some additional logic to be able to read both new and old files.
+
+You should always validate a <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file against the schema before reading it in, as your parsing code then does not need to check anything that schema validation has already ensured.
+
+If a field is marked `deprecated` in the schema that usually means it should be supported for reading but not for writing.  This is how a field can be phased out without breaking backwards compatibility within a major version.
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-22 at 08:30:19+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 08:16:31+0200.

@@ -13,7 +13,7 @@ Range fields (`original_gravity`, `final_gravity`, `ibu`, `color`, `alcohol_by_v
 | style_guide | ✅ | string | Who published the guidelines, ideally with the edition, eg “BJCP 2021” or “BA 2024”.  Including the edition matters because category numbers and style definitions change between editions. |
 | style_type | ✅ | Enum:<br>&nbsp;∙ `beer`<br>&nbsp;∙ `cider`<br>&nbsp;∙ `kombucha`<br>&nbsp;∙ `mead`<br>&nbsp;∙ `other`<br>&nbsp;∙ `soda`<br>&nbsp;∙ `wine` | Defines the type of beverage associated with this category. |
 | category_number |  | string | Number or identifier associated with this style category. For example in the BJCP 2021 style guide, “Czech Premium Pale Lager” is category number “3”, style letter “B”, ie “3B”.<br /><br />Note that, despite the name, this needs to be a string rather than, say, an integer, because it can contain letters.  Eg BJCP mead and cider categories are M1–M4 and C1–C2. |
-| style_letter |  |  matching regular expression [`^[A-Z0-9]+$`](https://regex101.com/?regex=%5E%5BA-Z0-9%5D%2B%24) | The specific subcategory letter (or number) associated with this particular style. For example in the BJCP 2021 style guide, an American Lager would be style letter “B” under the main category (1 = Standard American Beer).  Letters should be upper case. |
+| style_letter |  |  matching regular expression [`^([A-Z]\|[0-9]{1,2})$`](https://regex101.com/?regex=%5E%28%5BA-Z%5D%7C%5B0-9%5D%7B1%2C2%7D%29%24) | The specific subcategory letter (or a one- or two-digit sub-style number) associated with this particular style.  For example in the BJCP 2021 style guide, an American Lager would be style letter “B” under the main category (1 = Standard American Beer).  Letters should be upper case |
 | local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this style. |
 | folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Style object. |
 | original_gravity |  | [Measurement::RangeOfGravity](./Measurement.md#rangeofgravity) |  |
@@ -35,4 +35,4 @@ Range fields (`original_gravity`, `final_gravity`, `ibu`, `color`, `alcohol_by_v
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-22 at 08:30:19+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v0.10.0) on 2026-10-23 at 08:16:31+0200.
