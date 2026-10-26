@@ -25,6 +25,7 @@ Each file is first parsed, which also checks the rules in "File format details" 
      plus a few other cross-field consistency checks:
        • an addition schedule's `step` exists in the relevant mash / boil / fermentation procedure
        • a range's minimum is not greater than its maximum (where both use the same unit)
+       • a mash tun's foundation_volume plus its loss is less than its max_volume
        • a brew log's ferment_date is not before its brew_date
        • a stock purchase's date_received is not before its date_ordered, and no stock use is dated before the stock
          was received (or, if it hasn't been received, ordered)
@@ -592,7 +593,7 @@ def check_local_ids(root: dict, result: Result) -> dict[str, tuple[str, str, Any
 
 
 def check_references(root: dict, defined: dict[str, tuple[str, str, Any]], reference_fields: dict[str, str],
-                     result: Result) -> None:
+                     declared_names: set[str], result: Result) -> None:
     for path, obj in walk(root, "/DotBeer"):
         if not isinstance(obj, dict):
             continue
@@ -610,7 +611,12 @@ def check_references(root: dict, defined: dict[str, tuple[str, str, Any]], refer
                 if not pointer_matches(expected, actual):
                     result.errors.append(f"{path}/{key}: local ID \"{value}\" refers to {label(target, target_path)}, "
                                          f"which is in {actual}, but {key} must refer to an item in {expected}")
-            elif key.endswith("_id") and key not in NON_REFERENCE_ID_FIELDS:
+            #
+            # This warning is to catch a schema field that is missing its x-refers-to annotation, so it only applies
+            # to names the schema declares.  An undeclared name (eg a misspelt field) is a problem with the file, not
+            # the schema, and schema validation will already have reported it as an unevaluated property.
+            #
+            elif key.endswith("_id") and key not in NON_REFERENCE_ID_FIELDS and key in declared_names:
                 result.warnings.append(f"{path}/{key}: field looks like a local ID reference, but its schema has no "
                                        f"x-refers-to annotation, so validate.py cannot check it")
 
@@ -664,6 +670,28 @@ def check_ranges(root: dict, result: Result) -> None:
                                      f"({high['value']} {high['unit']})")
         except (KeyError, TypeError):
             pass  # Schema validation will already have complained
+
+
+def check_mash_tun_volumes(root: dict, result: Result) -> None:
+    """
+    Checks that the room taken up by a mash tun's foundation_volume and loss leaves some room for the mash itself (see
+    the description of foundation_volume in Equipment.beer.schema)
+    """
+    for index, equipment in enumerate(root.get("equipments", [])):
+        mash_tun = equipment.get("mash_tun") if isinstance(equipment, dict) else None
+        if not isinstance(mash_tun, dict) or "foundation_volume" not in mash_tun:
+            continue
+        foundation = amount_in_canonical_units(mash_tun.get("foundation_volume"))
+        loss       = amount_in_canonical_units(mash_tun.get("loss"))
+        capacity   = amount_in_canonical_units(mash_tun.get("max_volume"))
+        if not (foundation and loss and capacity):
+            continue  # Schema validation will already have complained
+        if foundation[1] + loss[1] >= capacity[1]:
+            result.errors.append(
+                f"{label(equipment, f'/DotBeer/equipments/{index}')}: mash_tun foundation_volume "
+                f"({describe_amount(mash_tun['foundation_volume'])}) plus loss ({describe_amount(mash_tun['loss'])}) "
+                f"leaves no room for the mash in max_volume ({describe_amount(mash_tun['max_volume'])})"
+            )
 
 
 def check_brew_log_dates(root: dict, result: Result) -> None:
@@ -777,14 +805,16 @@ def check_stock_purchases(root: dict, result: Result) -> None:
                     )
 
 
-def semantic_checks(document: Any, reference_fields: dict[str, str], result: Result) -> None:
+def semantic_checks(document: Any, reference_fields: dict[str, str], declared_names: set[str],
+                    result: Result) -> None:
     root = document.get("DotBeer") if isinstance(document, dict) else None
     if not isinstance(root, dict):
         return  # Schema validation will already have complained
     defined = check_local_ids(root, result)
-    check_references(root, defined, reference_fields, result)
+    check_references(root, defined, reference_fields, declared_names, result)
     check_addition_steps(root, defined, result)
     check_ranges(root, result)
+    check_mash_tun_volumes(root, result)
     check_brew_log_dates(root, result)
     check_stock_purchases(root, result)
 
@@ -801,7 +831,7 @@ def validate_file(path: Path, validator: jsonschema.protocols.Validator, schema_
         result.errors.append(f"cannot parse file: {e}")
         return result
     result.errors.extend(schema_errors(document, validator, declared_names))
-    semantic_checks(document, reference_fields, result)
+    semantic_checks(document, reference_fields, declared_names, result)
     root = document.get("DotBeer") if isinstance(document, dict) else None
     file_version = root.get("version") if isinstance(root, dict) else None
     if isinstance(file_version, str) and file_version != schema_version:  # If not a string, schema already complained

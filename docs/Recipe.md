@@ -178,4 +178,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-24 at 09:42:48+0200.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-26 at 10:19:49+0100.
