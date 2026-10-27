@@ -25,7 +25,7 @@ Each file is first parsed, which also checks the rules in "File format details" 
      plus a few other cross-field consistency checks:
        • an addition schedule's `step` exists in the relevant mash / boil / fermentation procedure
        • a range's minimum is not greater than its maximum (where both use the same unit)
-       • a mash tun's foundation_volume plus its loss is less than its max_volume
+       • equipment's foundation_volume (plus mash tun loss) leaves room for the mash in the vessel where the mash happens
        • a brew log's ferment_date is not before its brew_date
        • a stock purchase's date_received is not before its date_ordered, and no stock use is dated before the stock
          was received (or, if it hasn't been received, ordered)
@@ -672,25 +672,33 @@ def check_ranges(root: dict, result: Result) -> None:
             pass  # Schema validation will already have complained
 
 
-def check_mash_tun_volumes(root: dict, result: Result) -> None:
+def check_foundation_volume(root: dict, result: Result) -> None:
     """
-    Checks that the room taken up by a mash tun's foundation_volume and loss leaves some room for the mash itself (see
-    the description of foundation_volume in Equipment.beer.schema)
+    Checks that the room taken up by the foundation_volume (and, if there is a separate mash tun, the mash tun's loss)
+    leaves some room for the mash itself in the vessel where the mash happens -- ie the mash tun or, if there is none,
+    the kettle.  See the descriptions of Equipment and foundation_volume in Equipment.beer.schema.
     """
     for index, equipment in enumerate(root.get("equipments", [])):
-        mash_tun = equipment.get("mash_tun") if isinstance(equipment, dict) else None
-        if not isinstance(mash_tun, dict) or "foundation_volume" not in mash_tun:
+        if not isinstance(equipment, dict) or "foundation_volume" not in equipment:
             continue
-        foundation = amount_in_canonical_units(mash_tun.get("foundation_volume"))
-        loss       = amount_in_canonical_units(mash_tun.get("loss"))
-        capacity   = amount_in_canonical_units(mash_tun.get("max_volume"))
+        has_mash_tun = isinstance(equipment.get("mash_tun"), dict)
+        mash_vessel_name = "mash_tun" if has_mash_tun else "kettle"
+        mash_vessel = equipment.get(mash_vessel_name)
+        if not isinstance(mash_vessel, dict):
+            continue  # Schema validation will already have complained (kettle is required)
+        foundation = amount_in_canonical_units(equipment.get("foundation_volume"))
+        capacity   = amount_in_canonical_units(mash_vessel.get("max_volume"))
+        # The kettle's loss is about what's left after the boil, so only a mash tun's loss takes up room for the mash
+        loss       = amount_in_canonical_units(mash_vessel.get("loss")) if has_mash_tun else ("Volume", 0.0)
         if not (foundation and loss and capacity):
             continue  # Schema validation will already have complained
         if foundation[1] + loss[1] >= capacity[1]:
+            what = (f"foundation_volume ({describe_amount(equipment['foundation_volume'])}) plus mash_tun loss "
+                    f"({describe_amount(mash_vessel['loss'])})") if has_mash_tun else \
+                   f"foundation_volume ({describe_amount(equipment['foundation_volume'])})"
             result.errors.append(
-                f"{label(equipment, f'/DotBeer/equipments/{index}')}: mash_tun foundation_volume "
-                f"({describe_amount(mash_tun['foundation_volume'])}) plus loss ({describe_amount(mash_tun['loss'])}) "
-                f"leaves no room for the mash in max_volume ({describe_amount(mash_tun['max_volume'])})"
+                f"{label(equipment, f'/DotBeer/equipments/{index}')}: {what} leaves no room for the mash in "
+                f"{mash_vessel_name} max_volume ({describe_amount(mash_vessel['max_volume'])})"
             )
 
 
@@ -814,7 +822,7 @@ def semantic_checks(document: Any, reference_fields: dict[str, str], declared_na
     check_references(root, defined, reference_fields, declared_names, result)
     check_addition_steps(root, defined, result)
     check_ranges(root, result)
-    check_mash_tun_volumes(root, result)
+    check_foundation_volume(root, result)
     check_brew_log_dates(root, result)
     check_stock_purchases(root, result)
 

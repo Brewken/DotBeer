@@ -48,4 +48,4 @@ Common attributes of BoilStep and FermentationStep but not MashStep.
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-26 at 10:19:49+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-27 at 09:05:31+0100.
