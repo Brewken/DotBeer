@@ -26,6 +26,7 @@ Each file is first parsed, which also checks the rules in "File format details" 
        • an addition schedule's `step` exists in the relevant mash / boil / fermentation procedure
        • a range's minimum is not greater than its maximum (where both use the same unit)
        • equipment's foundation_volume (plus mash tun loss) leaves room for the mash in the vessel where the mash happens
+       • equipment's default_batch_size, plus kettle loss and an hour's boil-off, fits in the kettle
        • a brew log's ferment_date is not before its brew_date
        • a stock purchase's date_received is not before its date_ordered, and no stock use is dated before the stock
          was received (or, if it hasn't been received, ordered)
@@ -702,6 +703,43 @@ def check_foundation_volume(root: dict, result: Result) -> None:
             )
 
 
+def check_default_batch_size(root: dict, result: Result) -> None:
+    """
+    Checks that the pre-boil volume needed for equipment's default_batch_size -- ie default_batch_size plus the kettle's
+    loss plus an hour's boil-off (kettle boil_rate_per_hour) -- fits in the kettle (kettle max_volume).
+
+    A program using the equipment for a new recipe is likely to work out a default pre-boil volume in this way (a 60
+    minute boil being the most common), so, if it does not fit, the default batch size is almost certainly too big --
+    eg because it is a manufacturer's nominal figure that assumes a shorter boil or a lower boil-off rate.  If
+    boil_rate_per_hour is not given, we just check that default_batch_size plus kettle loss fits.
+    """
+    for index, equipment in enumerate(root.get("equipments", [])):
+        if not isinstance(equipment, dict) or "default_batch_size" not in equipment:
+            continue
+        kettle = equipment.get("kettle")
+        if not isinstance(kettle, dict):
+            continue  # Schema validation will already have complained (kettle is required)
+        batch_size = amount_in_canonical_units(equipment.get("default_batch_size"))
+        loss       = amount_in_canonical_units(kettle.get("loss"))
+        capacity   = amount_in_canonical_units(kettle.get("max_volume"))
+        has_boil_off = "boil_rate_per_hour" in kettle
+        boil_off   = amount_in_canonical_units(kettle.get("boil_rate_per_hour")) if has_boil_off else ("Volume", 0.0)
+        if not (batch_size and loss and capacity and boil_off):
+            continue  # Schema validation will already have complained
+        pre_boil = batch_size[1] + loss[1] + boil_off[1]
+        if pre_boil > capacity[1]:
+            what = (f"default_batch_size ({describe_amount(equipment['default_batch_size'])}) plus kettle loss "
+                    f"({describe_amount(kettle['loss'])})")
+            if has_boil_off:
+                what += f" plus 60 minutes' boil-off ({describe_amount(kettle['boil_rate_per_hour'])})"
+            # Canonical unit for volume is milliliters
+            result.errors.append(
+                f"{label(equipment, f'/DotBeer/equipments/{index}')}: {what} needs a pre-boil volume of "
+                f"{pre_boil / 1000.0:g} l, which is more than kettle max_volume "
+                f"({describe_amount(kettle['max_volume'])})"
+            )
+
+
 def check_brew_log_dates(root: dict, result: Result) -> None:
     for recipe_index, recipe in enumerate(root.get("recipes", [])):
         if not isinstance(recipe, dict):
@@ -823,6 +861,7 @@ def semantic_checks(document: Any, reference_fields: dict[str, str], declared_na
     check_addition_steps(root, defined, result)
     check_ranges(root, result)
     check_foundation_volume(root, result)
+    check_default_batch_size(root, result)
     check_brew_log_dates(root, result)
     check_stock_purchases(root, result)
 
