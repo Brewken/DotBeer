@@ -7,6 +7,36 @@ Each type of ingredient (Culture, Fermentable, Hop, Misc) has a corresponding st
 
 # Component Types
 
+## AmountsAllMass
+
+
+
+| Property | Required? | Type |
+| -------- | --------- | ---- |
+| amount_ordered |  | [Measurement::Mass](./Measurement.md#mass) |
+| amount_received |  | [Measurement::Mass](./Measurement.md#mass) |
+| stock_uses |  | None |
+
+## AmountsAllVolume
+
+
+
+| Property | Required? | Type |
+| -------- | --------- | ---- |
+| amount_ordered |  | [Measurement::Volume](./Measurement.md#volume) |
+| amount_received |  | [Measurement::Volume](./Measurement.md#volume) |
+| stock_uses |  | None |
+
+## AmountsAllCount
+
+
+
+| Property | Required? | Type |
+| -------- | --------- | ---- |
+| amount_ordered |  | [Measurement::Count](./Measurement.md#count) |
+| amount_received |  | [Measurement::Count](./Measurement.md#count) |
+| stock_uses |  | None |
+
 ## StockPurchaseCommon
 
 
@@ -49,7 +79,7 @@ Each type of ingredient (Culture, Fermentable, Hop, Misc) has a corresponding st
 
 ## StockPurchaseCulture
 
-Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.
+Note that `amount_ordered`, `amount_received` and the `amount_used` of each of the `stock_uses` must all be the same kind of measure.  Eg, it's not supported for one to be mass and another to be volume.
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
@@ -68,7 +98,7 @@ Note that both `amount_ordered` and `amount_received` need to be the same type o
 
 ## StockPurchaseFermentable
 
-Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.
+Note that `amount_ordered`, `amount_received` and the `amount_used` of each of the `stock_uses` must all be the same kind of measure.  Eg, it's not supported for one to be mass and another to be volume.
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
@@ -87,7 +117,7 @@ Note that both `amount_ordered` and `amount_received` need to be the same type o
 
 ## StockPurchaseHop
 
-Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.
+Note that `amount_ordered`, `amount_received` and the `amount_used` of each of the `stock_uses` must all be the same kind of measure.  Eg, it's not supported for one to be mass and another to be volume.
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
@@ -106,7 +136,7 @@ Note that both `amount_ordered` and `amount_received` need to be the same type o
 
 ## StockPurchaseMisc
 
-Note that both `amount_ordered` and `amount_received` need to be the same type of measure.  Eg, it's not supported for one to be mass and the other to be volume.
+Note that `amount_ordered`, `amount_received` and the `amount_used` of each of the `stock_uses` must all be the same kind of measure.  Eg, it's not supported for one to be mass and another to be volume.
 
 | Property | Required? | Type | Description |
 | -------- | --------- | ---- | ----------- |
@@ -119,4 +149,4 @@ Note that both `amount_ordered` and `amount_received` need to be the same type o
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-28 at 19:46:10+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-29 at 18:23:24+0100.

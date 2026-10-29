@@ -25,13 +25,16 @@ Each file is first parsed, which also checks the rules in "File format details" 
      plus a few other cross-field consistency checks:
        • an addition schedule's `step` exists in the relevant mash / boil / fermentation procedure
        • a range's minimum is not greater than its maximum (where both use the same unit)
-       • equipment's foundation_volume (plus mash tun loss) leaves room for the mash in the vessel where the mash happens
-       • equipment's default_batch_size, plus kettle loss and an hour's boil-off, fits in the kettle
        • a brew log's ferment_date is not before its brew_date
        • a stock purchase's date_received is not before its date_ordered, and no stock use is dated before the stock
          was received (or, if it hasn't been received, ordered)
-       • a stock purchase's amounts (ordered, received and used) all measure the same kind of thing (eg all mass)
+       • a stock purchase's amounts (ordered, received and used) all measure the same kind of thing (eg all mass).
+         (The schema enforces this too, but its error messages are less helpful.)
        • a stock purchase's uses don't add up to more than was received (or, if nothing was received, ordered)
+     and some plausibility checks, which give warnings rather than errors (because the file is still valid, and may well
+     be correct, but it is worth double-checking the values):
+       • equipment's foundation_volume (plus mash tun loss) leaves room for the mash in the vessel where the mash happens
+       • equipment's default_batch_size, plus kettle loss and an hour's boil-off, fits in the kettle
 
 When an error in a property that comes from an "allOf" (eg a bad `reason` in StockUseCommon) makes that part of the
 schema fail, JSON Schema then also reports the part's other properties as "unevaluated".  These knock-on errors are
@@ -47,6 +50,13 @@ Files that are deliberately invalid (eg in examples/invalid/) must start with on
 
 Such a file passes only if validation fails AND each <text> appears in at least one of the error messages.  This makes
 sure a test file fails for the reason it is meant to, rather than some unrelated one.
+
+Similarly, files that deliberately trigger warnings (eg in examples/warnings/) can have comment lines of the form
+
+    // EXPECT-WARNING: <text>
+
+and pass only if each <text> appears in at least one of the warnings.  (A file can have both EXPECT-INVALID and
+EXPECT-WARNING lines.)
 
 Usage:
     scripts/validate.py                     # Validate everything under examples/
@@ -162,6 +172,7 @@ STOCK_TOLERANCE = 1e-9
 QUOTED_NAME_RE = re.compile(r"""'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)\"""")
 
 EXPECT_INVALID_RE = re.compile(r"^\s*//\s*EXPECT-INVALID:\s*(.+?)\s*$")
+EXPECT_WARNING_RE = re.compile(r"^\s*//\s*EXPECT-WARNING:\s*(.+?)\s*$")
 
 
 @dataclass
@@ -697,7 +708,7 @@ def check_foundation_volume(root: dict, result: Result) -> None:
             what = (f"foundation_volume ({describe_amount(equipment['foundation_volume'])}) plus mash_tun loss "
                     f"({describe_amount(mash_vessel['loss'])})") if has_mash_tun else \
                    f"foundation_volume ({describe_amount(equipment['foundation_volume'])})"
-            result.errors.append(
+            result.warnings.append(
                 f"{label(equipment, f'/DotBeer/equipments/{index}')}: {what} leaves no room for the mash in "
                 f"{mash_vessel_name} max_volume ({describe_amount(mash_vessel['max_volume'])})"
             )
@@ -733,7 +744,7 @@ def check_default_batch_size(root: dict, result: Result) -> None:
             if has_boil_off:
                 what += f" plus 60 minutes' boil-off ({describe_amount(kettle['boil_rate_per_hour'])})"
             # Canonical unit for volume is milliliters
-            result.errors.append(
+            result.warnings.append(
                 f"{label(equipment, f'/DotBeer/equipments/{index}')}: {what} needs a pre-boil volume of "
                 f"{pre_boil / 1000.0:g} l, which is more than kettle max_volume "
                 f"({describe_amount(kettle['max_volume'])})"
@@ -891,19 +902,21 @@ def is_example(path: Path) -> bool:
     return path.resolve().is_relative_to(EXAMPLES_DIR.resolve())
 
 
-def expected_failures(path: Path) -> list[str]:
-    """Reads the EXPECT-INVALID lines from the comment block at the top of the file"""
-    expectations = []
+def expected_results(path: Path) -> tuple[list[str], list[str]]:
+    """Reads the EXPECT-INVALID and EXPECT-WARNING lines from the comment block at the top of the file"""
+    expected_errors: list[str] = []
+    expected_warnings: list[str] = []
     with open(path, encoding="utf-8") as f:
         for line in f:
             if not line.strip():
                 continue
             if not line.lstrip().startswith("//"):
                 break
-            match = EXPECT_INVALID_RE.match(line)
-            if match:
-                expectations.append(match.group(1))
-    return expectations
+            if match := EXPECT_INVALID_RE.match(line):
+                expected_errors.append(match.group(1))
+            elif match := EXPECT_WARNING_RE.match(line):
+                expected_warnings.append(match.group(1))
+    return expected_errors, expected_warnings
 
 
 def collect_files(paths: list[str]) -> list[Path]:
@@ -966,7 +979,7 @@ def main() -> int:
     num_unexpected = 0
     for path in files:
         result = validate_file(path, validator, schema_version, reference_fields, declared_names)
-        expectations = expected_failures(path)
+        expectations, expected_warnings = expected_results(path)
         try:
             shown = path.resolve().relative_to(Path.cwd())
         except ValueError:
@@ -982,6 +995,14 @@ def main() -> int:
             ok = not missing
             status = ("PASS (invalid, as expected)" if ok else
                       "FAIL (invalid, but not for the expected reason: " + "; ".join(f'"{m}"' for m in missing) + ")")
+
+        if ok and expected_warnings:
+            missing_warnings = [x for x in expected_warnings if not any(x in w for w in result.warnings)]
+            if missing_warnings:
+                ok = False
+                status = "FAIL (expected warnings not given: " + "; ".join(f'"{m}"' for m in missing_warnings) + ")"
+            elif not expectations:
+                status = "PASS (with warnings, as expected)"
 
         #
         # A version mismatch fails an example even if the example is meant to be invalid (otherwise the "expected"
@@ -1006,8 +1027,13 @@ def main() -> int:
         if not ok or not expectations:
             for error in result.errors:
                 print(f"    error: {error}")
+        #
+        # Similarly, for files that are meant to give warnings, only show the warnings if something went wrong (but
+        # always show a version mismatch warning, as that is not something such a file is testing)
+        #
         for warning in result.warnings:
-            print(f"    warning: {warning}")
+            if not ok or not expected_warnings or warning == result.version_mismatch:
+                print(f"    warning: {warning}")
 
     print(f"\n{len(files)} file(s) checked, {num_unexpected} with unexpected results")
     return 1 if num_unexpected else 0

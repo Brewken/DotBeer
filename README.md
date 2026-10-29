@@ -123,6 +123,20 @@ As noted above, you should always validate a file against the schema before read
 `version` first lets you give the user a more helpful message (eg "This file was written by a newer version of
 Brewtarget") than a schema validation error would when a file is too new for your software to read.
 
+### Getting the schema
+The definitive copy of each version of the schema is the corresponding release on GitHub (see
+[Releases](https://github.com/Brewken/DotBeer/releases)).  To be certain that you have a current, released version of
+the schema, get it from there.
+
+Between releases, the head of the repository is a *draft* of the next version, and may change before that version is
+released -- even though the version number in its `$id`s is already that of the next version.  (Eg, until 1.0.0 is
+released, the head of the repository is a draft of 1.0.0.)  The same is true for BeerJSON.
+
+Note that, as is normal for JSON Schema, the `$id` URLs in the schema files (eg
+`https://dotbeer.org/schema/1.0.0/DotBeer.beer.schema`) identify the schemas, but are not necessarily locations from
+which they can be downloaded.  Software that validates dotBeer files should use local copies of the schema files (as
+`scripts/validate.py` and Brewtarget do) rather than relying on fetching them over the internet.
+
 Detailed documentation is generated in the `docs` directory from the schema files in the `schema` directory by `scripts/generateDocs.py`.  All documentation is available online at [www.dotbeer.org](https://www.dotbeer.org/).
 
 The `scripts/generateDocs.py` has the following dependencies:
@@ -132,7 +146,10 @@ The `scripts/generateDocs.py` has the following dependencies:
 Example <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> files are in the `examples`
 directory.  `scripts/validate.py` checks them against the schema, and also checks the rules that JSON Schema cannot
 express (eg that local IDs are unique and that references point to objects of the right type).  Files in
-`examples/invalid` are deliberately broken, and each one states the errors it is expected to produce.  Run
+`examples/invalid` are deliberately broken, and each one states the errors it is expected to produce.  Similarly, files
+in `examples/warnings` are valid, but contain values that `scripts/validate.py` warns are probably mistakes (eg an
+equipment default batch size that won't fit in the kettle), and each one states the warnings it is expected to produce.
+Run
 `scripts/validate.py` with no arguments to check all the examples, or pass it your own files.  It depends on
 [`jsonschema`](https://python-jsonschema.readthedocs.io/) (version 4.18 or later) plus the `rfc3339-validator` package (`pip install "jsonschema[format-nongpl]>=4.18"`).
 
