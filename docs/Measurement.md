@@ -195,6 +195,20 @@ PercentageSimple, aka, "simple percentage" is a percentage where the value is no
 | unit | ✅ | Enum:<br>&nbsp;∙ `%` |
 | value | ✅ | `0 <= x <= 100` |
 
+## Pressure
+
+A *gauge* pressure, ie the pressure above atmospheric pressure, which is what the gauges on fermenters, kegs, regulators and spunding valves show.  (So 0 means atmospheric pressure, eg an unpressurised vessel.)<br>`kPa` is kilopascals<br>`bar` is bar = 100 kPa<br>`psi` is pounds per square inch ≈ 6.895 kPa<br>We assume that brewers never need a gauge pressure above 10 bar (1000 kPa, ≈ 145 psi).
+
+<strong>Pressure</strong> is a JSON object with the following properties:
+
+| Property | Required? | Type | Conditional? |
+| -------- | --------- | ---- | ------------ |
+| unit | ✅ | Enum:<br>&nbsp;∙ `kPa`<br>&nbsp;∙ `bar`<br>&nbsp;∙ `psi` |  |
+| value | ✅ | `0 <= x ` |  |
+| value |  | None | **If** unit = kPa |
+| value |  | None | **If** unit = bar |
+| value |  | None | **If** unit = psi |
+
 ## SpecificHeatCapacity
 
 The amount of heat that must be added to one unit of mass of the substance in order to cause an increase of one unit in temperature.<br>`c/g·C` is calories per Celsius per gram (and also kilocalories per degree Celsius per kilogram)<br>`J/kg·K` is joules per Kelvin per kilogram<br>`BTU/lb·F` is BTU per Fahrenheit per pound<br>Although SI units are "joules per kelvin per kilogram" (which is the same as "joules per degree Celsius per kilogram"), historically a measurement involving calories instead of joules was used in chemistry, nutrition and brewing.  There are two types of calorie: the "small calorie" (or "gram-calorie", "cal") = 4.184 J; and the "grand calorie" (aka "kilocalorie", "kcal" or "Cal") = 1000 small calories = 4184 J.  However, the specific heat measurement using "cal" ("calories per degree Celsius per gram") is the same as that for "Cal" ("kilocalories per degree Celsius per kilogram"): 1 cal / (°C × g) = 1 Cal / (°C × kg) = 4184 J / (K × kg) = the specific heat capacity of liquid water.  Note too that, because a British Thermal Unit (BTU) is defined as "the amount of heat required to raise the temperature of one pound of water by one degree Fahrenheit", we have 1 BTU/lb·F = 1 c/g·C.
@@ -346,4 +360,4 @@ For a single substance, volume-per-mass is the substance's "specific volume" (se
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-29 at 18:53:49+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-30 at 08:15:20+0100.

@@ -149,4 +149,4 @@ Note that `amount_ordered`, `amount_received` and the `amount_used` of each of t
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-29 at 18:53:49+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-30 at 08:15:20+0100.
