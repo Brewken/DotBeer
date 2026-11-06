@@ -251,7 +251,11 @@ with open("../docs/INDEX.md", "w") as indexFile:
       "file against the schema before reading it in, as your parsing code then does not need to check anything that "
       "schema validation has already ensured.\n\n"
       "If a field is marked `deprecated` in the schema that usually means it should be supported for reading but not "
-      "for writing.  This is how a field can be phased out without breaking backwards compatibility within a major version."
+      "for writing.  This is how a field can be phased out without breaking backwards compatibility within a major version.\n\n"
+      "If a field was added after version 1.0.0, it has an `x-since` annotation in the schema giving the version in "
+      "which it was added (shown in the \"Since\" column of the tables in these docs).  Eg `\"x-since\": \"1.1.0\"` "
+      "means the field should not be used in a file whose `version` is earlier than 1.1.0 (and `scripts/validate.py` gives a warning if it is).  (Annotations starting `x-` are "
+      "ignored by JSON Schema validators, so this does not affect validation.)"
    )
    indexFile.write(footerMarkdown)
 

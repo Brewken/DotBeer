@@ -4,14 +4,15 @@ A fermentation procedure, which can be used by multiple recipes.
 
 <strong>Fermentation</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| name | ✅ | string |  |
-| fermentation_steps | ✅ | array of [FermentationStep](#fermentationstep) | The steps that make up the fermentation, in the order they are performed. |
-| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this fermentation. |
-| folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Fermentation object. |
-| fermentation_description |  | string |  |
-| notes |  | string |  |
+| Property | Required? | Type | Since | Description |
+| -------- | --------- | ---- | ----- | ----------- |
+| name | ✅ | string |  |  |
+| fermentation_steps | ✅ | array of [FermentationStep](#fermentationstep) |  | The steps that make up the fermentation, in the order they are performed. |
+| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | The "local ID" that allows other objects in this file (eg recipes) to refer to this fermentation. |
+| folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) |  | The suggested slash-delimited subfolder path in which to store this Fermentation object. |
+| locked |  | boolean | 1.1.0 | If `true`, this fermentation has been marked as one that should not be changed -- eg a standard fermentation profile used by many recipes.  Software that supports locking should not allow a locked fermentation to be changed or deleted unless the user first explicitly unlocks it.  It should, however, allow a locked fermentation to be used in recipes and to be copied (with the copy not being locked).  Software that does not support locking can ignore this field.  If the field is absent, the fermentation is not locked. |
+| fermentation_description |  | string |  |  |
+| notes |  | string |  |  |
 
 
 ---
@@ -34,4 +35,4 @@ Individual step of a fermentation.
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-30 at 08:15:20+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-06 at 09:01:40+0100.

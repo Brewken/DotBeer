@@ -1,4 +1,4 @@
-# dotBeer 1.0.0
+# dotBeer 1.1.0
 
 A dotBeer (<span style="color:green; font-weight: bold; font-family: monospace;">.beer</span>) file is a JSONC (JSON with comments allowed) document with a `DotBeer` root element.  A <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file should be validated against the dotBeer schema before being read.  The schema is split into the following sections (with a corresponding <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> file for each one):
 
@@ -40,7 +40,7 @@ A dotBeer (<span style="color:green; font-weight: bold; font-family: monospace;"
 
 When reading or writing a <span style="color:green; font-weight: bold; font-family: monospace;">.beer</span> file, you need read or write `Recipe` record(s) after all the ingredients, processes and so on that the recipes refer to.  This is because each `Recipe` record cross-refers to ingredient additions, mash profile, style, etc in the same file. This avoids the duplication required in BeerXML and BeerJSON files.  Similarly, you will want to read or write any `StockPurchase` records (eg `StockPurchaseCulture`, `StockPurchaseHop`) after any `Recipe` record(s), as this will make processing cross-references easier.  NOTE that this only refers to order of processing.  The order of records inside the file is, for the most part, not important.  (The exceptions are boil steps, mash steps, fermentation steps and instructions, which need to appear in correct order.)
 
-The version of the dotBeer schema is stored in the `$id` field in the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> files.  Eg <span style="color:Blue; font-weight: bold; font-family: monospace;">https://dotbeer.org/schema/1.0.0/DotBeer.beer.schema</span> is the `$id` field for version 1.0.0 of the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">DotBeer.beer.schema</span> file.  (The version should be the same in all the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> files!)
+The version of the dotBeer schema is stored in the `$id` field in the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> files.  Eg <span style="color:Blue; font-weight: bold; font-family: monospace;">https://dotbeer.org/schema/1.1.0/DotBeer.beer.schema</span> is the `$id` field for version 1.1.0 of the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">DotBeer.beer.schema</span> file.  (The version should be the same in all the <span style="color:BlueViolet; font-weight: bold; font-family: monospace;">.beer.schema</span> files!)
 
 The schema uses semantic versioning (Major.Minor.Patch).  Versions prior to 1.0.0 are subject to breaking changes at any time.  From 1.0.0 onwards:
 
@@ -52,6 +52,8 @@ You should always validate a <span style="color:green; font-weight: bold; font-f
 
 If a field is marked `deprecated` in the schema that usually means it should be supported for reading but not for writing.  This is how a field can be phased out without breaking backwards compatibility within a major version.
 
+If a field was added after version 1.0.0, it has an `x-since` annotation in the schema giving the version in which it was added (shown in the "Since" column of the tables in these docs).  Eg `"x-since": "1.1.0"` means the field should not be used in a file whose `version` is earlier than 1.1.0 (and `scripts/validate.py` gives a warning if it is).  (Annotations starting `x-` are ignored by JSON Schema validators, so this does not affect validation.)
+
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-30 at 08:15:20+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-06 at 09:01:40+0100.

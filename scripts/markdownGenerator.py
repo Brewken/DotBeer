@@ -452,6 +452,8 @@ def _process_properties_recursively(
             or prop_details.get("deprecated")
             else ""
          ),
+         # Our own "x-since" annotation says in which version of the schema the field was added (if after 1.0.0)
+         "since": prop_details.get("x-since", ""),
          "default": default_value,
          "description": description,
          "examples": examples,
@@ -473,6 +475,7 @@ def _process_properties_recursively(
                "possible_values": conditional_variant["possible_values"],
                "conditional": conditional_variant["condition"],
                "deprecated": "",
+               "since": "",
                "default": "",
                "description": "",
                "examples": "",
@@ -531,6 +534,7 @@ def _process_properties_recursively(
                   "required": "",
                   "possible_values": combined_values,
                   "deprecated": "",
+                  "since": "",
                   "default": "",
                   "description": "",
                   "examples": "",
@@ -693,6 +697,7 @@ def _create_definition_table(schema: dict, defs: dict, hide_empty_columns: bool)
       "possible_values": "Type",
       "conditional": "Conditional?",
       "deprecated": "Deprecated?",
+      "since": "Since",
       "default": "Default Value",
       "description": "Description",
       "examples": "Examples",

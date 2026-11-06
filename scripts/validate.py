@@ -35,14 +35,16 @@ Each file is first parsed, which also checks the rules in "File format details" 
      be correct, but it is worth double-checking the values):
        • equipment's foundation_volume (plus mash tun loss) leaves room for the mash in the vessel where the mash happens
        • equipment's default_batch_size, plus kettle loss and an hour's boil-off, fits in the kettle
+     and a warning if the file uses a field that was added (per its "x-since" annotation in the schema) in a later
+     version of the schema than the file's "version".
 
 When an error in a property that comes from an "allOf" (eg a bad `reason` in StockUseCommon) makes that part of the
 schema fail, JSON Schema then also reports the part's other properties as "unevaluated".  These knock-on errors are
 removed, so that only the real problem is reported.  (A property name that is not declared anywhere in the schema, eg a
 typo, is still reported.)
 
-Before any files are checked, the schema files themselves are checked: each must parse, and every "$ref" in them must
-resolve.  (Otherwise a broken $ref is only reported if and when a file happens to exercise it.)
+Before any files are checked, the schema files themselves are checked: each must parse, every "$ref" in them must
+resolve, and every "x-refers-to" and "x-since" annotation must be valid.  (Otherwise a broken $ref is only reported if and when a file happens to exercise it.)
 
 Files that are deliberately invalid (eg in examples/invalid/) must start with one or more comment lines of the form
 
@@ -410,6 +412,69 @@ def load_reference_fields(registry: referencing.Registry,
                 continue
             fields.setdefault(name, (target, where))
     return {name: target for name, (target, _) in fields.items()}, problems
+
+
+def walk_properties(node: Any, pointer: str = "") -> Iterator[tuple[str, str, Any]]:
+    """Yields (JSON pointer, property name, property schema) for every property declared anywhere in a schema"""
+    if isinstance(node, dict):
+        for key, value in node.items():
+            child = f"{pointer}/{key}"
+            if pointer.endswith("/properties"):
+                yield child, key, value
+            yield from walk_properties(value, child)
+    elif isinstance(node, list):
+        for index, value in enumerate(node):
+            yield from walk_properties(value, f"{pointer}/{index}")
+
+
+def version_tuple(version: str) -> tuple[int, ...]:
+    """Turns a version string such as "1.10.2" into something that compares correctly, eg (1, 10, 2)"""
+    return tuple(int(part) for part in version.split("."))
+
+
+def load_since_fields(registry: referencing.Registry, schema_version: str) -> tuple[dict[str, str], list[str]]:
+    """
+    Returns a map from the name of each property that has an "x-since" annotation to the version of the schema in which
+    it was added, plus a list of any problems with the "x-since" annotations.
+
+    "x-since" is our own keyword: it says in which version of the schema a property was added, eg "x-since": "1.1.0".
+    (It is not needed for properties that have been there since 1.0.0.)
+
+    NB: As with x-refers-to, we key on property name alone, so if a property name has an x-since annotation, every
+    declaration of that property name must have the same x-since.  (Eg "locked" is declared in Mash, Boil and
+    Fermentation.)  If we ever need different values for the same name, we'd need to track where in the file each schema
+    applies, which is a lot more work.
+    """
+    schema_uris = sorted(uri for uri in registry
+                         if isinstance(registry.contents(uri), dict) and registry.contents(uri).get("$id") == uri)
+    declarations: dict[str, list[tuple[str | None, str]]] = {}  # property name -> [(x-since or None, where declared)]
+    problems = []
+    for uri in schema_uris:
+        file_name = uri.rsplit("/", 1)[-1]
+        for pointer, name, prop_schema in walk_properties(registry.contents(uri)):
+            where = f"{file_name}{pointer}"
+            since = prop_schema.get("x-since") if isinstance(prop_schema, dict) else None
+            if since is not None:
+                if not isinstance(since, str) or not VERSION_RE.match(since):
+                    problems.append(f"{where}: x-since must be a version number string, eg \"1.1.0\"")
+                    continue
+                if version_tuple(since) > version_tuple(schema_version):
+                    problems.append(f"{where}: x-since \"{since}\" is later than the schema version ({schema_version})")
+                    continue
+            declarations.setdefault(name, []).append((since, where))
+
+    fields: dict[str, str] = {}
+    for name, decls in sorted(declarations.items()):
+        values = {since for since, _ in decls}
+        if values == {None}:
+            continue
+        if len(values) > 1:
+            problems.append(f"property \"{name}\" has different x-since annotations in different places (which "
+                            f"validate.py does not support): " +
+                            "; ".join(f"{where}: {since or 'none'}" for since, where in decls))
+            continue
+        fields[name] = next(iter(values))
+    return fields, problems
 
 
 def walk_formats(node: Any, pointer: str = "") -> Iterator[tuple[str, str]]:
@@ -862,8 +927,27 @@ def check_stock_purchases(root: dict, result: Result) -> None:
                     )
 
 
-def semantic_checks(document: Any, reference_fields: dict[str, str], declared_names: set[str],
-                    result: Result) -> None:
+def check_since(root: dict, since_fields: dict[str, str], result: Result) -> None:
+    """
+    Warns about any field that was added (per its x-since annotation) in a later version of the schema than the file's
+    version.  This is only a warning because the file is valid against the current schema, but a strict reader that
+    uses the file's version of the schema would reject it.
+    """
+    file_version = root.get("version")
+    if not isinstance(file_version, str) or not VERSION_RE.match(file_version):
+        return  # Schema validation will already have complained
+    for path, obj in walk(root, "/DotBeer"):
+        if not isinstance(obj, dict):
+            continue
+        for key in obj:
+            since = since_fields.get(key)
+            if since is not None and version_tuple(since) > version_tuple(file_version):
+                result.warnings.append(f"{path}/{key}: field was added in version {since} of the schema, but the "
+                                       f"file is version {file_version}")
+
+
+def semantic_checks(document: Any, reference_fields: dict[str, str], since_fields: dict[str, str],
+                    declared_names: set[str], result: Result) -> None:
     root = document.get("DotBeer") if isinstance(document, dict) else None
     if not isinstance(root, dict):
         return  # Schema validation will already have complained
@@ -875,13 +959,15 @@ def semantic_checks(document: Any, reference_fields: dict[str, str], declared_na
     check_default_batch_size(root, result)
     check_brew_log_dates(root, result)
     check_stock_purchases(root, result)
+    check_since(root, since_fields, result)
 
 
 #=======================================================================================================================
 # Driver
 #=======================================================================================================================
 def validate_file(path: Path, validator: jsonschema.protocols.Validator, schema_version: str,
-                  reference_fields: dict[str, str], declared_names: set[str]) -> Result:
+                  reference_fields: dict[str, str], since_fields: dict[str, str],
+                  declared_names: set[str]) -> Result:
     result = Result()
     try:
         document = JsoncParser.parse_file(str(path))
@@ -889,7 +975,7 @@ def validate_file(path: Path, validator: jsonschema.protocols.Validator, schema_
         result.errors.append(f"cannot parse file: {e}")
         return result
     result.errors.extend(schema_errors(document, validator, declared_names))
-    semantic_checks(document, reference_fields, declared_names, result)
+    semantic_checks(document, reference_fields, since_fields, declared_names, result)
     root = document.get("DotBeer") if isinstance(document, dict) else None
     file_version = root.get("version") if isinstance(root, dict) else None
     if isinstance(file_version, str) and file_version != schema_version:  # If not a string, schema already complained
@@ -956,6 +1042,13 @@ def main() -> int:
             print(f"    {problem}")
         return 2
 
+    since_fields, since_problems = load_since_fields(registry, schema_version)
+    if since_problems:
+        print("SCHEMA ERROR: problems with x-since annotations:")
+        for problem in since_problems:
+            print(f"    {problem}")
+        return 2
+
     unit_problems = check_unit_tables(registry)
     if unit_problems:
         print("SCHEMA ERROR: validate.py's unit tables are out of date:")
@@ -978,7 +1071,7 @@ def main() -> int:
 
     num_unexpected = 0
     for path in files:
-        result = validate_file(path, validator, schema_version, reference_fields, declared_names)
+        result = validate_file(path, validator, schema_version, reference_fields, since_fields, declared_names)
         expectations, expected_warnings = expected_results(path)
         try:
             shown = path.resolve().relative_to(Path.cwd())

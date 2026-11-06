@@ -4,14 +4,15 @@ A mash procedure, which can be used by multiple recipes.
 
 <strong>Mash</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| name | ✅ | string |  |
-| grain_temperature | ✅ | [Measurement::Temperature](./Measurement.md#temperature) | Initial grain temperature prior to the start of the mash. |
-| mash_steps | ✅ | array of [MashStep](#mashstep) | The steps that make up the mash, in the order they are performed. |
-| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg recipes) to refer to this mash. |
-| folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Mash object. |
-| notes |  | string |  |
+| Property | Required? | Type | Since | Description |
+| -------- | --------- | ---- | ----- | ----------- |
+| name | ✅ | string |  |  |
+| grain_temperature | ✅ | [Measurement::Temperature](./Measurement.md#temperature) |  | Initial grain temperature prior to the start of the mash. |
+| mash_steps | ✅ | array of [MashStep](#mashstep) |  | The steps that make up the mash, in the order they are performed. |
+| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | The "local ID" that allows other objects in this file (eg recipes) to refer to this mash. |
+| folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) |  | The suggested slash-delimited subfolder path in which to store this Mash object. |
+| locked |  | boolean | 1.1.0 | If `true`, this mash has been marked as one that should not be changed -- eg a standard mash profile used by many recipes.  Software that supports locking should not allow a locked mash to be changed or deleted unless the user first explicitly unlocks it.  It should, however, allow a locked mash to be used in recipes and to be copied (with the copy not being locked).  Software that does not support locking can ignore this field.  If the field is absent, the mash is not locked. |
+| notes |  | string |  |  |
 
 
 ---
@@ -35,4 +36,4 @@ A mash step is an internal record used within a mash profile to denote a separat
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.0.0) on 2026-10-30 at 08:15:20+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-06 at 09:01:40+0100.
