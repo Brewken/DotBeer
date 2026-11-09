@@ -360,4 +360,4 @@ For a single substance, volume-per-mass is the substance's "specific volume" (se
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-06 at 09:01:40+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-09 at 17:22:24+0100.

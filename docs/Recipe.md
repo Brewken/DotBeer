@@ -4,47 +4,48 @@ The information stored in a beer recipe.
 
 <strong>Recipe</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| name | ✅ | string |  |
-| recipe_type | ✅ | Enum:<br>&nbsp;∙ `cider`<br>&nbsp;∙ `kombucha`<br>&nbsp;∙ `soda`<br>&nbsp;∙ `other`<br>&nbsp;∙ `mead`<br>&nbsp;∙ `wine`<br>&nbsp;∙ `extract`<br>&nbsp;∙ `partial mash`<br>&nbsp;∙ `all grain` | The kind of beverage the recipe produces and, for beer, the mashing approach it uses. |
-| author | ✅ | string | The person (or organisation) who wrote the recipe. |
-| batch_size | ✅ | [Measurement::Volume](./Measurement.md#volume) | The volume into the fermentation vessel. |
-| efficiency | ✅ | object | Stores each efficiency component. |
-| efficiency.brewhouse | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The percentage of the available sugar that makes it from the fermentables into the fermenter.  This only applies to fermentables whose sugars have to be extracted (eg grain that is mashed or steeped).  The sugar in extracts and sugars is assumed to be fully available.  So, in an extract recipe with no grain, this value has no effect. |
-| ingredients | ✅ | object | All the recipe's ingredient additions.  Note that these lists are cross-references (via "local IDs") to ingredient definitions that must appear in the same file.  This saves on repetition when, eg, the same type of hop is added at more than one point.  If you are exporting one or more recipes, you must also export the full versions of their ingredients in the same file. |
-| ingredients.fermentable_additions | ✅ | array of [FermentableRecipeAddition](#fermentablerecipeaddition) | All the fermentable additions to the recipe |
-| ingredients.hop_additions |  | array of [HopRecipeAddition](#hoprecipeaddition) | All the hop additions to the recipe |
-| ingredients.misc_additions |  | array of [MiscRecipeAddition](#miscrecipeaddition) | All the miscellaneous item additions to the recipe |
-| ingredients.culture_additions |  | array of [CultureRecipeAddition](#culturerecipeaddition) | All the yeast and/or other culture additions to the recipe |
-| folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) | The suggested slash-delimited subfolder path in which to store this Recipe object. |
-| coauthor |  | string | An additional author of the recipe. |
-| created |  | [Measurement::DateOrDateTimeLocal](./Measurement.md#dateordatetimelocal) | When the recipe was created. |
-| style_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the style of this recipe.  (Obviously the style in question must be in the "styles" section of the same dotBeer file.) |
-| equipment_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the equipment for this recipe.  (Obviously the equipment in question must be in the "equipments" section of the same dotBeer file.) |
-| water_base_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Optional parameter to specify the Local ID of the starting profile of the brewing water, which may be modified with salts etc to obtain the target profile. |
-| water_target_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Optional parameter to specify the Local ID of the desired profile of the brewing water, which may be modified with salts etc from the base (starting) profile. |
-| ro_water_mash |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Percentage of the mash water that is reverse-osmosis (rather than the same profile as `water_base_id`).  If this field is not present, a value of 0.0 may be assumed. |
-| ro_water_sparge |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Percentage of the sparge water that is reverse-osmosis (rather than the same profile as `water_base_id`).  If this field is not present, a value of 0.0 may be assumed. |
-| mash_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the mash procedure used in this recipe.  (Obviously the mash in question must be in the "mashes" section of the same dotBeer file.) |
-| boil_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the boil procedure used in this recipe.  (Obviously the boil in question must be in the "boils" section of the same dotBeer file.) |
-| fermentation_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | Local ID of the fermentation procedure used in this recipe.  (Obviously the fermentation in question must be in the "fermentations" section of the same dotBeer file.) |
-| notes |  | string |  |
-| original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The expected gravity of wort when transferred to the fermenter.  Typically this and `final_gravity` are calculated values, so they are written out for information but ignored (or overwritten by a calculated value) for recipes read in from a file. |
-| final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | The expected gravity of beer at the end of fermentation.  Comments about `original_gravity` apply equally here. |
-| alcohol_by_volume |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | The expected alcohol by volume of the finished beer, typically calculated from `original_gravity` and `final_gravity`.  Comments about `original_gravity` apply equally here.  (Measured values for an actual brew of the recipe go in its brew log.) |
-| ibu_estimate |  | [Measurement::Bitterness](./Measurement.md#bitterness) | Estimated bitterness of finished beer. |
-| ibu_estimate_formula |  | Enum:<br>&nbsp;∙ `Tinseth`<br>&nbsp;∙ `Rager`<br>&nbsp;∙ `Noonan`<br>&nbsp;∙ `mIBU`<br>&nbsp;∙ `Garetz`<br>&nbsp;∙ `SMPH`<br>&nbsp;∙ `Daniel`<br>&nbsp;∙ `other` | Used to differentiate which IBU formula is being used in a recipe. |
-| color_estimate |  | [Measurement::Color](./Measurement.md#color) | The color of the finished beer, using SRM or EBC. |
-| beer_pH |  | [Measurement::Acidity](./Measurement.md#acidity) | The final beer pH at the end of fermentation. |
-| carbonation |  | [Measurement::Carbonation](./Measurement.md#carbonation) | The final carbonation of the beer when packaged or served. |
-| apparent_attenuation |  | [Measurement::PercentageNoMax](./Measurement.md#percentagenomax) | The total apparent attenuation of the finished beer after fermentation.  (This can be more than 100% if the final gravity is below 1.000 SG.) |
-| taste |  | object | Subjective tasting notes, and rating. |
-| taste.notes | ✅ | string |  |
-| taste.rating | ✅ | `0.0 <= x <= 50.0` | Number between zero and 50 denoting the taste rating – corresponds to the 50 point BJCP rating system. |
-| energy_content |  | [Measurement::EnergyPerVolume](./Measurement.md#energypervolume) | Estimate of the energy content of this beer (as used on nutritional labelling).  Typically calculated. |
-| instructions |  | array of [Instruction](#instruction) | Records of individual instructions for this recipe |
-| brew_logs |  | array of [BrewLog](#brewlog) | Records of individual brews of this recipe |
+| Property | Required? | Type | Since | Description |
+| -------- | --------- | ---- | ----- | ----------- |
+| name | ✅ | string |  |  |
+| recipe_type | ✅ | Enum:<br>&nbsp;∙ `cider`<br>&nbsp;∙ `kombucha`<br>&nbsp;∙ `soda`<br>&nbsp;∙ `other`<br>&nbsp;∙ `mead`<br>&nbsp;∙ `wine`<br>&nbsp;∙ `extract`<br>&nbsp;∙ `partial mash`<br>&nbsp;∙ `all grain` |  | The kind of beverage the recipe produces and, for beer, the mashing approach it uses. |
+| author | ✅ | string |  | The person (or organisation) who wrote the recipe. |
+| batch_size | ✅ | [Measurement::Volume](./Measurement.md#volume) |  | The volume into the fermentation vessel. |
+| efficiency | ✅ | object |  | Stores each efficiency component. |
+| efficiency.brewhouse | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  | The percentage of the available sugar that makes it from the fermentables into the fermenter.  This only applies to fermentables whose sugars have to be extracted (eg grain that is mashed or steeped).  The sugar in extracts and sugars is assumed to be fully available.  So, in an extract recipe with no grain, this value has no effect. |
+| ingredients | ✅ | object |  | All the recipe's ingredient additions.  Note that these lists are cross-references (via "local IDs") to ingredient definitions that must appear in the same file.  This saves on repetition when, eg, the same type of hop is added at more than one point.  If you are exporting one or more recipes, you must also export the full versions of their ingredients in the same file. |
+| ingredients.fermentable_additions | ✅ | array of [FermentableRecipeAddition](#fermentablerecipeaddition) |  | All the fermentable additions to the recipe |
+| ingredients.hop_additions |  | array of [HopRecipeAddition](#hoprecipeaddition) |  | All the hop additions to the recipe |
+| ingredients.misc_additions |  | array of [MiscRecipeAddition](#miscrecipeaddition) |  | All the miscellaneous item additions to the recipe |
+| ingredients.culture_additions |  | array of [CultureRecipeAddition](#culturerecipeaddition) |  | All the yeast and/or other culture additions to the recipe |
+| folder_path |  | [DotBeer::FolderPath](./DotBeer.md#folderpath) |  | The suggested slash-delimited subfolder path in which to store this Recipe object. |
+| coauthor |  | string |  | An additional author of the recipe. |
+| created |  | [Measurement::DateOrDateTimeLocal](./Measurement.md#dateordatetimelocal) |  | When the recipe was created. |
+| style_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | Local ID of the style of this recipe.  (Obviously the style in question must be in the "styles" section of the same dotBeer file.) |
+| equipment_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | Local ID of the equipment for this recipe.  (Obviously the equipment in question must be in the "equipments" section of the same dotBeer file.) |
+| water_base_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | Optional parameter to specify the Local ID of the starting profile of the brewing water, which may be modified with salts etc to obtain the target profile. |
+| water_target_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | Optional parameter to specify the Local ID of the desired profile of the brewing water, which may be modified with salts etc from the base (starting) profile. |
+| ro_water_mash |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  | Percentage of the mash water that is reverse-osmosis (rather than the same profile as `water_base_id`).  If this field is not present, a value of 0.0 may be assumed. |
+| ro_water_sparge |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  | Percentage of the sparge water that is reverse-osmosis (rather than the same profile as `water_base_id`).  If this field is not present, a value of 0.0 may be assumed. |
+| target_mash_pH |  | [Measurement::Acidity](./Measurement.md#acidity) | 1.1.0 | The mash pH the brewer is aiming for, as measured on a sample cooled to room temperature, which is the convention for brewing pH targets.  (pH measured at mash temperature typically reads 0.2 to 0.3 lower.)  Software can use this to work out how much acid to add to the mash.  It is a property of the recipe, rather than of the mash, because the mash pH depends on the grain bill and the water, and a mash procedure can be shared between recipes.  Compare `start_pH` and `end_pH` in mash steps, which record (or set targets for) the pH of a particular step.  If this field is not present, there is no target. |
+| mash_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | Local ID of the mash procedure used in this recipe.  (Obviously the mash in question must be in the "mashes" section of the same dotBeer file.) |
+| boil_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | Local ID of the boil procedure used in this recipe.  (Obviously the boil in question must be in the "boils" section of the same dotBeer file.) |
+| fermentation_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | Local ID of the fermentation procedure used in this recipe.  (Obviously the fermentation in question must be in the "fermentations" section of the same dotBeer file.) |
+| notes |  | string |  |  |
+| original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) |  | The expected gravity of wort when transferred to the fermenter.  Typically this and `final_gravity` are calculated values, so they are written out for information but ignored (or overwritten by a calculated value) for recipes read in from a file. |
+| final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) |  | The expected gravity of beer at the end of fermentation.  Comments about `original_gravity` apply equally here. |
+| alcohol_by_volume |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  | The expected alcohol by volume of the finished beer, typically calculated from `original_gravity` and `final_gravity`.  Comments about `original_gravity` apply equally here.  (Measured values for an actual brew of the recipe go in its brew log.) |
+| ibu_estimate |  | [Measurement::Bitterness](./Measurement.md#bitterness) |  | Estimated bitterness of finished beer. |
+| ibu_estimate_formula |  | Enum:<br>&nbsp;∙ `Tinseth`<br>&nbsp;∙ `Rager`<br>&nbsp;∙ `Noonan`<br>&nbsp;∙ `mIBU`<br>&nbsp;∙ `Garetz`<br>&nbsp;∙ `SMPH`<br>&nbsp;∙ `Daniel`<br>&nbsp;∙ `other` |  | Used to differentiate which IBU formula is being used in a recipe. |
+| color_estimate |  | [Measurement::Color](./Measurement.md#color) |  | The color of the finished beer, using SRM or EBC. |
+| beer_pH |  | [Measurement::Acidity](./Measurement.md#acidity) |  | The final beer pH at the end of fermentation. |
+| carbonation |  | [Measurement::Carbonation](./Measurement.md#carbonation) |  | The final carbonation of the beer when packaged or served. |
+| apparent_attenuation |  | [Measurement::PercentageNoMax](./Measurement.md#percentagenomax) |  | The total apparent attenuation of the finished beer after fermentation.  (This can be more than 100% if the final gravity is below 1.000 SG.) |
+| taste |  | object |  | Subjective tasting notes, and rating. |
+| taste.notes | ✅ | string |  |  |
+| taste.rating | ✅ | `0.0 <= x <= 50.0` |  | Number between zero and 50 denoting the taste rating – corresponds to the 50 point BJCP rating system. |
+| energy_content |  | [Measurement::EnergyPerVolume](./Measurement.md#energypervolume) |  | Estimate of the energy content of this beer (as used on nutritional labelling).  Typically calculated. |
+| instructions |  | array of [Instruction](#instruction) |  | Records of individual instructions for this recipe |
+| brew_logs |  | array of [BrewLog](#brewlog) |  | Records of individual brews of this recipe |
 
 
 ---
@@ -178,4 +179,4 @@ Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> •
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-06 at 09:01:40+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-09 at 17:22:24+0100.
