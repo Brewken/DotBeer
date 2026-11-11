@@ -13,6 +13,7 @@ A fermentation procedure, which can be used by multiple recipes.
 | locked |  | boolean | 1.1.0 | If `true`, this fermentation has been marked as one that should not be changed -- eg a standard fermentation profile used by many recipes.  Software that supports locking should not allow a locked fermentation to be changed or deleted unless the user first explicitly unlocks it.  It should, however, allow a locked fermentation to be used in recipes and to be copied (with the copy not being locked).  Software that does not support locking can ignore this field.  If the field is absent, the fermentation is not locked. |
 | fermentation_description |  | string |  |  |
 | notes |  | string |  |  |
+| krausen_handling |  | Enum:<br>&nbsp;∙ `mixed in`<br>&nbsp;∙ `minor deposits`<br>&nbsp;∙ `medium deposits`<br>&nbsp;∙ `heavy deposits`<br>&nbsp;∙ `very heavy deposits`<br>&nbsp;∙ `blown off, slow fermentation`<br>&nbsp;∙ `blown off, normal fermentation`<br>&nbsp;∙ `blown off, vigorous fermentation` | 1.1.0 | What happens to the krausen (the foam on top of the fermenting beer), which carries away some bitterness compounds:<ul><li>`mixed in`: the krausen is mixed back into the beer (or is suppressed, eg with anti-foam), so nothing is lost</li><li>`minor deposits`, `medium deposits`, `heavy deposits`, `very heavy deposits`: some of the krausen is left stuck to the walls of the fermenter above the beer</li><li>`blown off, slow fermentation`, `blown off, normal fermentation`, `blown off, vigorous fermentation`: the krausen is lost through a blow-off tube, with more being lost the more vigorous the fermentation</li></ul>(This is used, eg, by the SMPH model of IBUs.)  If absent, `medium deposits` is assumed.  Skimming the krausen can be recorded as one of the `blown off` values, according to how much is removed. |
 
 
 ---
@@ -35,4 +36,4 @@ Individual step of a fermentation.
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-11 at 09:14:02+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-11 at 09:28:54+0100.

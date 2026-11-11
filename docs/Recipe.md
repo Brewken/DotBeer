@@ -32,6 +32,7 @@ The information stored in a beer recipe.
 | fermentation_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | Local ID of the fermentation procedure used in this recipe.  (Obviously the fermentation in question must be in the "fermentations" section of the same dotBeer file.) |
 | notes |  | string |  |  |
 | original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) |  | The expected gravity of wort when transferred to the fermenter.  Typically this and `final_gravity` are calculated values, so they are written out for information but ignored (or overwritten by a calculated value) for recipes read in from a file. |
+| wort_clarity |  | [WortClarity](#wortclarity) | 1.1.0 | The expected clarity of the wort when it is transferred to the fermenter -- ie what the brewer anticipates, given the recipe, equipment and process (eg whether kettle finings are used, or whether the wort is whirlpooled).  If absent, `average` is assumed.  (What was actually seen on a given brewday goes in `measured_wort_clarity` in the brew log.)  See `WortClarity` for details. |
 | final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) |  | The expected gravity of beer at the end of fermentation.  Comments about `original_gravity` apply equally here. |
 | alcohol_by_volume |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  | The expected alcohol by volume of the finished beer, typically calculated from `original_gravity` and `final_gravity`.  Comments about `original_gravity` apply equally here.  (Measured values for an actual brew of the recipe go in its brew log.) |
 | ibu_estimate |  | [Measurement::Bitterness](./Measurement.md#bitterness) |  | Estimated bitterness of finished beer. |
@@ -138,47 +139,56 @@ Descriptive instruction for what to do at a particular point in a recipe.
 | directions | ✅ | string | Detail of what to do at this step, eg "Bring 11.5 L of water to 68.0°C for upcoming infusions". |
 | duration |  | [Measurement::Time](./Measurement.md#time) | Where the instruction involves adding something to the boil or holding the mash at a particular temperature, this field tells you how long that should be for.  Eg, if the instruction is "Add 11.5 L water at 68.0 °C to mash to bring it to 68.0 °C. Hold for 50 min." then this field would be `{"unit":"min","value":50}`. |
 
+## WortClarity
+
+How clear the wort is when it is transferred to the fermenter, judged by eye.  Cloudier wort, with more hop and malt particles, loses more of its bitterness compounds during fermentation.  (This is used, eg, by the SMPH model of IBUs.)
+
+<strong>WortClarity</strong> is a ``string`` Enum:<br>&nbsp;∙ `very clear`<br>&nbsp;∙ `clear`<br>&nbsp;∙ `somewhat clear`<br>&nbsp;∙ `average`<br>&nbsp;∙ `somewhat cloudy`<br>&nbsp;∙ `cloudy`<br>&nbsp;∙ `very cloudy`<br>&nbsp;∙ `extremely cloudy`
+
+**Possible Values:** `very clear` or `clear` or `somewhat clear` or `average` or `somewhat cloudy` or `cloudy` or `very cloudy` or `extremely cloudy`
+
 ## BrewLog
 
 Record of a "brewday", ie of an individual brew of a recipe.  Note that:<br> • Fields beginning with "expected_" are values taken from the Recipe (either directly or by calculation)<br> • Fields beginning with "measured_" are supplied by the brewer for this batch -- eg measured OG and FG<br> • Fields beginning with "computed_" are derived from values supplied by the brewer -- eg ABV calculated from measured OG and FG<br>Strictly speaking, "expected_" and "computed_" fields are not needed because they can be derived from other information.  However, we include them because (a) a recipe might have been modified after a brewday and (b) some calculations (eg alcohol by volume) might be done differently by different programs.
 
 <strong>BrewLog</strong> is a JSON object with the following properties:
 
-| Property | Required? | Type | Description |
-| -------- | --------- | ---- | ----------- |
-| batch_number | ✅ | string | The brewer's own unique identifier for this brew.  It can contain numbers and/or letters and/or symbols, so, "number" might seem a bit of a misnomer; nonetheless, it is the standard term for such an identifying code. |
-| brew_date | ✅ | [Measurement::Date](./Measurement.md#date) | The date of the "brewday" |
-| expected_pre_boil_gravity | ✅ | [Measurement::Gravity](./Measurement.md#gravity) | Expected (planned) pre-boil specific gravity |
-| expected_mash_final_temperature | ✅ | [Measurement::Temperature](./Measurement.md#temperature) | Expected (planned) final mash temperature (before any mash out) |
-| expected_original_gravity | ✅ | [Measurement::Gravity](./Measurement.md#gravity) | Expected (planned) original (post-boil, pre-fermentation) specific gravity |
-| expected_volume_into_fv | ✅ | [Measurement::Volume](./Measurement.md#volume) | Expected (planned) volume of wort into fermentation vessel |
-| expected_final_gravity | ✅ | [Measurement::Gravity](./Measurement.md#gravity) | Expected (planned) final (post-fermentation) specific gravity |
-| expected_alcohol_by_volume | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Expected alcohol by volume based on the recipe OG |
-| expected_attenuation | ✅ | [Measurement::PercentageNoMax](./Measurement.md#percentagenomax) | Expected attenuation from the recipe |
-| expected_efficiency | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Expected brewhouse (ie overall) efficiency from the Recipe, capturing the combined impact of mash conversion, lautering, kettle losses, and transfer |
-| expected_boil_off | ✅ | [Measurement::Volume](./Measurement.md#volume) | Expected boil-off based on the equipment profile and the length of the boil |
-| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) | The "local ID" that allows other objects in this file (eg stock use instances) to refer to this brew log. |
-| ferment_date |  | [Measurement::Date](./Measurement.md#date) | The date fermentation was deemed finished and final gravity readings were taken |
-| notes |  | string |  |
-| measured_pre_boil_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Actual (measured) pre-boil specific gravity |
-| expected_pre_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) | Expected (planned) volume of wort to be collected from mash into boil kettle |
-| measured_pre_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) volume of wort collected from mash into boil kettle |
-| expected_strike_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Expected (planned) strike water temperature (ie water temperature immediately prior to adding grains at mash start) |
-| measured_strike_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Actual (measured) strike water temperature (ie water temperature immediately prior to adding grains at mash start) |
-| measured_mash_final_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Actual (measured) final mash temperature (before any mash out) |
-| measured_original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Actual (measured) original (post-boil, pre-fermentation) specific gravity |
-| measured_post_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) volume of wort in kettle after boil |
-| measured_volume_into_fv |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) volume of wort into fermentation vessel |
-| measured_pitch_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) | Actual (measured) temperature of wort when yeast is pitched |
-| measured_final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) | Actual (measured) final (post-fermentation) specific gravity |
-| measured_final_volume |  | [Measurement::Volume](./Measurement.md#volume) | Actual (measured) final (post-fermentation) volume |
-| computed_alcohol_by_volume |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Actual alcohol by volume based on "original" and "final" gravity readings |
-| computed_attenuation |  | [Measurement::PercentageNoMax](./Measurement.md#percentagenomax) | Actual attenuation based on gravity readings |
-| computed_efficiency |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Actual brewhouse (ie overall) efficiency based on gravity readings |
-| computed_pre_boil_efficiency |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) | Actual pre-boil (aka "into boil kettle") efficiency, measuring the percentage of total available sugars that made it into the kettle |
+| Property | Required? | Type | Since | Description |
+| -------- | --------- | ---- | ----- | ----------- |
+| batch_number | ✅ | string |  | The brewer's own unique identifier for this brew.  It can contain numbers and/or letters and/or symbols, so, "number" might seem a bit of a misnomer; nonetheless, it is the standard term for such an identifying code. |
+| brew_date | ✅ | [Measurement::Date](./Measurement.md#date) |  | The date of the "brewday" |
+| expected_pre_boil_gravity | ✅ | [Measurement::Gravity](./Measurement.md#gravity) |  | Expected (planned) pre-boil specific gravity |
+| expected_mash_final_temperature | ✅ | [Measurement::Temperature](./Measurement.md#temperature) |  | Expected (planned) final mash temperature (before any mash out) |
+| expected_original_gravity | ✅ | [Measurement::Gravity](./Measurement.md#gravity) |  | Expected (planned) original (post-boil, pre-fermentation) specific gravity |
+| expected_volume_into_fv | ✅ | [Measurement::Volume](./Measurement.md#volume) |  | Expected (planned) volume of wort into fermentation vessel |
+| expected_final_gravity | ✅ | [Measurement::Gravity](./Measurement.md#gravity) |  | Expected (planned) final (post-fermentation) specific gravity |
+| expected_alcohol_by_volume | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  | Expected alcohol by volume based on the recipe OG |
+| expected_attenuation | ✅ | [Measurement::PercentageNoMax](./Measurement.md#percentagenomax) |  | Expected attenuation from the recipe |
+| expected_efficiency | ✅ | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  | Expected brewhouse (ie overall) efficiency from the Recipe, capturing the combined impact of mash conversion, lautering, kettle losses, and transfer |
+| expected_boil_off | ✅ | [Measurement::Volume](./Measurement.md#volume) |  | Expected boil-off based on the equipment profile and the length of the boil |
+| local_id |  | [DotBeer::LocalId](./DotBeer.md#localid) |  | The "local ID" that allows other objects in this file (eg stock use instances) to refer to this brew log. |
+| ferment_date |  | [Measurement::Date](./Measurement.md#date) |  | The date fermentation was deemed finished and final gravity readings were taken |
+| notes |  | string |  |  |
+| measured_pre_boil_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) |  | Actual (measured) pre-boil specific gravity |
+| expected_pre_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) |  | Expected (planned) volume of wort to be collected from mash into boil kettle |
+| measured_pre_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) |  | Actual (measured) volume of wort collected from mash into boil kettle |
+| expected_strike_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) |  | Expected (planned) strike water temperature (ie water temperature immediately prior to adding grains at mash start) |
+| measured_strike_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) |  | Actual (measured) strike water temperature (ie water temperature immediately prior to adding grains at mash start) |
+| measured_mash_final_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) |  | Actual (measured) final mash temperature (before any mash out) |
+| measured_original_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) |  | Actual (measured) original (post-boil, pre-fermentation) specific gravity |
+| measured_post_boil_volume |  | [Measurement::Volume](./Measurement.md#volume) |  | Actual (measured) volume of wort in kettle after boil |
+| measured_volume_into_fv |  | [Measurement::Volume](./Measurement.md#volume) |  | Actual (measured) volume of wort into fermentation vessel |
+| measured_wort_clarity |  | [WortClarity](#wortclarity) | 1.1.0 | Actual clarity of the wort when it was transferred to the fermenter, as assessed by eye.  See `WortClarity` for details. |
+| measured_pitch_temperature |  | [Measurement::Temperature](./Measurement.md#temperature) |  | Actual (measured) temperature of wort when yeast is pitched |
+| measured_final_gravity |  | [Measurement::Gravity](./Measurement.md#gravity) |  | Actual (measured) final (post-fermentation) specific gravity |
+| measured_final_volume |  | [Measurement::Volume](./Measurement.md#volume) |  | Actual (measured) final (post-fermentation) volume |
+| computed_alcohol_by_volume |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  | Actual alcohol by volume based on "original" and "final" gravity readings |
+| computed_attenuation |  | [Measurement::PercentageNoMax](./Measurement.md#percentagenomax) |  | Actual attenuation based on gravity readings |
+| computed_efficiency |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  | Actual brewhouse (ie overall) efficiency based on gravity readings |
+| computed_pre_boil_efficiency |  | [Measurement::PercentageSimple](./Measurement.md#percentagesimple) |  | Actual pre-boil (aka "into boil kettle") efficiency, measuring the percentage of total available sugars that made it into the kettle |
 
 
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-11 at 09:14:02+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-11 at 09:28:54+0100.
