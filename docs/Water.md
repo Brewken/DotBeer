@@ -32,4 +32,4 @@ Full definition of a brewing water profile.  NOTE that water is handled differen
 
 ---
 
-Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-09 at 17:22:24+0100.
+Documentation generated from the [dotBeer schema](https://github.com/Brewken/DotBeer/tree/main/schema) (v1.1.0) on 2026-11-11 at 09:14:02+0100.
