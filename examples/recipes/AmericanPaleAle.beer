@@ -23,7 +23,7 @@
 //
 {
   "DotBeer": {
-    "version": "1.1.0",
+    "version": "1.2.0",
     "output_by": "DotBeer examples (hand-written)",
     "timestamp": "2026-10-16T10:00:00+02:00",
 
@@ -401,6 +401,12 @@
         "default_batch_size": { "unit": "l", "value": 21 },
         "grain_absorption_rate": { "unit": "l/kg", "value": 1.0 },
         "foundation_volume": { "unit": "l", "value": 1.5 },
+        // Measured by the brewer: pellets are loose in the kettle and dry hops loose in the fermenter.  (Units can be
+        // mixed, as here.)
+        "hop_absorption_rate": {
+          "pellet": { "unit": "l/kg", "value": 7.0 },
+          "leaf": { "unit": "floz/oz", "value": 4.8 }
+        },
         "hlt": {
           "vessel_type": "Electric urn",
           "max_volume": { "unit": "l", "value": 30 },
