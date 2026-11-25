@@ -93,9 +93,6 @@
       "$ref": "Measurement.beer.schema#/$defs/Volume"
     },
     //
-    // Neither BeerJSON nor BeerXML has an equivalent of this field.  Brewer's Friend has a single "hops absorption
-    // rate" on its equipment profile, which it applies only to kettle hops.
-    //
     // Like `grain_absorption_rate`, this is a per-brewery figure -- what the brewer typically loses, given their
     // process -- rather than a property of a vessel or of the hops, so it is at the top level.  How much liquid a hop
     // product can absorb in its own right does vary with its form, and, for pellets, with grade (eg T90 versus T45) and
@@ -103,6 +100,9 @@
     // net loss, which also depends on their process.  So we only record the net figure, with separate rates for the two
     // common forms of hops.  (We use named properties rather than a rate for each value of Hop `form` because there are
     // no reliable figures for the other forms.)
+    //
+    // Neither BeerJSON nor BeerXML has an equivalent of this field.  Brewer's Friend has a single "hops absorption
+    // rate" on its equipment profile, which it applies only to kettle hops.
     //
     // For now, one rate covers both kettle hops and dry hops, because few brewers measure them separately.  If needed,
     // a later version could add an optional separate rate for dry hops, falling back to this one when absent.  Likewise,
